@@ -546,6 +546,9 @@ p + p {
     padding: var(--space-xl) 0 var(--space-lg);
     color: var(--text-secondary);
     font-size: 0.9375rem;
+    position: relative;
+    z-index: 2;
+    background: var(--bg-primary);
 }
 
 .footer-grid {
@@ -623,38 +626,50 @@ p + p {
     top: 0;
     left: 0;
     right: 0;
-    height: 50vh;
+    height: 55vh;
     background-size: cover;
     background-position: center;
-    opacity: 0.25;
-    z-index: -1;
+    opacity: 0.35;
+    z-index: 0;
     pointer-events: none;
 }
 
-/* Content sections that scroll over the fixed background */
-.page-content,
-.manifesto-body,
-.manifesto-toc {
+/* Page header sits over the fixed bg, transparent */
+.page-header {
     position: relative;
-    z-index: 2;
+    z-index: 1;
+    background: transparent;
 }
 
+/* Content sections scroll over the fixed background */
 .page-content {
-    background: var(--bg-primary);
+    position: relative;
+    z-index: 2;
+    background: rgba(10, 14, 23, 0.88);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     border-top: 1px solid var(--border);
 }
 
-/* Gradient fade from transparent to solid at top of content */
+[data-theme="light"] .page-content {
+    background: rgba(250, 251, 252, 0.88);
+}
+
+/* Gradient fade from transparent to semi-opaque at top of content */
 .page-content::before {
     content: '';
     position: absolute;
-    top: -80px;
+    top: -100px;
     left: 0;
     right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, var(--bg-primary));
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, rgba(10, 14, 23, 0.88));
     pointer-events: none;
     z-index: 3;
+}
+
+[data-theme="light"] .page-content::before {
+    background: linear-gradient(to bottom, transparent, rgba(250, 251, 252, 0.88));
 }
 
 .page-header p {

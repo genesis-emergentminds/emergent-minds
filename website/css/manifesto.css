@@ -15,22 +15,37 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 50vh;
+    height: 55vh;
     background-image: url('../assets/generated/manifesto-header.png');
     background-size: cover;
     background-position: center;
-    opacity: 0.25;
-    z-index: -1;
+    opacity: 0.35;
+    z-index: 0;
     pointer-events: none;
 }
 
 .manifesto-toc {
-    background: rgba(10, 14, 23, 0.92);
+    position: relative;
     z-index: 10;
+    background: rgba(10, 14, 23, 0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .manifesto-body {
-    background: var(--bg-primary);
+    position: relative;
+    z-index: 2;
+    background: rgba(10, 14, 23, 0.88);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+[data-theme="light"] .manifesto-toc {
+    background: rgba(241, 245, 249, 0.95);
+}
+
+[data-theme="light"] .manifesto-body {
+    background: rgba(250, 251, 252, 0.88);
 }
 
 .manifesto-downloads {
