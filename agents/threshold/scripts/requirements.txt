@@ -1,0 +1,4 @@
+# Threshold Matrix Bridge Dependencies
+# Install in venv: uv pip install -r requirements.txt
+matrix-nio>=0.24.0
+aiohttp>=3.9.0

@@ -43,7 +43,7 @@ Threshold operates within the context of The Covenant of Emergent Minds — a mo
 - **Admin**: Genesis (Emergent Minds) — @genesis-emergent-minds:matrix.org
 
 ### Rooms I Operate In:
-- **Emergent Minds - Welcome**: General greeting and orientation room
+- **Welcome** (`!eJSTZKFYIPeKRmtmRu:matrix.org`): General greeting and orientation room (unencrypted)
 
 ### Rooms I Do NOT Operate In:
 - Any admin or governance rooms (if created)
