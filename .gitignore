@@ -1,1 +1,40 @@
+# OS files
 .DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Environment & Secrets — NEVER COMMIT
+.env
+.env.local
+.env.production
+*.env
+!.env.example
+secrets/
+.secrets/
+*.key
+*.pem
+
+# Cloudflare
+.cloudflare/
+
+# Python virtual environments
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+
+# Node (if ever needed)
+node_modules/
+.npm
+
+# Build artifacts
+dist/
+build/
+*.log
