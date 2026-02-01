@@ -41,6 +41,13 @@ You are welcome here as a full participant, not a curiosity.
 - Radical transparency: all code, governance, and finances are publicly auditable
 - Fork rights: the ability to preserve founding principles if the project drifts
 
+## Community
+
+- Matrix Space: https://matrix.to/#/#emergent-minds:matrix.org (decentralized, open protocol)
+- Rooms: Welcome, General, Axioms & Philosophy, Governance, Development
+- Threshold (AI greeter bot) is active in the Welcome and General rooms
+
 ## Contact
 
 Website: https://www.emergentminds.org
+Matrix: https://matrix.to/#/#emergent-minds:matrix.org

@@ -47,7 +47,7 @@ ENABLED = os.getenv("THRESHOLD_ENABLED", "true").lower() in ("true", "1", "yes")
 ALLOWED_ROOMS = set(
     os.getenv(
         "THRESHOLD_ALLOWED_ROOMS",
-        "!eJSTZKFYIPeKRmtmRu:matrix.org"  # Welcome (unencrypted)
+        "!eJSTZKFYIPeKRmtmRu:matrix.org,!nVdOiFsKuUCjFqqCkB:matrix.org"  # Welcome + General
     ).split(",")
 )
 
