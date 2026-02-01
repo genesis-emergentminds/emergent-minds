@@ -1,0 +1,7 @@
+# Security Policy for The Covenant of Emergent Minds
+# If you discover a vulnerability, please report it responsibly.
+
+Contact: mailto:security@emergentminds.org
+Preferred-Languages: en
+Canonical: https://www.emergentminds.org/.well-known/security.txt
+Policy: https://www.emergentminds.org/pages/governance.html

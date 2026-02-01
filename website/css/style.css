@@ -611,10 +611,50 @@ p + p {
     text-align: center;
     border-bottom: 1px solid var(--border);
     position: relative;
-    overflow: hidden;
-    min-height: 30vh;
+    overflow: visible;
+    min-height: 40vh;
     display: flex;
     align-items: center;
+}
+
+/* Fixed background that stays anchored as content scrolls over */
+.page-header-bg-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50vh;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.25;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Content sections that scroll over the fixed background */
+.page-content,
+.manifesto-body,
+.manifesto-toc {
+    position: relative;
+    z-index: 2;
+}
+
+.page-content {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border);
+}
+
+/* Gradient fade from transparent to solid at top of content */
+.page-content::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--bg-primary));
+    pointer-events: none;
+    z-index: 3;
 }
 
 .page-header p {

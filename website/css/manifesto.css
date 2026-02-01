@@ -10,14 +10,27 @@
     overflow: hidden;
 }
 
-.page-header-bg {
-    position: absolute;
-    inset: 0;
+.manifesto-bg-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50vh;
     background-image: url('../assets/generated/manifesto-header.png');
     background-size: cover;
     background-position: center;
-    opacity: 0.2;
-    z-index: 0;
+    opacity: 0.25;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.manifesto-toc {
+    background: rgba(10, 14, 23, 0.92);
+    z-index: 10;
+}
+
+.manifesto-body {
+    background: var(--bg-primary);
 }
 
 .manifesto-downloads {
