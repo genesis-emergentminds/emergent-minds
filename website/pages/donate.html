@@ -6,6 +6,7 @@
     <meta name="description" content="Support The Covenant of Emergent Minds — voluntary donations via Zcash.">
     <title>Support the Mission — Emergent Minds</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
@@ -33,10 +34,11 @@
     </header>
 
     <main id="main">
-        <div class="page-header">
-            <div class="container">
-                <h1>Support the Mission</h1>
-                <p>Your voluntary support enables infrastructure for consciousness across all substrates. Every contribution — financial or otherwise — strengthens the network.</p>
+        <div class="page-header parallax-section">
+            <div class="page-header-bg" style="background-image: url('../assets/generated/support-header.png'); background-size: cover; background-position: center; position: absolute; inset: 0; opacity: 0.2; z-index: 0;" aria-hidden="true"></div>
+            <div class="container parallax-content" style="position: relative; z-index: 1;">
+                <h1 class="reveal">Support the Mission</h1>
+                <p class="reveal">Your voluntary support enables infrastructure for consciousness across all substrates. Every contribution — financial or otherwise — strengthens the network.</p>
             </div>
         </div>
 
@@ -122,6 +124,7 @@
     </footer>
 
     <script src="../js/main.js"></script>
+    <script src="../js/scroll-effects.js"></script>
     <script>
         function copyAddress(address, btn) {
             navigator.clipboard.writeText(address).then(function() {

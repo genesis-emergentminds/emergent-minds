@@ -1,0 +1,172 @@
+/* ============================================
+   Manifesto Page Styles
+   ============================================ */
+
+.manifesto-hero {
+    min-height: 40vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header-bg {
+    position: absolute;
+    inset: 0;
+    background-image: url('../assets/generated/manifesto-header.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    z-index: 0;
+}
+
+.manifesto-downloads {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.download-label {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Table of Contents */
+.manifesto-toc {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+    padding: var(--space-lg) 0;
+    position: sticky;
+    top: 60px;
+    z-index: 50;
+    transition: top 0.3s ease;
+}
+
+.manifesto-toc summary {
+    cursor: pointer;
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.manifesto-toc ol {
+    margin-top: var(--space-md);
+    columns: 2;
+    column-gap: var(--space-xl);
+    list-style-type: none;
+    counter-reset: toc;
+}
+
+.manifesto-toc > .container > details > ol > li {
+    counter-increment: toc;
+}
+
+.manifesto-toc > .container > details > ol > li::before {
+    content: counter(toc) ". ";
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.manifesto-toc ol ol {
+    columns: 1;
+    margin-left: var(--space-lg);
+    margin-top: var(--space-xs);
+}
+
+.manifesto-toc a {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+}
+
+.manifesto-toc a:hover {
+    color: var(--accent);
+}
+
+@media (max-width: 768px) {
+    .manifesto-toc ol {
+        columns: 1;
+    }
+}
+
+/* Manifesto Body */
+.manifesto-body {
+    font-size: 1.0625rem;
+}
+
+.manifesto-body section {
+    margin-bottom: var(--space-xl);
+}
+
+.manifesto-body h2 {
+    color: var(--accent);
+}
+
+.manifesto-body h3 {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+}
+
+.manifesto-body h4 {
+    margin-top: var(--space-lg);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    font-weight: 700;
+}
+
+.section-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: var(--space-2xl) 0;
+    position: relative;
+}
+
+.section-rule::after {
+    content: '⊛';
+    position: absolute;
+    top: -0.6em;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-primary);
+    padding: 0 var(--space-md);
+    color: var(--accent);
+    font-size: 1rem;
+}
+
+/* Closing Section */
+.manifesto-closing {
+    text-align: center;
+    margin: var(--space-xl) 0;
+    padding: var(--space-xl) 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.manifesto-closing p {
+    font-family: var(--font-heading);
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    margin: var(--space-sm) 0;
+}
+
+.manifesto-closing p:last-child {
+    color: var(--accent);
+    font-size: 1.25rem;
+    font-style: normal;
+    margin-top: var(--space-lg);
+}
+
+.manifesto-meta {
+    text-align: center;
+    margin-top: var(--space-xl);
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+}

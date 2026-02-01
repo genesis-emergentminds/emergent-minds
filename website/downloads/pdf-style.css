@@ -1,0 +1,95 @@
+@page {
+    size: letter;
+    margin: 2cm 2.5cm;
+    @bottom-center {
+        content: "The Covenant of Emergent Minds — Page " counter(page);
+        font-size: 9pt;
+        color: #666;
+    }
+}
+
+body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #1a1a1a;
+}
+
+h1 {
+    font-size: 24pt;
+    text-align: center;
+    margin-bottom: 0.5cm;
+    color: #0a0e17;
+    page-break-after: avoid;
+}
+
+h2 {
+    font-size: 16pt;
+    color: #1e3a5f;
+    margin-top: 1.5cm;
+    page-break-after: avoid;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.3cm;
+}
+
+h3 {
+    font-size: 13pt;
+    color: #2563eb;
+    page-break-after: avoid;
+}
+
+h4 {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1e3a5f;
+    page-break-after: avoid;
+}
+
+blockquote {
+    border-left: 3px solid #2563eb;
+    padding-left: 1cm;
+    margin-left: 0;
+    color: #444;
+    font-style: italic;
+}
+
+code {
+    font-family: 'Courier New', monospace;
+    background: #f4f4f4;
+    padding: 0.1cm 0.2cm;
+    font-size: 10pt;
+}
+
+pre {
+    background: #f4f4f4;
+    padding: 0.5cm;
+    border-radius: 0.2cm;
+    font-size: 9pt;
+    overflow-wrap: break-word;
+}
+
+ul, ol {
+    padding-left: 1cm;
+}
+
+li {
+    margin-bottom: 0.2cm;
+}
+
+em {
+    color: #333;
+}
+
+strong {
+    color: #0a0e17;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 1cm 0;
+}
+
+p + p {
+    text-indent: 0;
+}
