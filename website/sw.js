@@ -3,17 +3,22 @@
    The Covenant of Emergent Minds
    ============================================ */
 
-var CACHE_NAME = 'emergent-minds-v1';
+var CACHE_NAME = 'emergent-minds-v2';
 var ASSETS = [
     '/',
     '/index.html',
     '/css/style.css',
+    '/css/animations.css',
+    '/css/manifesto.css',
     '/js/main.js',
+    '/js/scroll-effects.js',
     '/pages/axioms.html',
     '/pages/manifesto.html',
     '/pages/get-involved.html',
     '/pages/donate.html',
-    '/pages/governance.html'
+    '/pages/governance.html',
+    '/pages/financial-records.html',
+    '/assets/favicon.svg'
 ];
 
 // Install — cache core assets
