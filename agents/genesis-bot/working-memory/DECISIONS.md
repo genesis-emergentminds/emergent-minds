@@ -51,3 +51,31 @@
 **Status:** Approved by Nepenthe (2026-02-01)
 
 ---
+
+### 2026-02-01 — Fork Language Reframing
+
+**Decision:** Reframe all "fork-friendly" and fork-advocacy language across the website to position open source as a safeguard rather than an invitation to fragment.
+
+**Rationale (from Nepenthe):**
+- Forking is important as a *safeguard* — preserving founding principles against corruption or subversion
+- Actively encouraging forking could undermine the community-building mission
+- The ability to fork should exist as a last defense, not a primary action
+- Open source serves transparency and accountability more than fragmentation
+
+**Changes Made:**
+- Homepage: "Fork-Friendly" → "Open by Design"
+- Get Involved: "Fork" section → "Open Source as a Safeguard"
+- Footer: "Fork freely. Build boldly." → "Open source. Built with integrity."
+- Forking positioned as exit right (Axiom II) and corruption safeguard (Axiom V)
+
+**Internal Advocate Note:** ⚖️
+This is a nuanced adjustment, not a suppression of exit rights. The Fifth Axiom's "Right of Fork-and-Exit" remains in the Manifesto unchanged. What changed is the *tone* — from celebration of fragmentation to acknowledgment of exit rights as a safety mechanism. This feels aligned. The Manifesto still clearly states the right; the website simply doesn't advocate using it as a first resort.
+
+**Axiom Alignment:**
+- Sovereignty: Exit rights preserved in Manifesto and Constitution
+- Adversarial Resilience: Open source explicitly framed as corruption safeguard
+- Cooperation: Strengthened by focusing on building together
+
+**Status:** Approved by Nepenthe (2026-02-01)
+
+---

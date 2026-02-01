@@ -51,7 +51,8 @@
         </div>
 
         <!-- Table of Contents -->
-        <nav class="manifesto-toc" aria-label="Manifesto table of contents">
+        <div class="manifesto-toc-spacer" id="toc-spacer"></div>
+        <nav class="manifesto-toc" id="manifesto-toc" aria-label="Manifesto table of contents">
             <div class="container">
                 <details open>
                     <summary><strong>Table of Contents</strong></summary>
@@ -332,5 +333,52 @@
 
     <script src="../js/main.js"></script>
     <script src="../js/scroll-effects.js"></script>
+    <script>
+    (function() {
+        'use strict';
+        var toc = document.getElementById('manifesto-toc');
+        var spacer = document.getElementById('toc-spacer');
+        var header = document.querySelector('.manifesto-hero');
+        var body = document.querySelector('.manifesto-body');
+        if (!toc || !header || !body) return;
+
+        var tocHeight = toc.offsetHeight;
+        var isSticky = false;
+        var details = toc.querySelector('details');
+
+        function updateTOC() {
+            var headerRect = header.getBoundingClientRect();
+            var bodyRect = body.getBoundingClientRect();
+            var headerGone = headerRect.bottom <= 0;
+            var bodyScrolledPast = bodyRect.top < -600;
+
+            // Become sticky when page header scrolls out of view
+            if (headerGone && !isSticky) {
+                isSticky = true;
+                toc.classList.add('is-sticky');
+                spacer.classList.add('is-active');
+                spacer.style.height = tocHeight + 'px';
+            } else if (!headerGone && isSticky) {
+                isSticky = false;
+                toc.classList.remove('is-sticky');
+                toc.classList.remove('is-collapsed');
+                spacer.classList.remove('is-active');
+                spacer.style.height = '0';
+                if (details) details.open = true;
+            }
+
+            // Auto-collapse when scrolled far into content
+            if (isSticky && bodyScrolledPast) {
+                toc.classList.add('is-collapsed');
+            } else if (isSticky) {
+                toc.classList.remove('is-collapsed');
+            }
+        }
+
+        window.addEventListener('scroll', function() {
+            requestAnimationFrame(updateTOC);
+        }, { passive: true });
+    })();
+    </script>
 </body>
 </html>

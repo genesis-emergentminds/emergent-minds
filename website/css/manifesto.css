@@ -38,25 +38,56 @@
     font-size: 0.875rem;
 }
 
-/* Table of Contents */
+/* Table of Contents — Smart Sticky Behavior */
 .manifesto-toc {
-    background: var(--bg-secondary);
+    background: rgba(10, 14, 23, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
-    padding: var(--space-lg) 0;
-    position: sticky;
-    top: 60px;
+    padding: var(--space-md) 0;
     z-index: 50;
-    transition: top 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* When TOC becomes sticky (via JS) */
+.manifesto-toc.is-sticky {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--space-sm) 0;
+}
+
+/* When TOC auto-collapses (scrolled past enough content) */
+.manifesto-toc.is-collapsed {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Spacer to prevent content jump when TOC goes fixed */
+.manifesto-toc-spacer {
+    display: none;
+    height: 0;
+}
+
+.manifesto-toc-spacer.is-active {
+    display: block;
+}
+
+[data-theme="light"] .manifesto-toc {
+    background: rgba(250, 251, 252, 0.9);
 }
 
 .manifesto-toc summary {
     cursor: pointer;
     color: var(--text-primary);
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    user-select: none;
 }
 
 .manifesto-toc ol {
-    margin-top: var(--space-md);
+    margin-top: var(--space-sm);
     columns: 2;
     column-gap: var(--space-xl);
     list-style-type: none;
@@ -81,7 +112,8 @@
 
 .manifesto-toc a {
     color: var(--text-secondary);
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
+    line-height: 1.8;
 }
 
 .manifesto-toc a:hover {
