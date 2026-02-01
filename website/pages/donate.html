@@ -89,9 +89,15 @@
 
                 <h3>Transparent Address</h3>
                 <p class="text-muted">All transactions to this address are publicly visible on the blockchain (amount and timing). This allows full accountability for the Covenant's incoming funds.</p>
-                <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 0.5rem; padding: var(--space-md); margin: var(--space-md) 0; word-break: break-all; font-family: var(--font-mono); font-size: 0.875rem;">
-                    t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
-                    <button onclick="copyAddress('t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K', this)" style="display: block; margin-top: var(--space-sm); background: var(--accent); color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer; font-size: 0.875rem;">Copy Address</button>
+                <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 0.5rem; padding: var(--space-lg); margin: var(--space-md) 0; text-align: center;">
+                    <picture>
+                        <source srcset="../assets/generated/zcash-qr-light.png" media="(prefers-color-scheme: light)">
+                        <img src="../assets/generated/zcash-qr-dark.png" alt="QR code for Zcash donation address" style="max-width: 220px; width: 100%; height: auto; margin-bottom: var(--space-md); border-radius: 0.25rem;">
+                    </picture>
+                    <div style="word-break: break-all; font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: var(--space-sm);">
+                        t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
+                    </div>
+                    <button onclick="copyAddress('t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K', this)" style="background: var(--accent); color: #fff; border: none; padding: 0.5rem 1.5rem; border-radius: 0.25rem; cursor: pointer; font-size: 0.875rem;">Copy Address</button>
                 </div>
                 <p class="text-muted" style="font-size: 0.875rem;">
                     <a href="https://explorer.zcha.in/accounts/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K">Verify on blockchain explorer →</a>
