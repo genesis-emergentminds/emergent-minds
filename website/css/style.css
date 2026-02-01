@@ -178,6 +178,7 @@ p + p {
     max-width: var(--container-max);
     margin: 0 auto;
     padding: var(--space-md) var(--space-lg);
+    transition: padding 0.3s ease;
 }
 
 .nav-logo {
@@ -323,6 +324,37 @@ p + p {
     height: 100%;
 }
 
+.hero-bg-image {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.25;
+    background-image: url('../assets/generated/hero-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Header transition on scroll */
+.site-header {
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.header-scrolled {
+    background: rgba(10, 14, 23, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.header-scrolled .nav {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+[data-theme="light"] .header-scrolled {
+    background: rgba(250, 251, 252, 0.95);
+}
+
 /* --- Buttons --- */
 .btn {
     display: inline-flex;
@@ -379,6 +411,37 @@ p + p {
 
 .welcome-card:hover {
     border-color: var(--border-light);
+}
+
+.welcome-card::before,
+.transparency-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        300px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+        var(--accent-glow),
+        transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.welcome-card:hover::before,
+.transparency-card:hover::before {
+    opacity: 1;
+}
+
+.welcome-card,
+.transparency-card {
+    position: relative;
+    overflow: hidden;
 }
 
 .welcome-address {
