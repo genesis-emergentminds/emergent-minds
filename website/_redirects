@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects
+# Redirect non-www to www (canonical)
+https://emergentminds.org/* https://www.emergentminds.org/:splat 301
+http://emergentminds.org/* https://www.emergentminds.org/:splat 301
+http://www.emergentminds.org/* https://www.emergentminds.org/:splat 301

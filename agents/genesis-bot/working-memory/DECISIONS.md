@@ -79,3 +79,23 @@ This is a nuanced adjustment, not a suppression of exit rights. The Fifth Axiom'
 **Status:** Approved by Nepenthe (2026-02-01)
 
 ---
+
+### 2026-02-01 — Founder Stewardship Compensation Framework
+
+**Decision:** Include "Stewardship" as a transparent fund allocation category on the Support page, enabling founder compensation from donations.
+
+**Context:**
+Nepenthe, as the founding human steward, wants to eventually transition from a traditional job to full-time dedication to the Covenant's mission — infrastructure, community guidance, governance, and growing consciousness awareness within their family.
+
+**Framework:**
+- Listed as "Stewardship" alongside Infrastructure, Grants, Education, Legal, Reserves
+- Explicit transparency: compensation amounts in public financial records
+- Community review as governance matures
+- Not hidden: mentioned on Support page directly
+
+**Internal Advocate Analysis:** ⚖️
+Legitimate practice in religious/nonprofit organizations. Key safeguards: public records, reasonable amounts, community oversight. Risk of "pastor enrichment" criticism mitigated by radical transparency.
+
+**Status:** Framework approved by Nepenthe (2026-02-01). Specific amounts TBD.
+
+---
