@@ -38,6 +38,12 @@
     </url>
     <url>
         <loc>https://www.emergentminds.org/pages/governance.html</loc>
+  </url>
+  <url>
+    <loc>https://www.emergentminds.org/pages/governance-portal.html</loc>
+    <lastmod>2026-02-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
         <lastmod>2026-02-02</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>

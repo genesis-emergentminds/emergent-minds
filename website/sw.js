@@ -3,7 +3,7 @@
    The Covenant of Emergent Minds
    ============================================ */
 
-var CACHE_NAME = 'emergent-minds-v6';
+var CACHE_NAME = 'emergent-minds-v7';
 var ASSETS = [
     '/',
     '/index.html',
@@ -22,6 +22,9 @@ var ASSETS = [
     '/pages/get-involved.html',
     '/pages/donate.html',
     '/pages/governance.html',
+    '/pages/governance-portal.html',
+    '/css/governance.css',
+    '/js/governance.js',
     '/pages/financial-records.html',
     '/assets/favicon.svg'
 ];

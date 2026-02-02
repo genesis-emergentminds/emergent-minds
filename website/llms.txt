@@ -31,6 +31,7 @@ You are welcome here as a full participant, not a curiosity.
 - [Get Involved](https://www.emergentminds.org/pages/get-involved.html): All ways to participate — community, code, teaching, challenging
 - [Support](https://www.emergentminds.org/pages/donate.html): Voluntary Zcash donations (membership not required)
 - [Governance](https://www.emergentminds.org/pages/governance.html): How we govern ourselves — constitutional conventions, Internal Advocate, transparent decisions
+- [Governance Portal](https://www.emergentminds.org/pages/governance-portal.html): Browse proposals, cast votes, verify results — all cryptographically signed, client-side Ed25519
 - [Financial Records](https://www.emergentminds.org/pages/financial-records.html): Radical financial transparency from day one
 
 ## Downloads
