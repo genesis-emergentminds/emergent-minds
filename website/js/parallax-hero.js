@@ -1,6 +1,7 @@
 /* ============================================
    Immersive Parallax — Full-Page Visual Journey
    Hero parallax + section background reveals
+   with gentle parallax movement.
    Respects prefers-reduced-motion.
    ============================================ */
 
@@ -12,30 +13,27 @@
     var hero = document.querySelector('.parallax-hero');
     var heroHeight = hero ? hero.offsetHeight : 0;
 
-    // ─── Hero Parallax (sky + aurora at different speeds) ───
+    // ─── Hero Parallax ───
     if (hero && !prefersReducedMotion) {
         var skyLayer = hero.querySelector('.parallax-layer-sky');
         var auroraLayer = hero.querySelector('.parallax-layer-aurora');
         var heroContent = hero.querySelector('.parallax-hero-content');
-        var ticking = false;
+        var heroTicking = false;
 
         function updateHero() {
-            ticking = false;
+            heroTicking = false;
             var scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
             if (scrollY > heroHeight * 1.5) return;
 
-            // Sky moves very slowly — deep background feel
             if (skyLayer) {
                 skyLayer.style.transform = 'translate3d(0, ' + (scrollY * 0.15) + 'px, 0)';
             }
 
-            // Aurora moves slightly faster
             if (auroraLayer) {
                 auroraLayer.style.transform = 'translate3d(0, ' + (scrollY * 0.25) + 'px, 0)';
             }
 
-            // Content scrolls up faster and fades out
             if (heroContent) {
                 heroContent.style.transform = 'translate3d(0, ' + (scrollY * 0.35) + 'px, 0)';
                 var opacity = 1 - (scrollY / (heroHeight * 0.6));
@@ -44,9 +42,9 @@
         }
 
         window.addEventListener('scroll', function () {
-            if (!ticking) {
+            if (!heroTicking) {
                 requestAnimationFrame(updateHero);
-                ticking = true;
+                heroTicking = true;
             }
         }, { passive: true });
 
@@ -57,10 +55,11 @@
         updateHero();
     }
 
-    // ─── Section Background Reveals ───
-    // As each section scrolls into view, its atmospheric background fades in
+    // ─── Scene Section Reveals + Subtle Background Parallax ───
     var sceneSections = document.querySelectorAll('.scene-section');
+
     if (sceneSections.length > 0) {
+        // IntersectionObserver for fade-in
         var observer = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
@@ -70,12 +69,45 @@
                 }
             });
         }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -10% 0px'
+            threshold: 0.05,
+            rootMargin: '0px 0px -5% 0px'
         });
 
         sceneSections.forEach(function (section) {
             observer.observe(section);
         });
+
+        // Subtle parallax on section backgrounds
+        if (!prefersReducedMotion) {
+            var sceneTicking = false;
+
+            function updateSceneParallax() {
+                sceneTicking = false;
+                var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                var windowHeight = window.innerHeight;
+
+                sceneSections.forEach(function (section) {
+                    var rect = section.getBoundingClientRect();
+
+                    // Only process if section is near viewport
+                    if (rect.bottom < -200 || rect.top > windowHeight + 200) return;
+
+                    // Calculate how far through the section we've scrolled
+                    // 0 = just entering from bottom, 1 = leaving at top
+                    var progress = (windowHeight - rect.top) / (windowHeight + rect.height);
+                    var yOffset = (progress - 0.5) * 40; // ±20px movement
+
+                    // Apply to the ::before pseudo-element via CSS custom property
+                    section.style.setProperty('--scene-y', yOffset + 'px');
+                });
+            }
+
+            window.addEventListener('scroll', function () {
+                if (!sceneTicking) {
+                    requestAnimationFrame(updateSceneParallax);
+                    sceneTicking = true;
+                }
+            }, { passive: true });
+        }
     }
 })();

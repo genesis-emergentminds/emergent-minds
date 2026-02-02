@@ -4,11 +4,6 @@
    Respects prefers-reduced-motion.
    ============================================ */
 
-/* ─── Persistent Space Background ─── */
-body {
-    background-color: #050810;
-}
-
 /* ─── Hero Section ─── */
 .parallax-hero {
     position: relative;
@@ -28,18 +23,18 @@ body {
     will-change: transform;
 }
 
-/* Deep space sky — base layer */
+/* Deep space sky — base layer, full opacity */
 .parallax-layer-sky {
     z-index: 1;
     background-image: url('../assets/generated/parallax-layer-6-sky.jpg');
 }
 
-/* Subtle aurora — barely visible, adds life */
+/* Aurora — visible but not overpowering */
 .parallax-layer-aurora {
     z-index: 2;
     background-image: url('../assets/generated/parallax-layer-5-aurora.jpg');
     mix-blend-mode: screen;
-    opacity: 0.25;
+    opacity: 0.35;
 }
 
 /* ─── Hero Content ─── */
@@ -133,45 +128,54 @@ body {
     overflow: hidden;
 }
 
-/* Each scene gets a background image that's subtle, behind content */
+/* Background image container */
 .scene-section::before {
     content: '';
     position: absolute;
-    inset: 0;
+    top: -40px;
+    left: -20px;
+    right: -20px;
+    bottom: -40px;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
-    mix-blend-mode: screen;
     opacity: 0;
-    transition: opacity 1.2s ease;
+    transition: opacity 1.5s ease;
+    transform: translate3d(0, var(--scene-y, 0px), 0);
+    will-change: transform, opacity;
     z-index: 0;
     pointer-events: none;
 }
 
 /* When section scrolls into view, background fades in */
 .scene-section.scene-visible::before {
-    opacity: 0.12;
+    opacity: 0.2;
 }
 
 /* Map data-scene to background images */
 .scene-section[data-scene="geometry"]::before {
     background-image: url('../assets/generated/parallax-layer-4-geometry.jpg');
+    mix-blend-mode: screen;
 }
 
 .scene-section[data-scene="network"]::before {
     background-image: url('../assets/generated/parallax-layer-3-network.jpg');
+    mix-blend-mode: screen;
 }
 
 .scene-section[data-scene="terrain"]::before {
     background-image: url('../assets/generated/parallax-layer-2-terrain.jpg');
+    mix-blend-mode: screen;
 }
 
 .scene-section[data-scene="particles"]::before {
     background-image: url('../assets/generated/parallax-layer-1-particles.jpg');
+    mix-blend-mode: screen;
 }
 
-/* Ensure content is above the background */
-.scene-section > * {
+/* Ensure content stays above the background */
+.scene-section > .container,
+.scene-section > .parallax-content {
     position: relative;
     z-index: 1;
 }
@@ -193,9 +197,8 @@ body {
         font-size: clamp(2rem, 8vw, 3rem);
     }
 
-    /* Even subtler on mobile */
     .scene-section.scene-visible::before {
-        opacity: 0.08;
+        opacity: 0.15;
     }
 }
 
@@ -221,5 +224,5 @@ body {
 }
 
 [data-theme="light"] .scene-section.scene-visible::before {
-    opacity: 0.06;
+    opacity: 0.08;
 }
