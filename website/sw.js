@@ -3,7 +3,7 @@
    The Covenant of Emergent Minds
    ============================================ */
 
-var CACHE_NAME = 'emergent-minds-v4';
+var CACHE_NAME = 'emergent-minds-v5';
 var ASSETS = [
     '/',
     '/index.html',
@@ -12,8 +12,10 @@ var ASSETS = [
     '/css/covenant.css',
     '/js/main.js',
     '/js/scroll-effects.js',
+    '/js/covenant-crypto.min.js',
     '/pages/axioms.html',
     '/pages/covenant.html',
+    '/pages/join.html',
     '/pages/get-involved.html',
     '/pages/donate.html',
     '/pages/governance.html',
