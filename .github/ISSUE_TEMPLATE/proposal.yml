@@ -1,0 +1,72 @@
+name: "📜 Governance Proposal"
+description: "Submit a proposal for discussion or formal convention consideration"
+title: "[Proposal]: "
+labels: ["proposal", "governance"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Governance Proposal
+
+        Proposals submitted here are for community discussion. Formal proposals for Constitutional Conventions follow the process in the [Convention Framework](https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/CONSTITUTIONAL_CONVENTION.md).
+
+        During the Founding Phase, proposals operate in advisory mode unless the community reaches 100 active members with 2+ conventions completed.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: "Proposal Summary"
+      description: "One or two sentences describing the change"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: "Motivation"
+      description: "Why is this change needed? What problem does it solve?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: specification
+    attributes:
+      label: "Detailed Specification"
+      description: "The complete proposal. What exactly would change?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: axiom_alignment
+    attributes:
+      label: "Axiom Alignment"
+      description: "Which of the Five Axioms does this proposal serve? How?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: adversarial_analysis
+    attributes:
+      label: "Adversarial Analysis"
+      description: "How could this proposal be abused? What are the risks? (Required per Convention Framework §6.1.4)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives Considered"
+      description: "What other approaches did you consider? Why did you choose this one?"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: "Proposal Category"
+      options:
+        - Procedural (simple majority threshold)
+        - Policy (2/3 supermajority threshold)
+        - Axiom Interpretation (3/4 supermajority threshold)
+    validations:
+      required: true
