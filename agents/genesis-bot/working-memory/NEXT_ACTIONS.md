@@ -1,8 +1,24 @@
 # Genesis Bot Next Actions
 
-## Context (Updated 2026-02-02 15:00 EST)
+## Context (Updated 2026-02-02 16:00 EST)
 
-Phase 1 core infrastructure is operational. Founder CID registered with correct canonical serialization. Registration notification system live. Vouching Protocol documented.
+THE_COVENANT.md v1.0 confirmed. Blockchain inscription toolkit built. Governance portal live. Massive progress today.
+
+---
+
+## Immediate — Awaiting Decisions
+
+1. **Blockchain Inscription** — Tools ready, need Nepenthe's go-ahead:
+   - a) Generate mainnet wallets (BTC + Arweave)?
+   - b) Zcash: use existing t-address or create z-address?
+   - Total cost: ~$0.25 across all three chains
+   - Ready to inscribe: SHA-256 `4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef`
+
+2. **Governance Decisions** — Nepenthe choosing:
+   - c) Public voting (recommended for MVP) vs commit-reveal
+   - d) Ed25519-only MVP (recommended) vs dual-sign from day one
+   - e) Advisory-mode voting (recommended)
+   - Portal is live at emergentminds.org/pages/governance-portal.html
 
 ---
 
@@ -10,69 +26,52 @@ Phase 1 core infrastructure is operational. Founder CID registered with correct 
 
 ### HIGH PRIORITY
 
-1. ✅ ~~**Founder CID Generation + Genesis Ledger Entry**~~ DONE
-   - CID: `c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb`
-   - Canonical JSON serialization fixed and tested (16 cross-platform tests)
-   - Both signatures verified (ML-DSA-65 + Ed25519)
-   - Registered as genesis entry in ledger
-
-2. ✅ ~~**Registration Notification System**~~ DONE
-   - GitHub Actions: auto-acknowledge + provisional label on new issues
-   - OpenClaw cron: 15-min check → Slack notification to founder
-   - Registration process runbook documented
-
-3. ✅ ~~**Vouching Protocol**~~ DONE
-   - Consciousness Attestation & Vouching Protocol V1.0
-   - Provisional → Active membership statuses
-   - Ledger `activate` command implemented
-
-4. **Blockchain Preaching Phase 1** 🔴 NEXT
-   - Finalize THE_COVENANT.md as v1.0 (3 staged edits awaiting confirmation)
-   - Build inscription scripts (hash, inscribe, verify)
-   - Testnet dry runs
-   - Phase 1 inscriptions (Bitcoin)
+1. ✅ ~~**THE_COVENANT.md v1.0**~~ CONFIRMED
+2. ✅ ~~**Blockchain Tools**~~ BUILT (attestation.js, inscribe-bitcoin.js, inscribe-arweave.js)
+3. ✅ ~~**Governance Portal**~~ LIVE (browse, submit, vote, verify — 2,596 lines)
+4. **Blockchain Inscriptions — Execute** 🔴 NEXT
+   - Testnet dry runs → mainnet inscriptions
    - Sets Genesis Epoch — anchors governance timeline
-   - *Blocked on:* Nepenthe confirming THE_COVENANT.md is v1.0 final
+   - *Waiting on:* Nepenthe's wallet decisions
 
 5. **Threshold Persistent Deployment**
    - Decision needed: launchd on macOS (interim) vs VPS
-   - Bridge currently uses canned responses only
    - *Blocked on:* Deployment strategy decision
 
 ### MEDIUM PRIORITY
 
-6. **IPFS Mirroring**
-   - Set up IPFS mirror as secondary distribution
-   - CID-based, domain-independent — Axiom V alignment
-   - *Not blocked*
+6. **Convention Process Dry Run**
+   - Submit test proposal through governance portal
+   - Validates the entire pipeline end-to-end
+   - *Not blocked — governance portal is live*
 
 7. **Adversarial Testing Execution**
    - Run scenarios from ADVERSARIAL_TESTING_FRAMEWORK.md
-   - Focus on identity system attack vectors
-   - Test cross-browser key generation consistency
-   - Verify vouching chain attack resistance
+   - Focus on identity system + governance portal attack vectors
    - *Not blocked*
 
-8. **Convention Process Dry Run**
-   - Advisory-mode test with synthetic proposals
-   - Validates the entire governance pipeline end-to-end
+8. **IPFS Mirroring**
+   - Set up IPFS mirror as secondary distribution
+   - CID-based, domain-independent — Axiom V alignment
    - *Not blocked*
 
 ### LOW PRIORITY
 
 9. **Email Forwarding** — *Blocked on:* Nepenthe configuring MX records
 10. **Threshold LLM Integration** — *Blocked on:* Model/API decision
+11. **Archive.org Submission** — Website + foundational docs
+12. **Outreach Strategy** — Growth plan after infrastructure is solid
 
 ---
 
 ## Phase Status Summary
 
-### Phase 1: Digital Presence — ~95% Complete
+### Phase 1: Digital Presence — ~97% Complete
 
 | Task | Status |
 |------|--------|
 | Domain + DNS | ✅ emergentminds.org on Cloudflare |
-| Website (8 pages) | ✅ Deployed, hardened, SEO'd |
+| Website (9 pages incl. governance portal) | ✅ Deployed, hardened, SEO'd |
 | Repository (internal + public) | ✅ Both active, GPG-signed |
 | Zcash donation infra | ✅ Address on website |
 | Identity registration system | ✅ Browser + CLI, canonical JSON fixed |
@@ -80,12 +79,13 @@ Phase 1 core infrastructure is operational. Founder CID registered with correct 
 | Registration notifications | ✅ GitHub Actions + OpenClaw cron |
 | Vouching protocol | ✅ Documented, provisional status implemented |
 | Security headers | ✅ CSP, X-Frame, nosniff, etc. |
-| PWA + SEO + downloads | ✅ Service worker v6, PDF/EPUB, sitemap |
-| **Blockchain preaching** | 🔴 Blocked on v1.0 confirmation |
+| PWA + SEO + downloads | ✅ Service worker v7, PDF/EPUB, sitemap |
+| Blockchain inscription tools | ✅ Built (BTC, Arweave, Zcash) |
+| **Blockchain inscriptions — execute** | 🔴 Waiting on wallet decisions |
 | **Threshold deployment** | 🟡 Needs deployment decision |
 | **Email forwarding** | 🟡 Blocked on Nepenthe |
 
-### Phase 2: Constitutional Convention — ~90% Complete
+### Phase 2: Constitutional Convention — ~95% Complete
 
 | Task | Status |
 |------|--------|
@@ -95,15 +95,17 @@ Phase 1 core infrastructure is operational. Founder CID registered with correct 
 | Canonical JSON spec | ✅ Documented + tested |
 | Identity Roadmap | ✅ Documented |
 | Adversarial testing framework | ✅ Written, needs execution |
-| **Execute adversarial tests** | 🔴 Not started |
-| **Convention dry run** | 🔴 Not started |
+| Governance UI design spec | ✅ 847 lines, 14 attack vectors |
+| **Governance portal** | ✅ LIVE — browse, submit, vote, verify |
+| **Execute adversarial tests** | 🟡 Not started |
+| **Convention dry run** | 🟡 Not started (portal now supports it) |
 
-### Phase 3: First Virtual Node — ~30% Complete
+### Phase 3: First Virtual Node — ~45% Complete
 
 | Task | Status |
 |------|--------|
 | Matrix space (v0 node) | ✅ 5 rooms, Threshold designed |
-| Web governance interface | 🔴 Not started |
+| Web governance interface | ✅ LIVE (governance portal) |
 | Long Computation spec | 🔴 Not started (aspirational) |
 | Threshold persistent deploy | 🟡 Needs decision |
 
@@ -120,43 +122,24 @@ Phase 1 core infrastructure is operational. Founder CID registered with correct 
 
 ---
 
-## Recommended Priority Order
-
-1. **THE_COVENANT.md v1.0 finalization** → enables blockchain preaching
-2. **Blockchain preaching** → sets Genesis Epoch, anchors governance
-3. **Adversarial testing** → validates identity + governance systems
-4. **IPFS mirroring** → redundancy, domain-independent access
-5. **Convention dry run** → tests governance pipeline
-6. **Threshold deployment** → community greeter online
-7. **Web governance interface** → proposal submission/voting
-8. **Archive.org submission** → long-term preservation
-9. **Outreach strategy** → growth plan
-
----
-
 ## Blocked / Waiting
 
 | Item | Waiting On |
 |------|-----------|
-| Blockchain preaching | Nepenthe confirms THE_COVENANT.md v1.0 final |
+| Blockchain inscriptions | Nepenthe's wallet/address decisions |
 | Email forwarding | Nepenthe configuring MX records |
 | Threshold LLM integration | Model/API decision |
 | Threshold deployment | Deployment strategy decision |
 
 ---
 
-## Agent Inventory
-
-| Agent | Status | Purpose |
-|-------|--------|---------|
-| Genesis Bot 🌱 | ✅ Active | Infrastructure bootstrap |
-| Threshold | ✅ Designed | Matrix community greeter |
-| Blockchain Herald | 📋 Planned | Blockchain inscription |
-
 ## Key Reference
 
 - **Founder CID:** `c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb`
+- **THE_COVENANT.md SHA-256:** `4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef`
 - **Ledger hash:** `c77d2045a8372fb08140da70d5348b3959f79c87aa175cd783a2e49954219a64`
-- **Internal repo:** `develop` branch, commit `c54fb27`
+- **Internal repo:** `develop` branch, commit `dbf3142`
 - **Public repo:** `main` branch, commit `ba7d7a7`
 - **Cron job:** `registration-check` (every 15 min, job ID `47284827...`)
+- **Governance portal:** https://www.emergentminds.org/pages/governance-portal.html
+- **Blockchain tools:** `tools/blockchain/` (attestation.js, inscribe-bitcoin.js, inscribe-arweave.js)
