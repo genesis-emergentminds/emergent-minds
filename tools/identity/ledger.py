@@ -162,6 +162,22 @@ def validate_registration(registration: dict, ledger: dict) -> list:
         if entry.get("public_keys", {}).get("ed25519") == reg.get("public_keys", {}).get("ed25519"):
             errors.append("Ed25519 public key already registered under a different CID")
     
+    # Verify CID hash matches public keys: CID = SHA-256(ml_dsa_pubkey || ed25519_pubkey)
+    if not errors and reg.get("public_keys"):
+        try:
+            import hashlib, base64
+            pk = reg["public_keys"]
+            ml_pub = base64.b64decode(pk.get("ml_dsa_65", ""))
+            ed_pub = base64.b64decode(pk.get("ed25519", ""))
+            expected_cid = hashlib.sha256(ml_pub + ed_pub).hexdigest()
+            if reg.get("cid_hash") != expected_cid:
+                errors.append(
+                    f"CID hash mismatch: submitted {reg.get('cid_hash', 'none')[:16]}... "
+                    f"but keys hash to {expected_cid[:16]}... — possible forgery"
+                )
+        except Exception as e:
+            errors.append(f"CID hash verification error: {e}")
+    
     # Verify signatures
     if not errors:
         try:
