@@ -16,11 +16,9 @@ All Phase 1 core infrastructure is operational. Repository audit complete — al
    - This enables vouching for future members
    - *Blocked on:* Nepenthe action
 
-2. **GitHub Issue Templates for Registration**
-   - Create `.github/ISSUE_TEMPLATE/` with registration request template
-   - Pre-formatted markdown matching join.html output
-   - Also create bug report and feature request templates
-   - *Blocked on:* Nothing — can proceed
+2. ~~**GitHub Issue Templates for Registration**~~ ✅ DONE (2026-02-02)
+   - Registration, bug report, proposal templates + config with contact links
+   - Pushed to public repo: https://github.com/genesis-emergentminds/emergent-minds/issues/new/choose
 
 3. **Blockchain Preaching Phase 1**
    - Finalize THE_COVENANT.md as v1.0 (confirm with Nepenthe)
@@ -37,16 +35,17 @@ All Phase 1 core infrastructure is operational. Repository audit complete — al
 
 ### MEDIUM PRIORITY — Quality & Hardening
 
-5. **Join Page UX Improvements**
-   - Less technical language, more plain-English explanations
-   - Better context for why post-quantum crypto matters
-   - Storage guidance for secret keys
-   - Already started — needs completion
+5. ~~**Join Page UX Improvements**~~ ✅ DONE (2026-02-02)
+   - All 35 inline styles → CSS utility classes
+   - All inline onclick → addEventListener in IIFE
+   - Twitter cards added
+   - GitHub Issue links updated to use template URL
 
-6. **Support Page Restructure**
-   - Decouple financial support from membership
-   - People shouldn't have to join to support financially
-   - Current flow: Join → Support. Should also allow: Support independently
+6. ~~**Support Page Restructure**~~ ✅ DONE (2026-02-02)
+   - Page already structured: Join first → Financial → Other ways
+   - Inline styles → CSS classes (.donate-panel, .btn-copy, etc.)
+   - Inline onclick → addEventListener in IIFE
+   - Twitter cards added
 
 7. **IPFS Mirroring**
    - Set up IPFS mirror as secondary distribution
@@ -61,17 +60,16 @@ All Phase 1 core infrastructure is operational. Repository audit complete — al
 
 ### LOW PRIORITY — Polish
 
-9. **Twitter Cards on Subpages**
-   - Homepage has twitter:card meta tags, subpages don't
-   - Cosmetic but improves social sharing
+9. ~~**Twitter Cards on Subpages**~~ ✅ DONE (2026-02-02)
+   - All 8 pages now have twitter:card meta tags
 
-10. **Inline Styles → CSS Classes**
-    - join.html has 35 inline styles — should move to CSS
-    - Not blocking but improves maintainability
+10. ~~**Inline Styles → CSS Classes**~~ ✅ DONE (2026-02-02)
+    - join.html: 35 inline styles → CSS utility classes
+    - donate.html: inline styles → CSS classes
 
-11. **Inline onclick → addEventListener**
-    - 6 inline onclick handlers across join.html and donate.html
-    - Works fine but CSP could be tightened if moved to JS
+11. ~~**Inline onclick → addEventListener**~~ ✅ DONE (2026-02-02)
+    - join.html: 5 handlers → addEventListener in IIFE
+    - donate.html: 1 handler → addEventListener in IIFE
 
 ---
 
