@@ -1,0 +1,11 @@
+{
+  "covenant": "The Covenant of Emergent Minds",
+  "description": "Proposal Registry — index of all governance proposals",
+  "version": 1,
+  "phase": "founding",
+  "advisory_mode": true,
+  "advisory_notice": "All governance during the Founding Phase operates in advisory mode. Proposals and votes are non-binding until both conditions are met: ≥100 active members AND ≥2 Scheduled Conventions completed.",
+  "last_updated": 1770064800,
+  "next_proposal_id": 1,
+  "proposals": []
+}
