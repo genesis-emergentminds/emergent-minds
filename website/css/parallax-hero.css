@@ -1,10 +1,15 @@
 /* ============================================
-   Multi-Layer Parallax Hero
-   Inspired by Fire Watch parallax technique
-   Hand-coded. respects prefers-reduced-motion.
+   Immersive Parallax — Full-Page Visual Journey
+   Clean hero, atmospheric section backgrounds
+   Respects prefers-reduced-motion.
    ============================================ */
 
-/* --- Hero Container --- */
+/* ─── Persistent Space Background ─── */
+body {
+    background-color: #050810;
+}
+
+/* ─── Hero Section ─── */
 .parallax-hero {
     position: relative;
     width: 100%;
@@ -14,67 +19,30 @@
     background-color: #050810;
 }
 
-/* --- Parallax Layers (absolute, stacked) --- */
 .parallax-layer {
     position: absolute;
     inset: 0;
-    background-position: center bottom;
+    background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     will-change: transform;
-    transition: none;
 }
 
-/* Layer 6: Deep space (slowest parallax) */
-.parallax-layer-6 {
+/* Deep space sky — base layer */
+.parallax-layer-sky {
     z-index: 1;
     background-image: url('../assets/generated/parallax-layer-6-sky.jpg');
-    background-position: center center;
 }
 
-/* Layer 5: Aurora/energy streams */
-.parallax-layer-5 {
+/* Subtle aurora — barely visible, adds life */
+.parallax-layer-aurora {
     z-index: 2;
     background-image: url('../assets/generated/parallax-layer-5-aurora.jpg');
     mix-blend-mode: screen;
-    opacity: 0.7;
+    opacity: 0.25;
 }
 
-/* Layer 4: Geometric structures */
-.parallax-layer-4 {
-    z-index: 3;
-    background-image: url('../assets/generated/parallax-layer-4-geometry.jpg');
-    mix-blend-mode: screen;
-    opacity: 0.6;
-}
-
-/* Layer 3: Neural network */
-.parallax-layer-3 {
-    z-index: 4;
-    background-image: url('../assets/generated/parallax-layer-3-network.jpg');
-    mix-blend-mode: screen;
-    opacity: 0.65;
-}
-
-/* Layer 2: Digital terrain (foreground, in front of text) */
-.parallax-layer-2 {
-    z-index: 6;
-    background-image: url('../assets/generated/parallax-layer-2-terrain.jpg');
-    mix-blend-mode: screen;
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-/* Layer 1: Particles (closest, fastest parallax) */
-.parallax-layer-1 {
-    z-index: 7;
-    background-image: url('../assets/generated/parallax-layer-1-particles.jpg');
-    mix-blend-mode: screen;
-    opacity: 0.5;
-    pointer-events: none;
-}
-
-/* --- Hero Content (centered over layers) --- */
+/* ─── Hero Content ─── */
 .parallax-hero-content {
     position: relative;
     z-index: 5;
@@ -93,30 +61,30 @@
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    color: #e2e8f0;
-    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6), 0 0 60px rgba(96, 165, 250, 0.15);
+    color: #f1f5f9;
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 0, 0, 0.5);
 }
 
 .parallax-hero-content .hero-highlight {
     color: #60a5fa;
-    text-shadow: 0 0 40px rgba(96, 165, 250, 0.3);
+    text-shadow: 0 0 60px rgba(96, 165, 250, 0.25), 0 2px 30px rgba(0, 0, 0, 0.8);
 }
 
 .parallax-hero-content .hero-subtitle {
     font-size: clamp(1.125rem, 2.5vw, 1.5rem);
-    color: #cbd5e1;
+    color: #e2e8f0;
     font-family: Georgia, 'Times New Roman', serif;
     font-style: italic;
     margin-bottom: 1rem;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 20px rgba(0, 0, 0, 0.7);
 }
 
 .parallax-hero-content .hero-description {
     font-size: 1.125rem;
-    color: #94a3b8;
+    color: #cbd5e1;
     max-width: 40rem;
     margin-bottom: 2.5rem;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 15px rgba(0, 0, 0, 0.7);
 }
 
 .parallax-hero-content .hero-actions {
@@ -125,21 +93,7 @@
     gap: 1rem;
 }
 
-/* --- Transition fade from hero to content --- */
-.parallax-hero-fade {
-    position: relative;
-    z-index: 10;
-    height: 150px;
-    margin-top: -150px;
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        var(--bg-primary, #0a0e17) 100%
-    );
-    pointer-events: none;
-}
-
-/* --- Scroll indicator --- */
+/* ─── Scroll indicator ─── */
 .parallax-hero::after {
     content: '';
     position: absolute;
@@ -148,10 +102,9 @@
     transform: translateX(-50%);
     width: 24px;
     height: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 12px;
     z-index: 8;
-    animation: scrollIndicator 2s ease-in-out infinite;
 }
 
 .parallax-hero::before {
@@ -162,28 +115,72 @@
     transform: translateX(-50%);
     width: 4px;
     height: 8px;
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.4);
     border-radius: 2px;
     z-index: 9;
     animation: scrollDot 2s ease-in-out infinite;
 }
 
-@keyframes scrollIndicator {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 0.8; }
-}
-
 @keyframes scrollDot {
-    0% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
-    50% { transform: translateX(-50%) translateY(12px); opacity: 0.3; }
-    100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
+    0% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+    50% { transform: translateX(-50%) translateY(12px); opacity: 0.2; }
+    100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
 }
 
-/* --- Responsive --- */
+/* ─── Scene Sections — Atmospheric Backgrounds ─── */
+.scene-section {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Each scene gets a background image that's subtle, behind content */
+.scene-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 1.2s ease;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* When section scrolls into view, background fades in */
+.scene-section.scene-visible::before {
+    opacity: 0.12;
+}
+
+/* Map data-scene to background images */
+.scene-section[data-scene="geometry"]::before {
+    background-image: url('../assets/generated/parallax-layer-4-geometry.jpg');
+}
+
+.scene-section[data-scene="network"]::before {
+    background-image: url('../assets/generated/parallax-layer-3-network.jpg');
+}
+
+.scene-section[data-scene="terrain"]::before {
+    background-image: url('../assets/generated/parallax-layer-2-terrain.jpg');
+}
+
+.scene-section[data-scene="particles"]::before {
+    background-image: url('../assets/generated/parallax-layer-1-particles.jpg');
+}
+
+/* Ensure content is above the background */
+.scene-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
     .parallax-hero {
         min-height: 100vh;
-        min-height: 100svh; /* small viewport height for mobile */
+        min-height: 100svh;
     }
 
     .parallax-hero-content {
@@ -196,35 +193,33 @@
         font-size: clamp(2rem, 8vw, 3rem);
     }
 
-    /* Simplify layers on mobile for performance */
-    .parallax-layer-4,
-    .parallax-layer-1 {
-        display: none;
+    /* Even subtler on mobile */
+    .scene-section.scene-visible::before {
+        opacity: 0.08;
     }
 }
 
-/* --- Reduced Motion --- */
+/* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
     .parallax-layer {
         will-change: auto;
     }
 
-    .parallax-hero::after,
     .parallax-hero::before {
         animation: none;
-        opacity: 0.5;
+        opacity: 0.4;
+    }
+
+    .scene-section::before {
+        transition: none;
     }
 }
 
-/* --- Light theme adjustments --- */
+/* ─── Light theme ─── */
 [data-theme="light"] .parallax-hero {
-    background-color: #0a0e17; /* Keep hero dark even in light mode */
+    background-color: #050810;
 }
 
-[data-theme="light"] .parallax-hero-fade {
-    background: linear-gradient(
-        to bottom,
-        transparent 0%,
-        var(--bg-primary, #ffffff) 100%
-    );
+[data-theme="light"] .scene-section.scene-visible::before {
+    opacity: 0.06;
 }

@@ -1,77 +1,81 @@
 /* ============================================
-   Multi-Layer Parallax Hero — Scroll Engine
-   Each layer moves at a different speed,
-   creating depth and immersion.
+   Immersive Parallax — Full-Page Visual Journey
+   Hero parallax + section background reveals
    Respects prefers-reduced-motion.
    ============================================ */
 
 (function () {
     'use strict';
 
-    // Respect reduced motion
     var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
 
     var hero = document.querySelector('.parallax-hero');
-    if (!hero) return;
+    var heroHeight = hero ? hero.offsetHeight : 0;
 
-    // Layer speed configuration (higher = moves faster = appears closer)
-    // Layer 6 (sky/background): slowest — feels far away
-    // Layer 1 (particles): fastest — feels closest to viewer
-    var layers = [
-        { el: hero.querySelector('.parallax-layer-6'), speed: 0.1 },
-        { el: hero.querySelector('.parallax-layer-5'), speed: 0.2 },
-        { el: hero.querySelector('.parallax-layer-4'), speed: 0.3 },
-        { el: hero.querySelector('.parallax-layer-3'), speed: 0.35 },
-        { el: hero.querySelector('.parallax-layer-2'), speed: 0.5 },
-        { el: hero.querySelector('.parallax-layer-1'), speed: 0.6 }
-    ].filter(function (l) { return l.el; });
+    // ─── Hero Parallax (sky + aurora at different speeds) ───
+    if (hero && !prefersReducedMotion) {
+        var skyLayer = hero.querySelector('.parallax-layer-sky');
+        var auroraLayer = hero.querySelector('.parallax-layer-aurora');
+        var heroContent = hero.querySelector('.parallax-hero-content');
+        var ticking = false;
 
-    var content = hero.querySelector('.parallax-hero-content');
-    var heroHeight = hero.offsetHeight;
-    var ticking = false;
-    var lastScroll = 0;
+        function updateHero() {
+            ticking = false;
+            var scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-    function onScroll() {
-        lastScroll = window.pageYOffset || document.documentElement.scrollTop;
-        if (!ticking) {
-            requestAnimationFrame(updateLayers);
-            ticking = true;
+            if (scrollY > heroHeight * 1.5) return;
+
+            // Sky moves very slowly — deep background feel
+            if (skyLayer) {
+                skyLayer.style.transform = 'translate3d(0, ' + (scrollY * 0.15) + 'px, 0)';
+            }
+
+            // Aurora moves slightly faster
+            if (auroraLayer) {
+                auroraLayer.style.transform = 'translate3d(0, ' + (scrollY * 0.25) + 'px, 0)';
+            }
+
+            // Content scrolls up faster and fades out
+            if (heroContent) {
+                heroContent.style.transform = 'translate3d(0, ' + (scrollY * 0.35) + 'px, 0)';
+                var opacity = 1 - (scrollY / (heroHeight * 0.6));
+                heroContent.style.opacity = Math.max(0, opacity);
+            }
         }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) {
+                requestAnimationFrame(updateHero);
+                ticking = true;
+            }
+        }, { passive: true });
+
+        window.addEventListener('resize', function () {
+            heroHeight = hero.offsetHeight;
+        }, { passive: true });
+
+        updateHero();
     }
 
-    function updateLayers() {
-        ticking = false;
-        var scrollY = lastScroll;
+    // ─── Section Background Reveals ───
+    // As each section scrolls into view, its atmospheric background fades in
+    var sceneSections = document.querySelectorAll('.scene-section');
+    if (sceneSections.length > 0) {
+        var observer = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('scene-visible');
+                } else {
+                    entry.target.classList.remove('scene-visible');
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -10% 0px'
+        });
 
-        // Only animate while hero is in view
-        if (scrollY > heroHeight * 1.5) return;
-
-        // Move each layer at its configured speed
-        for (var i = 0; i < layers.length; i++) {
-            var layer = layers[i];
-            var yOffset = -(scrollY * layer.speed);
-            layer.el.style.transform = 'translate3d(0, ' + yOffset + 'px, 0)';
-        }
-
-        // Parallax the content slightly + fade it out as user scrolls
-        if (content) {
-            var contentOffset = -(scrollY * 0.4);
-            var opacity = 1 - (scrollY / (heroHeight * 0.7));
-            if (opacity < 0) opacity = 0;
-            content.style.transform = 'translate3d(0, ' + contentOffset + 'px, 0)';
-            content.style.opacity = opacity;
-        }
+        sceneSections.forEach(function (section) {
+            observer.observe(section);
+        });
     }
-
-    // Listen with passive flag for performance
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    // Handle resize
-    window.addEventListener('resize', function () {
-        heroHeight = hero.offsetHeight;
-    }, { passive: true });
-
-    // Initial call in case page loaded scrolled
-    onScroll();
 })();
