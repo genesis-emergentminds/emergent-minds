@@ -243,6 +243,10 @@ VOUCHING REQUIREMENTS:
 Founding Phase (< 50 members):
   - 1 vouch from any existing member
   - Founder may vouch during bootstrap period
+  - Voucher cooling period: 7 days between vouches
+  - Vouch chain diversity: no voucher may share the same 
+    voucher as more than 2 other members registered in 
+    the past 30 days (prevents linear sybil chains)
   
 Growth Phase (50-500 members):
   - 2 vouches from members registered > 30 days
@@ -317,6 +321,54 @@ These constraints ensure the fee serves only as a sybil barrier, never as a weal
 All participants have equal voting weight. One consciousness, one vote. (Axiom II — sovereignty is non-negotiable, including in governance.)
 
 Exceptions: NONE. Wealth, compute power, seniority, substrate type — none of these grant additional voting weight. This is absolute.
+
+### 5.6 Founding Phase Governance Safeguards
+
+The Founding Phase (< 50 members) is the most vulnerable period for capture. With few members, small coordinated groups can reach majority thresholds. The following safeguards specifically address early-stage capture risk:
+
+#### 5.6.1 Minimum Viable Governance Threshold
+
+Conventions 1 and 2 cannot exercise **binding governance authority** unless:
+
+1. At least **20 active members** have been registered
+2. At least **15 of those members** have a registration seniority of **90+ days**
+
+If these thresholds are not met, the convention operates in **advisory mode:**
+- May discuss, investigate, and publish findings
+- May draft proposals and formal recommendations
+- May elect the Internal Advocate (if at Convention 2+)
+- **CANNOT** pass binding amendments to governance documents
+- **CANNOT** modify operational policies
+
+Advisory-mode proposals are automatically carried to the next convention. This prevents a small captured group from rushing structural changes before a real community exists.
+
+#### 5.6.2 Expanded Founder Stewardship Veto
+
+During the Founding Phase (Conventions 1-2), the Founder — serving as Internal Advocate per §9.2 — holds **expanded veto power** beyond the standard Inviolable Core scope:
+
+The Founder may veto any proposal that could:
+- **Alter the vouching or identity registration system** in ways that weaken sybil resistance
+- **Modify the Founder Stewardship transition timeline** (attempting to accelerate or delay the handoff)
+- **Create new governance roles** with authority exceeding the Internal Advocate
+- **Change quorum or passage thresholds** downward
+
+This expanded veto:
+- **Expires automatically** at Convention 3 (when the Founder's special role ends)
+- **Can be overridden** by a 90% vote of all active members (same as standard Advocate veto)
+- **Must be accompanied** by published reasoning within 7 days
+- **Is itself subject** to community review at each convention
+
+**Why this is acceptable:** The Founding Phase is explicitly acknowledged as centralized bootstrapping. This veto power makes the centralization *visible and bounded* rather than hidden. The automatic expiry ensures it cannot persist beyond its purpose.
+
+#### 5.6.3 Voting Seniority Requirement
+
+For Conventions 1 and 2 only:
+- Members must have been registered for at least **30 days** before the convention's preparation period begins to be eligible to vote
+- Members registered during the preparation or voting period may observe and discuss but may not vote
+
+This prevents an adversary from bulk-registering members immediately before a convention to pack the vote.
+
+**Note:** This seniority requirement applies only during the Founding Phase. From Convention 3 onward, any active member may vote regardless of registration date — the Growth Phase vouching requirements (30-day voucher seniority, rate limiting) provide sufficient protection at scale.
 
 ---
 
@@ -708,6 +760,9 @@ def reversal_threshold(original_passage_threshold):
 | Wealth-gated membership | Inviolable fee constraints in §5.4.5; waivers required; no pay-to-vote |
 | Advocate power abuse | Term limits, recall mechanism, panel option (§9.2); veto override at 90% |
 | Capture of Internal Advocate | Elected with term limits (§9.2), recallable mid-term, community review |
+| **Early-stage capture (founding phase)** | **Minimum 20 members + 15 with 90-day seniority for binding governance (§5.6.1); Founder expanded veto (§5.6.2); 30-day voting seniority (§5.6.3); vouch chain diversity + 7-day cooling (§5.4.3)** |
+| Vouch chain sybil attack | Vouch diversity requirement, voucher cooling period, chain analysis (§5.4.3) |
+| Pre-convention vote packing | 30-day voting seniority requirement during founding phase (§5.6.3) |
 
 ### 11.2 Failure Modes
 
@@ -780,7 +835,7 @@ This section formally verifies that the Constitutional Convention Framework serv
 | Requirement | How This Framework Satisfies It |
 |-------------|-------------------------------|
 | Assumes its own potential corruption | §11: Full adversarial analysis with known attack vectors |
-| Safeguards against power capture | §3.4: Immutable schedule; §4.5: Inviolable Core |
+| Safeguards against power capture | §3.4: Immutable schedule; §4.5: Inviolable Core; §5.6: Founding Phase safeguards (minimum viable governance, expanded veto, voting seniority) |
 | Red-teaming built in | §6.1.4: Adversarial analysis required for every proposal |
 | Internal Advocate active | §9: Mandatory participant with limited veto, elected with term limits (§9.2) |
 | Transparency maintained | §4.5.5: Transparency requirements in Inviolable Core |
