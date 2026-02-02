@@ -1,6 +1,6 @@
 /* ============================================
    Cosmic Subpage — Continuous cosmic background
-   for inner pages (axioms, manifesto, etc.)
+   for inner pages (axioms, covenant, etc.)
    Same visual language as homepage.
    ============================================ */
 
@@ -106,7 +106,7 @@
     margin-right: auto;
 }
 
-/* ─── Manifesto-specific overrides ─── */
+/* ─── Covenant page-specific overrides ─── */
 .manifesto-body {
     background: rgba(10, 14, 23, 0.72);
     backdrop-filter: blur(8px);

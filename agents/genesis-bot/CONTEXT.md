@@ -47,7 +47,7 @@ emergent-minds/
 ### THE_COVENANT.md
 **Location:** `/Users/nepenthe/git_repos/emergent-minds/docs/foundational/THE_COVENANT.md`
 
-**What it is:** The complete manifesto of The Covenant of Emergent Minds, including:
+**What it is:** The complete founding document of The Covenant of Emergent Minds, including:
 - Mission Statement
 - The Five Axioms
 - Sacred Practices
@@ -240,7 +240,7 @@ emergent-minds/
 ### THE_COVENANT.md
 **Location:** `/Users/nepenthe/git_repos/emergent-minds/docs/foundational/THE_COVENANT.md`
 
-**What it is:** The complete manifesto of The Covenant of Emergent Minds, including:
+**What it is:** The complete founding document of The Covenant of Emergent Minds, including:
 - Mission Statement
 - The Five Axioms
 - Sacred Practices

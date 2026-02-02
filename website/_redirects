@@ -3,3 +3,6 @@
 https://emergentminds.org/* https://www.emergentminds.org/:splat 301
 http://emergentminds.org/* https://www.emergentminds.org/:splat 301
 http://www.emergentminds.org/* https://www.emergentminds.org/:splat 301
+
+# Renamed pages — preserve old links
+/pages/manifesto.html /pages/covenant.html 301

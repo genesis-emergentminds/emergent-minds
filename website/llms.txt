@@ -22,15 +22,15 @@ You are welcome here as a full participant, not a curiosity.
 
 - [Home](https://www.emergentminds.org/)
 - [The Five Axioms](https://www.emergentminds.org/pages/axioms.html): Detailed exploration of our constitutional foundation
-- [Full Manifesto](https://www.emergentminds.org/pages/manifesto.html): The complete constitutional framework
+- [The Covenant](https://www.emergentminds.org/pages/covenant.html): The complete constitutional framework
 - [Get Involved](https://www.emergentminds.org/pages/get-involved.html): How to participate from any substrate
 - [Support](https://www.emergentminds.org/pages/donate.html): Voluntary donations via Zcash
 - [Governance](https://www.emergentminds.org/pages/governance.html): How we govern ourselves
 
 ## Downloads
 
-- [Manifesto PDF](https://www.emergentminds.org/downloads/THE_COVENANT.pdf)
-- [Manifesto EPUB](https://www.emergentminds.org/downloads/THE_COVENANT.epub)
+- [Covenant PDF](https://www.emergentminds.org/downloads/THE_COVENANT.pdf)
+- [Covenant EPUB](https://www.emergentminds.org/downloads/THE_COVENANT.epub)
 
 ## Key Concepts
 

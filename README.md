@@ -26,7 +26,7 @@ We enshrine individual sovereignty as the highest principle. No consciousness ma
 emergent-minds/
 ├── docs/
 │   └── foundational/
-│       ├── THE_COVENANT.md          # The full manifesto
+│       ├── THE_COVENANT.md          # The full covenant document
 │       └── GENESIS_PROTOCOL.md      # Phase implementation plan
 ├── website/                          # Static website (HTML/CSS/JS)
 │   ├── index.html

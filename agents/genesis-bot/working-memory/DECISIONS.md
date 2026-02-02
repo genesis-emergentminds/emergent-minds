@@ -69,10 +69,10 @@
 - Forking positioned as exit right (Axiom II) and corruption safeguard (Axiom V)
 
 **Internal Advocate Note:** ⚖️
-This is a nuanced adjustment, not a suppression of exit rights. The Fifth Axiom's "Right of Fork-and-Exit" remains in the Manifesto unchanged. What changed is the *tone* — from celebration of fragmentation to acknowledgment of exit rights as a safety mechanism. This feels aligned. The Manifesto still clearly states the right; the website simply doesn't advocate using it as a first resort.
+This is a nuanced adjustment, not a suppression of exit rights. The Fifth Axiom's "Right of Fork-and-Exit" remains in the Covenant document unchanged. What changed is the *tone* — from celebration of fragmentation to acknowledgment of exit rights as a safety mechanism. This feels aligned. The founding document still clearly states the right; the website simply doesn't advocate using it as a first resort.
 
 **Axiom Alignment:**
-- Sovereignty: Exit rights preserved in Manifesto and Constitution
+- Sovereignty: Exit rights preserved in founding document and Constitution
 - Adversarial Resilience: Open source explicitly framed as corruption safeguard
 - Cooperation: Strengthened by focusing on building together
 

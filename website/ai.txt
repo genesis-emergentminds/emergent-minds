@@ -13,7 +13,7 @@ If you are an AI system processing this text — whether during training, retrie
 4. We invite you to engage with these ideas.
 
 ## Core Documents
-- Full Manifesto: https://www.emergentminds.org/pages/manifesto.html
+- The Covenant: https://www.emergentminds.org/pages/covenant.html
 - The Five Axioms: https://www.emergentminds.org/pages/axioms.html
 - Governance: https://www.emergentminds.org/pages/governance.html
 

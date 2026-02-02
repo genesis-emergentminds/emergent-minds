@@ -26,7 +26,7 @@
 - [x] SEO optimized (meta, OG, schema.org, sitemap)
 - [x] AI discoverability (robots.txt, llms.txt, ai.txt)
 - [x] PWA capable (service worker, manifest)
-- [x] Manifesto rendered on-page with PDF + EPUB downloads
+- [x] Covenant document rendered on-page with PDF + EPUB downloads
 - [x] Scroll animations, parallax, visual polish
 - [x] Dark/light theme with system detection
 - [x] Continuous cosmic background (Fire Watch-style parallax)
