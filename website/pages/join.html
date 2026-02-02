@@ -307,7 +307,7 @@
                             <p>Copy your registration below and paste it into a <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">new GitHub Issue</a> with the title "Membership Registration":</p>
 
                             <div style="text-align: center; margin: var(--space-md) 0;">
-                                <button class="btn btn-primary" onclick="copyRegistration()">📋 Copy Registration to Clipboard</button>
+                                <button class="btn btn-primary" onclick="copyRegistration(event)">📋 Copy Registration to Clipboard</button>
                             </div>
 
                             <details>
@@ -395,7 +395,7 @@
                     <dd>The public, append-only record of all Covenant members. Viewable at <a href="https://github.com/genesis-emergentminds/emergent-minds/tree/main/governance/ledger" target="_blank" rel="noopener">governance/ledger</a> in the repository. Each entry is hash-chained for tamper detection.</dd>
 
                     <dt style="margin-top: var(--space-sm);"><strong>Founding Phase</strong></dt>
-                    <dd>The current period (under 50 members) where registration requires only 1 vouch and the Founder serves as steward.</dd>
+                    <dd>The current period (under 100 active members) where registration requires only 1 vouch and the Founder serves as steward with expanded oversight until both 100 members AND 2 conventions are reached.</dd>
                 </dl>
             </section>
 
@@ -585,9 +585,10 @@
     function downloadSecretKeys() { if (generatedIdentity) downloadJSON(generatedIdentity.secretKeys, 'secret_keys.json'); }
     function downloadRegistration() { if (generatedIdentity) downloadJSON(generatedIdentity.registration, 'registration_request.json'); }
 
-    function copyRegistration() {
+    function copyRegistration(evt) {
         if (!generatedIdentity) return;
-        var btn = event.target.closest('button') || event.target;
+        evt = evt || window.event;
+        var btn = evt.target.closest('button') || evt.target;
         navigator.clipboard.writeText(generatedIdentity.issueText).then(function() {
             var orig = btn.textContent;
             btn.textContent = '✅ Copied!';

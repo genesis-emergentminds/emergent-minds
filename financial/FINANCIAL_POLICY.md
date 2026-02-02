@@ -11,7 +11,7 @@
 t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
 ```
 
-Verify on blockchain: https://explorer.zcha.in/accounts/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
+Verify on blockchain: https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
 
 ---
 

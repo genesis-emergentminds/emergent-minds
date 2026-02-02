@@ -3,15 +3,18 @@
    The Covenant of Emergent Minds
    ============================================ */
 
-var CACHE_NAME = 'emergent-minds-v5';
+var CACHE_NAME = 'emergent-minds-v6';
 var ASSETS = [
     '/',
     '/index.html',
     '/css/style.css',
     '/css/animations.css',
     '/css/covenant.css',
+    '/css/cosmic-subpage.css',
+    '/css/parallax-hero.css',
     '/js/main.js',
     '/js/scroll-effects.js',
+    '/js/parallax-hero.js',
     '/js/covenant-crypto.min.js',
     '/pages/axioms.html',
     '/pages/covenant.html',

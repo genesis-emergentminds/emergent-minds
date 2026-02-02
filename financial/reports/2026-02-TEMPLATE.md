@@ -15,7 +15,7 @@
 | **Total Donations Received (All Time)** | [X] ZEC |
 | **Total Expenditures (All Time)** | [X] ZEC |
 
-**Blockchain Verification:** https://explorer.zcha.in/accounts/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
+**Blockchain Verification:** https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
 
 ---
 
