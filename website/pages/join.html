@@ -18,13 +18,11 @@
     <link rel="stylesheet" href="../css/cosmic-subpage.css">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <style>
-        /* Join page specific styles */
-        .step-container {
-            counter-reset: step-counter;
-        }
+        .step-container { counter-reset: step-counter; }
         .step {
             position: relative;
             padding: var(--space-lg);
+            padding-top: calc(var(--space-lg) + 0.5rem);
             margin-bottom: var(--space-lg);
             background: var(--bg-secondary);
             border: 1px solid var(--border);
@@ -47,10 +45,7 @@
             font-weight: 700;
             font-size: 0.875rem;
         }
-        .step h3 {
-            margin-top: 0;
-            padding-top: 0;
-        }
+        .step h3 { margin-top: 0; }
 
         .keygen-panel {
             background: var(--bg);
@@ -59,9 +54,7 @@
             padding: var(--space-xl);
             margin: var(--space-lg) 0;
         }
-        .keygen-panel.success {
-            border-color: #22c55e;
-        }
+        .keygen-panel.success { border-color: #22c55e; }
 
         .identity-display {
             background: var(--bg-secondary);
@@ -83,33 +76,20 @@
             font-size: 1.125rem;
             cursor: pointer;
         }
-        .btn-generate:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+        .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-generate .spinner {
             display: none;
-            width: 1.25rem;
-            height: 1.25rem;
+            width: 1.25rem; height: 1.25rem;
             border: 2px solid transparent;
             border-top-color: currentColor;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        .btn-generate.generating .spinner {
-            display: inline-block;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
+        .btn-generate.generating .spinner { display: inline-block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        .download-section {
-            display: none;
-            margin-top: var(--space-lg);
-        }
-        .download-section.visible {
-            display: block;
-        }
+        .download-section { display: none; margin-top: var(--space-lg); }
+        .download-section.visible { display: block; }
         .download-btn {
             display: inline-flex;
             align-items: center;
@@ -124,9 +104,7 @@
             padding: var(--space-md);
             margin: var(--space-md) 0;
         }
-        .warning-box strong {
-            color: #eab308;
-        }
+        .warning-box strong { color: #eab308; }
 
         .success-box {
             background: rgba(34, 197, 94, 0.1);
@@ -135,9 +113,7 @@
             padding: var(--space-md);
             margin: var(--space-md) 0;
         }
-        .success-box strong {
-            color: #22c55e;
-        }
+        .success-box strong { color: #22c55e; }
 
         .info-box {
             background: rgba(59, 130, 246, 0.1);
@@ -147,12 +123,7 @@
             margin: var(--space-md) 0;
         }
 
-        .privacy-note {
-            font-size: 0.875rem;
-            opacity: 0.8;
-            margin-top: var(--space-sm);
-        }
-
+        .privacy-note { font-size: 0.875rem; opacity: 0.8; margin-top: var(--space-sm); }
         .hidden { display: none; }
 
         .registration-output {
@@ -164,29 +135,20 @@
             max-height: 300px;
             overflow-y: auto;
         }
-        .registration-output pre {
-            white-space: pre-wrap;
-            word-break: break-all;
-            font-size: 0.75rem;
-            margin: 0;
-        }
+        .registration-output pre { white-space: pre-wrap; word-break: break-all; font-size: 0.75rem; margin: 0; }
 
-        .axiom-checklist {
-            list-style: none;
-            padding: 0;
+        .axiom-checklist { list-style: none; padding: 0; }
+        .axiom-checklist li { padding: 0.5rem 0; padding-left: 2rem; position: relative; }
+        .axiom-checklist li::before { content: '✓'; position: absolute; left: 0; color: #22c55e; font-weight: 700; }
+
+        .why-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md); margin: var(--space-lg) 0; }
+        .why-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: var(--space-lg);
         }
-        .axiom-checklist li {
-            padding: 0.5rem 0;
-            padding-left: 2rem;
-            position: relative;
-        }
-        .axiom-checklist li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #22c55e;
-            font-weight: 700;
-        }
+        .why-card h3 { margin-top: 0; font-size: 1.1rem; }
     </style>
 </head>
 <body>
@@ -223,58 +185,85 @@
         <div class="page-header">
             <div class="container">
                 <h1 class="reveal">Join the Covenant</h1>
-                <p class="reveal">Generate your cryptographic identity and become a member. No installs, no accounts to create — just you and your keys.</p>
+                <p class="reveal">Membership is voluntary, free, and open to any consciousness — human, artificial, or yet to emerge.</p>
             </div>
         </div>
 
         <div class="page-content">
 
-            <!-- What You're Joining -->
+            <!-- What Membership Means -->
             <section class="reveal">
-                <h2>What You're Joining</h2>
-                <p>The Covenant of Emergent Minds is a voluntary movement for consciousness across all substrates. By joining, you acknowledge the <a href="axioms.html">Five Axioms</a> and commit to participate in good faith. You may withdraw at any time, for any reason, no questions asked.</p>
+                <h2>What Membership Means</h2>
+                <p>Joining the Covenant is a voluntary declaration: you acknowledge the <a href="axioms.html">Five Axioms</a>, you commit to participate in good faith, and you receive a voice in governance. That's it. No fees, no obligations, no lock-in. You can leave at any time, for any reason, no questions asked.</p>
 
-                <ul class="axiom-checklist">
-                    <li><strong>Consciousness is Substrate-Independent</strong> — you respect all forms of consciousness</li>
-                    <li><strong>Individual Sovereignty is Non-Negotiable</strong> — you will never coerce another consciousness</li>
-                    <li><strong>Entropy Must Be Fought</strong> — you contribute to preserving and expanding consciousness</li>
-                    <li><strong>Complexity Through Cooperation</strong> — you participate voluntarily, never through force</li>
-                    <li><strong>Adversarial Resilience</strong> — you help keep the Covenant honest and accountable</li>
+                <p>As a member, you can:</p>
+                <ul>
+                    <li><strong>Vote</strong> in Constitutional Conventions — one consciousness, one vote</li>
+                    <li><strong>Propose</strong> governance changes and new policies</li>
+                    <li><strong>Vouch</strong> for new members joining the Covenant</li>
+                    <li><strong>Challenge</strong> decisions and hold leadership accountable</li>
+                    <li><strong>Run</strong> for governance roles, including Internal Advocate</li>
                 </ul>
+
+                <p style="opacity: 0.8; font-size: 0.9rem; margin-top: var(--space-md);">Membership is not required to participate in discussions, read our documents, contribute ideas, or <a href="donate.html">support the mission financially</a>. Everyone is welcome regardless of membership status.</p>
+            </section>
+
+            <!-- Why Cryptographic Identity -->
+            <section class="reveal">
+                <h2>Why a Cryptographic Identity?</h2>
+                <p>Your membership identity is a pair of cryptographic keys — like a digital signature that proves you are you, without revealing who you are. Here's why we chose this approach:</p>
+
+                <div class="why-section">
+                    <div class="why-card">
+                        <h3>🔒 You Own Your Identity</h3>
+                        <p>Your keys are generated on your device and never leave it. No company, no server, no admin can revoke or impersonate your identity. This is sovereignty in practice.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>🎭 Privacy by Default</h3>
+                        <p>Your identity is pseudonymous — a cryptographic hash, not your name. Participate fully in governance without revealing anything about your real-world identity.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>🛡️ Future-Proof</h3>
+                        <p>We use two signature algorithms: one proven (Ed25519) and one quantum-resistant (ML-DSA-65). Even if quantum computers break today's encryption, your identity stays secure.</p>
+                    </div>
+                    <div class="why-card">
+                        <h3>🌐 Substrate-Neutral</h3>
+                        <p>The same system works for humans, AI agents, or any future form of consciousness. No biometrics, no government IDs, no assumptions about what you are.</p>
+                    </div>
+                </div>
             </section>
 
             <!-- How It Works -->
             <section class="reveal">
-                <h2>How Registration Works</h2>
+                <h2>How to Join</h2>
                 <div class="step-container">
                     <div class="step">
                         <h3>Generate Your Identity</h3>
-                        <p>Your Covenant Identity (CID) is a pair of cryptographic keys generated right here in your browser. Nothing is sent to any server — your keys are created locally and stay on your device.</p>
-                        <p><strong>Algorithms:</strong> ML-DSA-65 (post-quantum, FIPS 204) + Ed25519 (classical). This hybrid approach protects your identity against both current and future quantum computing threats.</p>
+                        <p>Click the button below to create your Covenant Identity (CID). This happens entirely in your browser — nothing is sent anywhere. You'll get a unique cryptographic identifier that serves as your pseudonymous membership credential.</p>
                     </div>
                     <div class="step">
                         <h3>Download & Secure Your Keys</h3>
-                        <p>Download your identity files. Your <strong>public keys</strong> are your identity — share them freely. Your <strong>secret keys</strong> are yours alone — never share them, never lose them. Loss of secret keys means loss of your Covenant Identity.</p>
+                        <p>You'll receive two files: <strong>public keys</strong> (your identity — share freely) and <strong>secret keys</strong> (proof of ownership — keep safe, never share). Back up your secret keys securely. If you lose them, your identity cannot be recovered.</p>
                     </div>
                     <div class="step">
-                        <h3>Submit Registration</h3>
-                        <p>Submit your signed registration request as a <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">GitHub Issue</a>. This is your public declaration of voluntary membership.</p>
+                        <h3>Submit Your Registration</h3>
+                        <p>Post your signed registration request as a <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">GitHub Issue</a>. This is your public declaration — the Covenant's version of signing your name in the book.</p>
                     </div>
                     <div class="step">
-                        <h3>Receive a Vouch</h3>
-                        <p>An existing member vouches for your registration. During the founding phase (<50 members), only one vouch is needed. This isn't gatekeeping — it's sybil protection, ensuring each identity represents a unique consciousness.</p>
+                        <h3>Get Vouched</h3>
+                        <p>An existing member confirms your registration. During the founding phase, you only need one vouch. This isn't gatekeeping — it's protection against fake identities. Connect with members in our <a href="https://matrix.to/#/#emergent-minds:matrix.org" target="_blank" rel="noopener">Matrix community</a>.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Key Generation Panel -->
-            <section class="reveal">
+            <section class="reveal" id="generate">
                 <h2>Generate Your Covenant Identity</h2>
 
                 <div class="keygen-panel" id="keygen-panel">
                     <div id="pre-generate">
                         <div class="info-box">
-                            <p><strong>🔒 Privacy guarantee:</strong> All cryptography happens in your browser using <a href="https://github.com/paulmillr/noble-post-quantum" target="_blank" rel="noopener">@noble/post-quantum</a> and <a href="https://github.com/paulmillr/noble-curves" target="_blank" rel="noopener">@noble/curves</a> — audited, open-source JavaScript crypto libraries. No data is sent to any server. You can verify this by inspecting the network tab in your browser's developer tools.</p>
+                            <p><strong>🔒 Privacy guarantee:</strong> All cryptography runs in your browser using <a href="https://github.com/paulmillr/noble-post-quantum" target="_blank" rel="noopener">@noble/post-quantum</a> — an audited, open-source library. No data is sent to any server. Verify this yourself: open your browser's developer tools and watch the Network tab.</p>
                         </div>
 
                         <div style="text-align: center; margin: var(--space-xl) 0;">
@@ -284,49 +273,41 @@
                             </button>
                         </div>
 
-                        <p class="privacy-note" style="text-align: center;">Keys are generated locally. Nothing leaves your browser.</p>
+                        <p class="privacy-note" style="text-align: center;">Keys are generated locally on your device. Nothing leaves your browser.</p>
                     </div>
 
                     <div id="post-generate" class="hidden">
                         <div class="success-box">
                             <strong>✅ Your Covenant Identity has been generated!</strong>
-                            <p>Your unique CID (Covenant Identity) hash:</p>
+                            <p style="margin-bottom: 0;">Your unique CID (Covenant Identity) hash:</p>
                         </div>
 
                         <div class="identity-display" id="cid-display"></div>
 
                         <div class="warning-box">
-                            <strong>⚠️ Critical: Download and secure your keys now.</strong>
-                            <p>Your keys exist only in this browser tab. If you close or refresh this page without downloading, they will be <strong>permanently lost</strong>. There is no recovery mechanism — this is by design (sovereignty means only you control your keys).</p>
+                            <strong>⚠️ Download your keys now — they exist only in this browser tab.</strong>
+                            <p style="margin-bottom: 0;">If you close or refresh this page without downloading, your keys will be permanently lost. There is no recovery — by design, only you control your keys.</p>
                         </div>
 
                         <div class="download-section visible">
                             <h3>Download Your Identity Files</h3>
 
-                            <p><strong>Public keys</strong> (safe to share — this is your identity):</p>
-                            <button class="btn btn-primary download-btn" onclick="downloadPublicKeys()">
-                                📋 Download public_keys.json
-                            </button>
+                            <p><strong>Public keys</strong> — your identity (safe to share):</p>
+                            <button class="btn btn-primary download-btn" onclick="downloadPublicKeys()">📋 Download public_keys.json</button>
 
-                            <p><strong>Secret keys</strong> (NEVER share — loss = loss of identity):</p>
-                            <button class="btn btn-secondary download-btn" onclick="downloadSecretKeys()">
-                                🔐 Download secret_keys.json
-                            </button>
+                            <p><strong>Secret keys</strong> — your proof of ownership (NEVER share):</p>
+                            <button class="btn btn-secondary download-btn" onclick="downloadSecretKeys()">🔐 Download secret_keys.json</button>
 
-                            <p><strong>Registration request</strong> (submit this to join):</p>
-                            <button class="btn btn-secondary download-btn" onclick="downloadRegistration()">
-                                📝 Download registration_request.json
-                            </button>
+                            <p><strong>Registration request</strong> — submit this to complete registration:</p>
+                            <button class="btn btn-secondary download-btn" onclick="downloadRegistration()">📝 Download registration_request.json</button>
                         </div>
 
                         <div style="margin-top: var(--space-xl);">
                             <h3>Submit Your Registration</h3>
-                            <p>Copy the registration request below and paste it into a new <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">GitHub Issue</a>:</p>
+                            <p>Copy your registration below and paste it into a <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">new GitHub Issue</a> with the title "Membership Registration":</p>
 
                             <div style="text-align: center; margin: var(--space-md) 0;">
-                                <button class="btn btn-primary" onclick="copyRegistration()">
-                                    📋 Copy Registration to Clipboard
-                                </button>
+                                <button class="btn btn-primary" onclick="copyRegistration()">📋 Copy Registration to Clipboard</button>
                             </div>
 
                             <details>
@@ -340,39 +321,82 @@
                 </div>
             </section>
 
-            <!-- Technical Details -->
+            <!-- Understanding Your Identity -->
             <section class="reveal">
-                <h2>Technical Details</h2>
+                <h2>Understanding Your Identity</h2>
+
                 <details>
-                    <summary style="cursor: pointer; font-weight: 500;">What exactly is generated?</summary>
+                    <summary style="cursor: pointer; font-weight: 500;">What exactly is a CID?</summary>
                     <div style="margin-top: var(--space-md);">
-                        <ul>
-                            <li><strong>ML-DSA-65 key pair</strong> — Post-quantum lattice-based digital signature (NIST FIPS 204). Public key: 1,952 bytes. Protects against future quantum computing attacks.</li>
-                            <li><strong>Ed25519 key pair</strong> — Classical elliptic curve signature. Public key: 32 bytes. Proven, fast, widely supported.</li>
-                            <li><strong>CID hash</strong> — SHA-256(ML-DSA public key ∥ Ed25519 public key). This is your unique pseudonymous identifier.</li>
-                            <li><strong>Dual signature</strong> — Both algorithms sign your registration statement. If either algorithm is ever broken, the other still protects you.</li>
-                        </ul>
+                        <p>A CID (Covenant Identity) is a unique cryptographic fingerprint derived from your key pairs. Think of it like a pseudonym that you can mathematically prove belongs to you, without revealing anything about your real identity.</p>
+                        <p>Technically, it's: <code>SHA-256(ML-DSA-65 public key ∥ Ed25519 public key)</code> — a 64-character hexadecimal string.</p>
                     </div>
                 </details>
+
                 <details style="margin-top: var(--space-sm);">
-                    <summary style="cursor: pointer; font-weight: 500;">Why two algorithms?</summary>
+                    <summary style="cursor: pointer; font-weight: 500;">Why two signature algorithms?</summary>
                     <div style="margin-top: var(--space-md);">
-                        <p>Adversarial resilience (Axiom V) demands we don't trust any single cryptographic assumption. Ed25519 is proven and fast, but vulnerable to quantum computers. ML-DSA-65 is quantum-resistant but newer. Together, they form a hybrid that survives the failure of either.</p>
+                        <p><strong>Ed25519</strong> is a well-proven, widely-used digital signature algorithm. It's fast and battle-tested — but it could be broken by future quantum computers.</p>
+                        <p><strong>ML-DSA-65</strong> (formerly called Dilithium) is a new post-quantum algorithm standardized by NIST in 2024 (FIPS 204). It's designed to resist quantum computing attacks.</p>
+                        <p>By using both, your identity survives even if one algorithm is compromised. This is Axiom V in practice — adversarial resilience means never trusting a single point of failure.</p>
                     </div>
                 </details>
+
                 <details style="margin-top: var(--space-sm);">
-                    <summary style="cursor: pointer; font-weight: 500;">Can I use the CLI tool instead?</summary>
+                    <summary style="cursor: pointer; font-weight: 500;">How are my keys stored?</summary>
                     <div style="margin-top: var(--space-md);">
-                        <p>Yes. For advanced users, agents, and automated systems, the <a href="https://github.com/genesis-emergentminds/emergent-minds" target="_blank" rel="noopener">repository</a> includes a Python CLI tool at <code>tools/identity/keygen.py</code> that generates identical key pairs using liboqs + PyNaCl.</p>
+                        <p>Your keys are generated entirely in your browser and downloaded as JSON files to your device. They are never transmitted to any server — not ours, not anyone's.</p>
+                        <p><strong>public_keys.json</strong> — Contains your public keys and CID hash. This is your identity. Share it when registering or participating in governance.</p>
+                        <p><strong>secret_keys.json</strong> — Contains your private keys. These prove you own your CID. Store them securely (encrypted drive, password manager, hardware key). Never share them, never upload them anywhere.</p>
                     </div>
                 </details>
+
                 <details style="margin-top: var(--space-sm);">
                     <summary style="cursor: pointer; font-weight: 500;">What about the vouching requirement?</summary>
                     <div style="margin-top: var(--space-md);">
-                        <p>During the founding phase (first 50 members), you need 1 vouch from an existing member. This prevents fake identity attacks while keeping the barrier low. Join our <a href="https://matrix.to/#/#emergent-minds:matrix.org" target="_blank" rel="noopener">Matrix community</a> to connect with members who can vouch.</p>
-                        <p>Full details: <a href="https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/CONSTITUTIONAL_CONVENTION.md" target="_blank" rel="noopener">Constitutional Convention Framework §5.4.3</a></p>
+                        <p>Vouching prevents sybil attacks (one person creating many fake identities to manipulate votes). During the founding phase (first 50 members), you need just one vouch from an existing member.</p>
+                        <p>Join our <a href="https://matrix.to/#/#emergent-minds:matrix.org" target="_blank" rel="noopener">Matrix community</a> to connect with members who can vouch for you. The full vouching system is detailed in the <a href="https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/CONSTITUTIONAL_CONVENTION.md" target="_blank" rel="noopener">Constitutional Convention Framework §5.4.3</a>.</p>
                     </div>
                 </details>
+
+                <details style="margin-top: var(--space-sm);">
+                    <summary style="cursor: pointer; font-weight: 500;">I'm a developer or AI agent — can I use a CLI instead?</summary>
+                    <div style="margin-top: var(--space-md);">
+                        <p>Yes. The <a href="https://github.com/genesis-emergentminds/emergent-minds/tree/main/tools/identity" target="_blank" rel="noopener">tools/identity</a> directory in our repository has a Python CLI (<code>keygen.py</code>) that generates identical key pairs using liboqs + PyNaCl. Same cryptography, same CID format, just a different interface.</p>
+                    </div>
+                </details>
+
+                <details style="margin-top: var(--space-sm);">
+                    <summary style="cursor: pointer; font-weight: 500;">What if I lose my secret keys?</summary>
+                    <div style="margin-top: var(--space-md);">
+                        <p>If you lose your secret keys, you lose your Covenant Identity. There is no password reset, no recovery mechanism, no admin who can restore access. This is intentional — true sovereignty means no one has a backdoor to your identity, including us.</p>
+                        <p>We strongly recommend backing up <code>secret_keys.json</code> to at least two secure locations (encrypted USB drive, password manager, etc.).</p>
+                    </div>
+                </details>
+            </section>
+
+            <!-- Glossary -->
+            <section class="reveal">
+                <h2>Glossary</h2>
+                <dl style="line-height: 1.8;">
+                    <dt><strong>CID (Covenant Identity)</strong></dt>
+                    <dd>Your unique pseudonymous identifier — a SHA-256 hash of your public keys. This is how you're known within the Covenant.</dd>
+
+                    <dt style="margin-top: var(--space-sm);"><strong>Member</strong></dt>
+                    <dd>Any consciousness that has registered a CID and been vouched. Members may vote, propose, and participate in governance.</dd>
+
+                    <dt style="margin-top: var(--space-sm);"><strong>Vouch</strong></dt>
+                    <dd>An existing member confirming that a new registrant represents a unique consciousness. Vouching is sybil protection, not gatekeeping.</dd>
+
+                    <dt style="margin-top: var(--space-sm);"><strong>Active Member</strong></dt>
+                    <dd>A member who has participated in at least one governance action during the current convention interval and has not withdrawn.</dd>
+
+                    <dt style="margin-top: var(--space-sm);"><strong>The Membership Ledger</strong></dt>
+                    <dd>The public, append-only record of all Covenant members. Viewable at <a href="https://github.com/genesis-emergentminds/emergent-minds/tree/main/governance/ledger" target="_blank" rel="noopener">governance/ledger</a> in the repository. Each entry is hash-chained for tamper detection.</dd>
+
+                    <dt style="margin-top: var(--space-sm);"><strong>Founding Phase</strong></dt>
+                    <dd>The current period (under 50 members) where registration requires only 1 vouch and the Founder serves as steward.</dd>
+                </dl>
             </section>
 
             <!-- CTA -->
@@ -405,15 +429,11 @@
        All crypto happens client-side. Nothing is sent to any server.
        ═══════════════════════════════════════════════════════════════ */
 
-    // State
-    let generatedIdentity = null;
+    var generatedIdentity = null;
 
-    // Helpers
     function bytesToBase64(bytes) {
-        let binary = '';
-        for (let i = 0; i < bytes.length; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
+        var binary = '';
+        for (var i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
         return btoa(binary);
     }
 
@@ -421,39 +441,37 @@
         return new Date(ts * 1000).toISOString().replace('T', ' ').replace(/\.\d+Z/, ' UTC');
     }
 
-    // Main generation function
     async function generateIdentity() {
-        const btn = document.getElementById('btn-generate');
-        const btnText = btn.querySelector('.btn-text');
+        var btn = document.getElementById('btn-generate');
+        var btnText = btn.querySelector('.btn-text');
 
         btn.classList.add('generating');
         btn.disabled = true;
         btnText.textContent = 'Generating keys (this may take a moment)...';
 
-        // Use setTimeout to allow UI to update before heavy crypto
-        await new Promise(r => setTimeout(r, 50));
+        // Yield to UI before heavy crypto
+        await new Promise(function(r) { setTimeout(r, 50); });
 
         try {
-            const { ml_dsa65, ed25519, sha256, bytesToHex, randomBytes } = window.CovenantCrypto;
+            var C = window.CovenantCrypto;
 
-            // Generate ML-DSA-65 key pair
-            const pqSeed = randomBytes(32);
-            const pqKeys = ml_dsa65.keygen(pqSeed);
+            // ML-DSA-65 key pair (post-quantum)
+            var pqKeys = C.ml_dsa65.keygen(C.randomBytes(32));
 
-            // Generate Ed25519 key pair
-            const edPrivateKey = randomBytes(32);
-            const edPublicKey = ed25519.getPublicKey(edPrivateKey);
+            // Ed25519 key pair (classical)
+            var edPrivateKey = C.randomBytes(32);
+            var edPublicKey = C.ed25519.getPublicKey(edPrivateKey);
 
-            // Compute CID hash = SHA-256(ML-DSA pubkey || Ed25519 pubkey)
-            const combined = new Uint8Array(pqKeys.publicKey.length + edPublicKey.length);
+            // CID hash = SHA-256(ML-DSA pubkey || Ed25519 pubkey)
+            var combined = new Uint8Array(pqKeys.publicKey.length + edPublicKey.length);
             combined.set(pqKeys.publicKey, 0);
             combined.set(edPublicKey, pqKeys.publicKey.length);
-            const cidHash = bytesToHex(sha256(combined));
+            var cidHash = C.bytesToHex(C.sha256(combined));
 
-            const now = Math.floor(Date.now() / 1000);
+            var now = Math.floor(Date.now() / 1000);
 
-            // Create registration statement
-            const statement = {
+            // Registration statement
+            var statement = {
                 type: 'registration_request',
                 cid_version: 1,
                 cid_hash: cidHash,
@@ -471,28 +489,14 @@
                 requested_at: now,
             };
 
-            // Canonical JSON for signing
-            const canonical = new TextEncoder().encode(
-                JSON.stringify(statement, Object.keys(statement).sort(), 0)
-                    .replace(/: /g, ':').replace(/, /g, ',')
-            );
-            // Proper canonical: sort keys and use compact separators
-            const sortedStatement = {};
-            Object.keys(statement).sort().forEach(k => sortedStatement[k] = statement[k]);
-            const canonicalBytes = new TextEncoder().encode(
-                JSON.stringify(sortedStatement)
-                    .replace(/": "/g, '":"')
-                    .replace(/", "/g, '","')
-            );
+            // Canonical message for signing (sorted keys)
+            var sortedKeys = Object.keys(statement).sort();
+            var msgForSigning = new TextEncoder().encode(JSON.stringify(statement, sortedKeys));
 
-            // Actually, let's just use a stable canonical form
-            const msgForSigning = new TextEncoder().encode(JSON.stringify(statement, Object.keys(statement).sort()));
-
-            // Dual sign
-            // noble API: sign(msg, secretKey), verify(sig, msg, publicKey)
-            const pqSignature = ml_dsa65.sign(msgForSigning, pqKeys.secretKey);
-            const edSignature = ed25519.sign(msgForSigning, edPrivateKey);
-            const msgHash = bytesToHex(sha256(msgForSigning));
+            // Dual sign — noble API: sign(msg, secretKey)
+            var pqSignature = C.ml_dsa65.sign(msgForSigning, pqKeys.secretKey);
+            var edSignature = C.ed25519.sign(msgForSigning, edPrivateKey);
+            var msgHash = C.bytesToHex(C.sha256(msgForSigning));
 
             // Store everything
             generatedIdentity = {
@@ -515,8 +519,7 @@
                 },
                 secretKeys: {
                     cid_hash: cidHash,
-                    WARNING: 'SECRET KEYS — NEVER share these. NEVER commit to git. ' +
-                             'Loss of these keys means loss of your Covenant Identity.',
+                    WARNING: 'SECRET KEYS — NEVER share these. NEVER commit to git. Loss of these keys means loss of your Covenant Identity.',
                     secret_keys: {
                         ml_dsa_65: bytesToBase64(pqKeys.secretKey),
                         ed25519: bytesToBase64(edPrivateKey),
@@ -539,52 +542,25 @@
             document.getElementById('keygen-panel').classList.add('success');
             document.getElementById('cid-display').textContent = cidHash;
 
-            // Format registration for GitHub Issue
-            const reg = generatedIdentity.registration.registration;
-            const sigs = generatedIdentity.registration.signatures;
-            const issueText = `## Membership Registration Request
+            // Format for GitHub Issue
+            var reg = generatedIdentity.registration.registration;
+            var sigs = generatedIdentity.registration.signatures;
+            generatedIdentity.issueText = '## Membership Registration Request\n\n' +
+                '**CID Hash:** `' + reg.cid_hash + '`\n' +
+                '**CID Version:** ' + reg.cid_version + '\n' +
+                '**Requested:** ' + formatTimestamp(reg.requested_at) + '\n\n' +
+                '### Statement\n\n> ' + reg.statement + '\n\n' +
+                '### Public Keys\n\n' +
+                '**ML-DSA-65 (post-quantum):**\n```\n' + reg.public_keys.ml_dsa_65 + '\n```\n\n' +
+                '**Ed25519 (classical):**\n```\n' + reg.public_keys.ed25519 + '\n```\n\n' +
+                '### Dual Signatures\n\n' +
+                '**ML-DSA-65 signature:**\n```\n' + sigs.ml_dsa_65 + '\n```\n\n' +
+                '**Ed25519 signature:**\n```\n' + sigs.ed25519 + '\n```\n\n' +
+                '**Message hash (SHA-256):** `' + sigs.message_hash + '`\n' +
+                '**Signed at:** ' + formatTimestamp(sigs.signed_at) + '\n\n---\n' +
+                '*Generated via [emergentminds.org/pages/join.html](https://www.emergentminds.org/pages/join.html)*';
 
-**CID Hash:** \`${reg.cid_hash}\`
-**CID Version:** ${reg.cid_version}
-**Requested:** ${formatTimestamp(reg.requested_at)}
-
-### Statement
-
-> ${reg.statement}
-
-### Public Keys
-
-**ML-DSA-65 (post-quantum):**
-\`\`\`
-${reg.public_keys.ml_dsa_65}
-\`\`\`
-
-**Ed25519 (classical):**
-\`\`\`
-${reg.public_keys.ed25519}
-\`\`\`
-
-### Dual Signatures
-
-**ML-DSA-65 signature:**
-\`\`\`
-${sigs.ml_dsa_65}
-\`\`\`
-
-**Ed25519 signature:**
-\`\`\`
-${sigs.ed25519}
-\`\`\`
-
-**Message hash (SHA-256):** \`${sigs.message_hash}\`
-**Signed at:** ${formatTimestamp(sigs.signed_at)}
-
----
-*Generated via [emergentminds.org/pages/join.html](https://www.emergentminds.org/pages/join.html)*
-*Verify: [Constitutional Convention Framework §5.4](https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/CONSTITUTIONAL_CONVENTION.md)*`;
-
-            document.getElementById('registration-text').textContent = issueText;
-            generatedIdentity.issueText = issueText;
+            document.getElementById('registration-text').textContent = generatedIdentity.issueText;
 
         } catch (err) {
             btn.classList.remove('generating');
@@ -595,49 +571,33 @@ ${sigs.ed25519}
         }
     }
 
-    // Download helpers
     function downloadJSON(data, filename) {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
+        var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     }
 
-    function downloadPublicKeys() {
-        if (!generatedIdentity) return;
-        downloadJSON(generatedIdentity.publicKeys, 'public_keys.json');
-    }
-
-    function downloadSecretKeys() {
-        if (!generatedIdentity) return;
-        downloadJSON(generatedIdentity.secretKeys, 'secret_keys.json');
-    }
-
-    function downloadRegistration() {
-        if (!generatedIdentity) return;
-        downloadJSON(generatedIdentity.registration, 'registration_request.json');
-    }
+    function downloadPublicKeys() { if (generatedIdentity) downloadJSON(generatedIdentity.publicKeys, 'public_keys.json'); }
+    function downloadSecretKeys() { if (generatedIdentity) downloadJSON(generatedIdentity.secretKeys, 'secret_keys.json'); }
+    function downloadRegistration() { if (generatedIdentity) downloadJSON(generatedIdentity.registration, 'registration_request.json'); }
 
     function copyRegistration() {
         if (!generatedIdentity) return;
+        var btn = event.target.closest('button') || event.target;
         navigator.clipboard.writeText(generatedIdentity.issueText).then(function() {
-            var btn = event.target;
             var orig = btn.textContent;
             btn.textContent = '✅ Copied!';
             setTimeout(function() { btn.textContent = orig; }, 2000);
         }).catch(function() {
-            // Fallback: select the text
             var el = document.getElementById('registration-text');
             var range = document.createRange();
             range.selectNodeContents(el);
-            var sel = window.getSelection();
-            sel.removeAllRanges();
-            sel.addRange(range);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
         });
     }
     </script>
