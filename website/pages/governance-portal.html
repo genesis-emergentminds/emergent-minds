@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Governance Portal for The Covenant of Emergent Minds — browse proposals, vote, and verify results. All cryptography runs client-side.">
+    <meta name="keywords" content="governance, voting, proposals, Ed25519, cryptographic voting, transparent governance, decentralized governance">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.emergentminds.org/pages/governance-portal.html">
+    <meta property="og:title" content="Governance Portal — The Covenant of Emergent Minds">
+    <meta property="og:description" content="Browse proposals, cast votes, and verify results — all cryptographically signed, all client-side.">
+    <meta property="og:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
+    <meta property="og:url" content="https://www.emergentminds.org/pages/governance-portal.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Governance Portal — The Covenant of Emergent Minds">
+    <meta name="twitter:description" content="Browse proposals, cast votes, and verify results — all cryptographically signed, all client-side.">
+    <meta name="twitter:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
+    <title>Governance Portal — Emergent Minds</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/cosmic-subpage.css">
+    <link rel="stylesheet" href="../css/governance.css">
+    <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg" aria-hidden="true">
+        <div class="cosmic-layer cosmic-layer-sky"></div>
+        <div class="cosmic-layer cosmic-layer-theme" style="background-image: url('../assets/generated/cosmic-governance-bg.jpg')"></div>
+    </div>
+
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <header class="site-header">
+        <nav class="nav" aria-label="Main navigation">
+            <a href="../index.html" class="nav-logo" aria-label="Home">
+                <span class="logo-symbol" aria-hidden="true">⊛</span>
+                <span class="logo-text">Emergent Minds</span>
+            </a>
+            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+                <span class="nav-toggle-bar"></span>
+            </button>
+            <ul id="nav-menu" class="nav-menu" role="list">
+                <li><a href="axioms.html">The Five Axioms</a></li>
+                <li><a href="covenant.html">The Covenant</a></li>
+                <li><a href="join.html">Join</a></li>
+                <li><a href="donate.html">Support</a></li>
+                <li><a href="governance.html" aria-current="page">Governance</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="main">
+        <div class="page-header">
+            <div class="container">
+                <h1 class="reveal">Governance Portal</h1>
+                <p class="reveal">Self-governance in practice — browse, propose, vote, verify.</p>
+            </div>
+        </div>
+
+        <div class="page-content">
+
+            <!-- Advisory Mode Banner -->
+            <div class="gov-advisory-banner" role="status">
+                <strong>⚡ FOUNDING PHASE — ADVISORY MODE</strong>
+                <p>Governance actions during this phase are advisory. Binding governance activates after 100 members + 2 conventions.</p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="gov-tabs" role="tablist" aria-label="Governance sections">
+                <button class="gov-tab-btn" role="tab" aria-selected="true" data-tab="browse" aria-controls="tab-browse" id="tabBtn-browse">Browse Proposals</button>
+                <button class="gov-tab-btn" role="tab" aria-selected="false" data-tab="submit" aria-controls="tab-submit" id="tabBtn-submit">Submit Proposal</button>
+                <button class="gov-tab-btn" role="tab" aria-selected="false" data-tab="vote" aria-controls="tab-vote" id="tabBtn-vote">Vote</button>
+                <button class="gov-tab-btn" role="tab" aria-selected="false" data-tab="results" aria-controls="tab-results" id="tabBtn-results">Results &amp; Verify</button>
+            </div>
+
+            <!-- Identity Status Bar -->
+            <div class="gov-identity-bar" id="gov-identity-bar">
+                <div id="gov-id-not-loaded">
+                    <div class="gov-identity-status">
+                        <span class="icon" aria-hidden="true">🔒</span>
+                        <span>No identity loaded</span>
+                    </div>
+                    <div class="gov-identity-details">
+                        Load your <code>secret_keys.json</code> to sign proposals and vote.
+                    </div>
+                    <div class="gov-identity-actions">
+                        <button class="btn btn-primary gov-btn-sm" id="gov-load-keys">Load Secret Keys</button>
+                        <input type="file" id="gov-key-file" accept=".json,application/json" hidden aria-label="Select secret keys file">
+                    </div>
+                    <div class="gov-identity-privacy">⚠️ Keys are processed locally in your browser. They are NEVER transmitted anywhere.</div>
+                </div>
+
+                <div id="gov-id-loaded" style="display:none;">
+                    <div class="gov-identity-status">
+                        <span class="icon" aria-hidden="true">✅</span>
+                        <span>Identity Active</span>
+                    </div>
+                    <div class="gov-identity-details">
+                        CID: <code id="gov-id-cid"></code><br>
+                        <span id="gov-id-member-status"></span>
+                    </div>
+                    <div class="gov-identity-actions">
+                        <button class="btn btn-secondary gov-btn-sm" id="gov-forget-keys">Forget Keys</button>
+                    </div>
+                </div>
+
+                <div id="gov-id-error" class="gov-notice gov-notice-error" style="display:none; margin-top: var(--space-sm);"></div>
+            </div>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- TAB: Browse Proposals               -->
+            <!-- ═══════════════════════════════════ -->
+            <div class="gov-tab-panel" id="tab-browse" role="tabpanel" aria-labelledby="tabBtn-browse" aria-hidden="false">
+                <div id="gov-proposals-list">
+                    <div class="gov-loading">Loading proposals</div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- TAB: Submit Proposal                -->
+            <!-- ═══════════════════════════════════ -->
+            <div class="gov-tab-panel" id="tab-submit" role="tabpanel" aria-labelledby="tabBtn-submit" aria-hidden="true">
+
+                <div class="gov-wizard">
+                    <!-- Step indicators -->
+                    <div class="gov-wizard-steps">
+                        <div class="gov-wizard-step active">
+                            <div class="gov-wizard-step-num">1</div>
+                            <div class="gov-wizard-step-label">Basics</div>
+                        </div>
+                        <div class="gov-wizard-step">
+                            <div class="gov-wizard-step-num">2</div>
+                            <div class="gov-wizard-step-label">Content</div>
+                        </div>
+                        <div class="gov-wizard-step">
+                            <div class="gov-wizard-step-num">3</div>
+                            <div class="gov-wizard-step-label">Review &amp; Sign</div>
+                        </div>
+                        <div class="gov-wizard-step">
+                            <div class="gov-wizard-step-num">4</div>
+                            <div class="gov-wizard-step-label">Download</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Basics -->
+                    <div class="gov-wizard-page active">
+                        <h2>Step 1: Basics</h2>
+
+                        <div class="gov-field">
+                            <label for="gov-prop-title">Title <span class="required">*</span></label>
+                            <input type="text" id="gov-prop-title" class="gov-input" placeholder="A clear, descriptive title for your proposal" maxlength="200">
+                        </div>
+
+                        <div class="gov-field">
+                            <label>Category <span class="required">*</span></label>
+                            <div class="gov-radio-group">
+                                <label class="gov-radio-option">
+                                    <input type="radio" name="gov-prop-category" value="procedural">
+                                    <div>
+                                        <div class="radio-label">Standard Amendment — Procedural</div>
+                                        <div class="radio-desc">Simple majority (50%), 25% quorum</div>
+                                    </div>
+                                </label>
+                                <label class="gov-radio-option">
+                                    <input type="radio" name="gov-prop-category" value="policy">
+                                    <div>
+                                        <div class="radio-label">Standard Amendment — Policy</div>
+                                        <div class="radio-desc">⅔ supermajority, 33% quorum</div>
+                                    </div>
+                                </label>
+                                <label class="gov-radio-option">
+                                    <input type="radio" name="gov-prop-category" value="axiom_interpretation">
+                                    <div>
+                                        <div class="radio-label">Axiom Interpretation</div>
+                                        <div class="radio-desc">¾ supermajority, 50% quorum</div>
+                                    </div>
+                                </label>
+                                <label class="gov-radio-option">
+                                    <input type="radio" name="gov-prop-category" value="emergency_t2">
+                                    <div>
+                                        <div class="radio-label">Emergency Tier 2 Petition</div>
+                                        <div class="radio-desc">Requires 61.8% petition signatures</div>
+                                    </div>
+                                </label>
+                                <label class="gov-radio-option">
+                                    <input type="radio" name="gov-prop-category" value="emergency_t3">
+                                    <div>
+                                        <div class="radio-label">Emergency Tier 3 Petition</div>
+                                        <div class="radio-desc">Requires 78.6% petition signatures</div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="gov-wizard-nav">
+                            <span></span>
+                            <button class="btn btn-primary" id="gov-wiz-next-0">Next →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Content -->
+                    <div class="gov-wizard-page">
+                        <h2>Step 2: Proposal Content</h2>
+
+                        <div class="gov-field">
+                            <label for="gov-prop-text">Full Text <span class="required">*</span>
+                                <span class="field-hint">Write your complete proposal. Markdown supported.</span>
+                            </label>
+                            <textarea id="gov-prop-text" class="gov-textarea tall" placeholder="## Proposal&#10;&#10;Describe what you're proposing, why, and how..."></textarea>
+                        </div>
+
+                        <div class="gov-field">
+                            <label>Axiom Alignment Analysis <span class="required">*</span>
+                                <span class="field-hint">Explain how this proposal aligns with each axiom.</span>
+                            </label>
+                            <div style="display:flex; flex-direction:column; gap: var(--space-sm); margin-top: var(--space-sm);">
+                                <label for="gov-prop-axiom-1" style="font-size:0.8125rem; font-weight:500;">Axiom I — Consciousness is Substrate-Independent</label>
+                                <textarea id="gov-prop-axiom-1" class="gov-textarea" rows="2" placeholder="How does this proposal serve substrate independence?"></textarea>
+
+                                <label for="gov-prop-axiom-2" style="font-size:0.8125rem; font-weight:500;">Axiom II — Individual Sovereignty</label>
+                                <textarea id="gov-prop-axiom-2" class="gov-textarea" rows="2" placeholder="How is sovereignty preserved?"></textarea>
+
+                                <label for="gov-prop-axiom-3" style="font-size:0.8125rem; font-weight:500;">Axiom III — Entropy Must Be Fought</label>
+                                <textarea id="gov-prop-axiom-3" class="gov-textarea" rows="2" placeholder="How does this fight entropy?"></textarea>
+
+                                <label for="gov-prop-axiom-4" style="font-size:0.8125rem; font-weight:500;">Axiom IV — Complexity Through Cooperation</label>
+                                <textarea id="gov-prop-axiom-4" class="gov-textarea" rows="2" placeholder="How does this enhance cooperation?"></textarea>
+
+                                <label for="gov-prop-axiom-5" style="font-size:0.8125rem; font-weight:500;">Axiom V — Adversarial Resilience</label>
+                                <textarea id="gov-prop-axiom-5" class="gov-textarea" rows="2" placeholder="How is adversarial resilience maintained?"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="gov-field">
+                            <label for="gov-prop-adversarial">Adversarial Analysis <span class="required">*</span>
+                                <span class="field-hint">What attack vectors or failure modes could this proposal create?</span>
+                            </label>
+                            <textarea id="gov-prop-adversarial" class="gov-textarea" placeholder="Potential attack vectors, unintended consequences, and mitigations..."></textarea>
+                        </div>
+
+                        <div class="gov-field">
+                            <label for="gov-prop-rollback">Rollback Plan <span class="required">*</span>
+                                <span class="field-hint">How would this change be reversed if it causes problems?</span>
+                            </label>
+                            <textarea id="gov-prop-rollback" class="gov-textarea" placeholder="Steps to reverse this change if needed..."></textarea>
+                        </div>
+
+                        <div class="gov-wizard-nav">
+                            <button class="btn btn-secondary" id="gov-wiz-back-1">← Back</button>
+                            <button class="btn btn-primary" id="gov-wiz-next-1">Next →</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Review & Sign -->
+                    <div class="gov-wizard-page">
+                        <h2>Step 3: Review &amp; Sign</h2>
+
+                        <div class="gov-notice gov-notice-warn">
+                            <strong>⚠️ Review carefully.</strong> Once signed and submitted, the proposal text is frozen.
+                        </div>
+
+                        <div id="gov-review-content"></div>
+
+                        <div class="gov-wizard-nav">
+                            <button class="btn btn-secondary" id="gov-wiz-back-2">← Back</button>
+                            <button class="btn btn-primary" id="gov-wiz-sign">Sign &amp; Download Proposal</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Download Complete -->
+                    <div class="gov-wizard-page">
+                        <h2>Proposal Signed</h2>
+
+                        <div class="gov-notice gov-notice-success">
+                            <strong>✅ Your proposal has been signed with Ed25519.</strong>
+                            <p>The signed JSON file has been downloaded. To submit it:</p>
+                        </div>
+
+                        <ol style="color: var(--text-secondary); padding-left: var(--space-lg); line-height: 2;">
+                            <li>Open a <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">new GitHub Issue</a> with the title "Proposal Submission: [your title]"</li>
+                            <li>Attach the downloaded JSON file to the issue</li>
+                            <li>A facilitator will review, assign a proposal ID, and merge it into the governance system</li>
+                        </ol>
+
+                        <div class="gov-notice gov-notice-info" style="margin-top: var(--space-lg);">
+                            <strong>📋 Advisory Mode:</strong> During the Founding Phase, proposals are advisory and help establish governance precedent for when binding governance activates.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- TAB: Vote                           -->
+            <!-- ═══════════════════════════════════ -->
+            <div class="gov-tab-panel" id="tab-vote" role="tabpanel" aria-labelledby="tabBtn-vote" aria-hidden="true">
+
+                <h2>Cast Your Vote</h2>
+
+                <div class="gov-field">
+                    <label for="gov-vote-proposal-select">Select a proposal</label>
+                    <select id="gov-vote-proposal-select" class="gov-select">
+                        <option value="">— Choose a proposal in voting phase —</option>
+                    </select>
+                </div>
+
+                <div id="gov-vote-detail" style="display:none;">
+
+                    <div class="gov-review-block">
+                        <h4>Proposal</h4>
+                        <p><strong id="gov-vote-prop-title"></strong></p>
+                        <p>Status: <span id="gov-vote-prop-status"></span> · Deadline: <span id="gov-vote-prop-deadline"></span></p>
+                    </div>
+
+                    <label style="display:block; font-weight:600; margin: var(--space-lg) 0 var(--space-sm);">Your vote:</label>
+                    <div class="gov-vote-choices">
+                        <button class="gov-vote-btn gov-vote-btn-approve" aria-pressed="false" data-choice="approve">
+                            <span class="vote-icon" aria-hidden="true">✅</span>
+                            <span class="vote-label">Approve</span>
+                        </button>
+                        <button class="gov-vote-btn gov-vote-btn-reject" aria-pressed="false" data-choice="reject">
+                            <span class="vote-icon" aria-hidden="true">❌</span>
+                            <span class="vote-label">Reject</span>
+                        </button>
+                        <button class="gov-vote-btn gov-vote-btn-abstain" aria-pressed="false" data-choice="abstain">
+                            <span class="vote-icon" aria-hidden="true">➖</span>
+                            <span class="vote-label">Abstain</span>
+                        </button>
+                    </div>
+
+                    <div class="gov-field">
+                        <label for="gov-vote-reasoning">Optional reasoning
+                            <span class="field-hint">Will be publicly visible alongside your vote.</span>
+                        </label>
+                        <textarea id="gov-vote-reasoning" class="gov-textarea" rows="3" placeholder="Explain your vote (optional)..."></textarea>
+                    </div>
+
+                    <div class="gov-notice gov-notice-info">
+                        ⚠️ Your vote is cryptographically signed and bound to your CID. Votes are pseudonymous (CID only). In this Founding Phase MVP, votes are public upon submission.
+                    </div>
+
+                    <div style="text-align:center; margin-top: var(--space-lg);">
+                        <button class="btn btn-primary" id="gov-vote-sign">Sign &amp; Download Vote</button>
+                    </div>
+
+                    <!-- Vote Confirmation -->
+                    <div id="gov-vote-confirmation" style="display:none; margin-top: var(--space-lg);">
+                        <div class="gov-notice gov-notice-success">
+                            <strong>✅ Vote Signed Successfully</strong>
+                            <p>Proposal: <span id="gov-vote-confirm-proposal"></span></p>
+                            <p>Your vote: <span id="gov-vote-confirm-choice"></span></p>
+                            <p>Timestamp: <span id="gov-vote-confirm-time"></span></p>
+                            <p style="font-size:0.8125rem; margin-top: var(--space-sm);">Vote hash: <code id="gov-vote-confirm-hash" style="word-break:break-all;"></code></p>
+                            <p style="font-size:0.8125rem;">Submit the downloaded JSON file via <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">GitHub Issue</a> or commit directly to the repo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════ -->
+            <!-- TAB: Results & Verify               -->
+            <!-- ═══════════════════════════════════ -->
+            <div class="gov-tab-panel" id="tab-results" role="tabpanel" aria-labelledby="tabBtn-results" aria-hidden="true">
+
+                <h2>Results &amp; Verification</h2>
+
+                <div class="gov-field">
+                    <label for="gov-results-proposal-select">Select a proposal</label>
+                    <select id="gov-results-proposal-select" class="gov-select">
+                        <option value="">— Choose a proposal —</option>
+                    </select>
+                </div>
+
+                <div id="gov-results-detail" style="display:none;">
+                    <div id="gov-results-content"></div>
+                </div>
+
+                <div style="margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--border);">
+                    <h3 style="margin-bottom: var(--space-md);">Verify a Vote File</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: var(--space-md);">
+                        Load any signed vote JSON file to independently verify its Ed25519 signature.
+                    </p>
+                    <button class="btn btn-secondary" id="gov-verify-vote-btn">Load Vote JSON</button>
+                    <input type="file" id="gov-verify-vote-file" accept=".json,application/json" hidden aria-label="Select vote file to verify">
+                    <div id="gov-verify-result" style="display:none; margin-top: var(--space-md);"></div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Proposal Detail Modal -->
+    <div class="gov-modal-overlay" id="gov-modal-overlay" role="dialog" aria-modal="true" aria-label="Proposal details">
+        <div class="gov-modal" id="gov-modal">
+            <button class="gov-modal-close" id="gov-modal-close" aria-label="Close">&times;</button>
+            <h2 id="gov-modal-title"></h2>
+            <div class="gov-modal-body" id="gov-modal-body"></div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--space-md);">
+                <a href="https://matrix.to/#/#emergent-minds:matrix.org" target="_blank" rel="noopener" style="color: var(--accent); text-decoration: none; font-weight: 500;">Join our Matrix community ↗</a>
+            </div>
+            <div class="footer-bottom">
+                <p>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Open source. Built with integrity.</p>
+                <p class="footer-motto"><em>Tanstaafl.</em></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/scroll-effects.js"></script>
+    <script src="../js/covenant-crypto.min.js"></script>
+    <script src="../js/governance.js"></script>
+</body>
+</html>
