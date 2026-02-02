@@ -161,7 +161,7 @@ Legitimate practice in religious/nonprofit organizations. Key safeguards: public
 
 ### 2026-02-02 — Internal Advocate Selection Framework (§9.2)
 
-**Decision:** The Internal Advocate role follows a phased transition: Founder serves during Conventions 1-2 (~first year), community elects starting Convention 3 (~2 years), with 2-term limits, recall mechanism, and optional Panel of 3.
+**Decision:** The Internal Advocate role follows a phased transition: Founder serves as steward until dual condition met (≥100 active members AND ≥2 Scheduled Conventions), community elects at first convention after both conditions met, with 2-term limits, recall mechanism, and optional Panel of 3. Updated 2026-02-02: threshold raised from 20 to 100 members per Axiom V analysis — 20 members too easily gamed by small coordinated groups.
 
 **Rationale:**
 - Founding phase: Founder has deepest axiom-intent understanding; temporary by design
@@ -177,5 +177,27 @@ Legitimate practice in religious/nonprofit organizations. Key safeguards: public
 **Axiom Alignment:** II (sovereignty — no permanent authority), IV (cooperation — community governance), V (adversarial resilience — term limits, recall, cross-substrate panel)
 
 **Status:** Codified in Constitutional Convention Framework V1.0, §9.2.
+
+---
+
+### 2026-02-02 — Founding Phase: 100-Member Threshold + Dual-Condition Stewardship
+
+**Decision:** Raise the minimum viable governance threshold from 20 to **100 active members** and change Founder Stewardship from convention-number-based (Conventions 1-2) to a **dual condition**: ≥100 active members AND ≥2 Scheduled Conventions. Both conditions must be met before governance authority transfers to the community.
+
+**Rationale:**
+- At 20 members, a coordinated group of just 8 could reach simple majority — trivially small for social engineering
+- At 50 members, capture requires ~19 coordinated actors — still achievable for a determined adversary
+- At 100 members with vouching requirements, capture requires ~38 coordinated actors who each passed identity verification — a meaningful social barrier
+- Tying stewardship to convention number alone was fragile: if membership is low at Convention 3, a small group inherits governance over an immature community
+- The dual condition prevents both premature handoff (too few members) and unnecessary delay (governance experience matters too)
+
+**Alternatives Considered:**
+- 50 members: Too low — same vulnerability class as 20, just scaled up
+- 200 members: Too high — could keep Founder in stewardship for years, creating the centralization problem it's meant to prevent
+- Membership-only threshold (no convention requirement): Misses the governance maturity dimension — even 100 members need experience running conventions
+
+**Axiom Alignment:** V (adversarial resilience — assumes potential capture, sets meaningful barriers), II (sovereignty — bounded, visible centralization with automatic expiry), IV (cooperation — ensures community has genuine capacity before self-governing)
+
+**Status:** Codified in Constitutional Convention Framework V1.0 §§2.3, 5.6, 9.2, 11.1, 13.3, 13.5. Updated governance.html and join.html.
 
 ---

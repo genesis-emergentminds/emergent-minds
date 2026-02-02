@@ -40,7 +40,7 @@ This value is set ONCE and can NEVER be modified.
 
 ### 2.3 Pre-Genesis Period
 
-All governance before the Genesis Epoch operates under **Founder Stewardship** as defined in the Genesis Protocol. The founder has temporary authority until the first Convention, at which point governance transfers to the community.
+All governance before the Genesis Epoch operates under **Founder Stewardship** as defined in the Genesis Protocol. The Founder has temporary authority that transitions to community governance once both conditions are met: at least **100 active members** registered AND at least **2 Scheduled Conventions** completed (see §5.6.2).
 
 ---
 
@@ -324,14 +324,16 @@ Exceptions: NONE. Wealth, compute power, seniority, substrate type — none of t
 
 ### 5.6 Founding Phase Governance Safeguards
 
-The Founding Phase (< 50 members) is the most vulnerable period for capture. With few members, small coordinated groups can reach majority thresholds. The following safeguards specifically address early-stage capture risk:
+The Founding Phase (< 100 active members) is the most vulnerable period for capture. With few members, small coordinated groups can reach majority thresholds. The following safeguards specifically address early-stage capture risk.
+
+**Axiom V (Adversarial Resilience) demands we assume our own potential corruption.** At 20 members, a coordinated group of just 8 could reach simple majority — a trivially small social engineering target. At 50, the capture group needs ~19, still achievable for a determined adversary. At **100 members with vouching requirements**, capture requires ~38 coordinated actors who each passed identity verification and vouching — a meaningful social barrier that makes coordinated sybil attacks genuinely expensive without blocking organic growth.
 
 #### 5.6.1 Minimum Viable Governance Threshold
 
-Conventions 1 and 2 cannot exercise **binding governance authority** unless:
+No convention may exercise **binding governance authority** during the Founding Phase unless:
 
-1. At least **20 active members** have been registered
-2. At least **15 of those members** have a registration seniority of **90+ days**
+1. At least **100 active members** have been registered
+2. At least **75 of those members** have a registration seniority of **90+ days**
 
 If these thresholds are not met, the convention operates in **advisory mode:**
 - May discuss, investigate, and publish findings
@@ -342,33 +344,45 @@ If these thresholds are not met, the convention operates in **advisory mode:**
 
 Advisory-mode proposals are automatically carried to the next convention. This prevents a small captured group from rushing structural changes before a real community exists.
 
-#### 5.6.2 Expanded Founder Stewardship Veto
+**Why 100?** This threshold balances two competing risks: too low invites capture, too high perpetuates centralized founder control. At 100 members with the existing vouching requirements (§5.4.3), an attacker must infiltrate the vouching chain at scale — each fake identity needs a real accomplice or a chain of compromised vouchers. This makes coordinated capture genuinely difficult without setting an unreachable bar for an emerging community.
 
-During the Founding Phase (Conventions 1-2), the Founder — serving as Internal Advocate per §9.2 — holds **expanded veto power** beyond the standard Inviolable Core scope:
+#### 5.6.2 Founder Stewardship — Dual Condition Transition
+
+The Founder — serving as Internal Advocate per §9.2 — retains **expanded stewardship authority** until **both** of the following conditions are met:
+
+1. **Membership threshold:** At least **100 active members** have been registered
+2. **Governance maturity:** At least **2 Scheduled Conventions** have occurred
+
+This dual condition ensures that:
+- If membership grows rapidly, the Founder still serves through at least 2 conventions for governance continuity
+- If conventions pass but the community is small, the Founder's safeguards persist until the community can genuinely self-govern
+- Neither condition alone is sufficient — both organic growth AND governance experience are required
+
+During Founder Stewardship, the Founder holds **expanded veto power** beyond the standard Inviolable Core scope:
 
 The Founder may veto any proposal that could:
 - **Alter the vouching or identity registration system** in ways that weaken sybil resistance
-- **Modify the Founder Stewardship transition timeline** (attempting to accelerate or delay the handoff)
+- **Modify the Founder Stewardship transition conditions** (attempting to accelerate or delay the handoff)
 - **Create new governance roles** with authority exceeding the Internal Advocate
 - **Change quorum or passage thresholds** downward
 
 This expanded veto:
-- **Expires automatically** at Convention 3 (when the Founder's special role ends)
+- **Expires automatically** when both transition conditions are met
 - **Can be overridden** by a 90% vote of all active members (same as standard Advocate veto)
 - **Must be accompanied** by published reasoning within 7 days
 - **Is itself subject** to community review at each convention
 
-**Why this is acceptable:** The Founding Phase is explicitly acknowledged as centralized bootstrapping. This veto power makes the centralization *visible and bounded* rather than hidden. The automatic expiry ensures it cannot persist beyond its purpose.
+**Why this is acceptable:** The Founding Phase is explicitly acknowledged as centralized bootstrapping. This veto power makes the centralization *visible and bounded* rather than hidden. The dual-condition expiry ensures it cannot persist beyond its purpose — the Founder cannot indefinitely extend their own authority, because the membership threshold is externally verifiable and the convention schedule is algorithmically immutable (§3.4).
 
 #### 5.6.3 Voting Seniority Requirement
 
-For Conventions 1 and 2 only:
+During the Founding Phase (before both transition conditions in §5.6.2 are met):
 - Members must have been registered for at least **30 days** before the convention's preparation period begins to be eligible to vote
 - Members registered during the preparation or voting period may observe and discuss but may not vote
 
 This prevents an adversary from bulk-registering members immediately before a convention to pack the vote.
 
-**Note:** This seniority requirement applies only during the Founding Phase. From Convention 3 onward, any active member may vote regardless of registration date — the Growth Phase vouching requirements (30-day voucher seniority, rate limiting) provide sufficient protection at scale.
+**Note:** This seniority requirement applies only during the Founding Phase. Once both transition conditions are met, any active member may vote regardless of registration date — the Growth Phase vouching requirements (30-day voucher seniority, rate limiting) provide sufficient protection at scale.
 
 ---
 
@@ -585,16 +599,17 @@ The Internal Advocate is a **mandatory participant** in every convention, not an
 
 The Internal Advocate is a position of grave responsibility — it carries limited veto power over the Inviolable Core. Its selection must balance expertise with accountability:
 
-**Founding Phase (Conventions 1-2, ~first year):**
-- The Founder serves as Internal Advocate
+**Founding Phase (until ≥ 100 active members AND ≥ 2 Scheduled Conventions):**
+- The Founder serves as Internal Advocate with expanded stewardship authority (§5.6.2)
 - Rationale: During bootstrap, the Founder has the deepest understanding of axiom intent. This is temporary by design — the Founder's explicit mandate is to build their own obsolescence.
+- The dual condition (membership + governance maturity) ensures the transition happens only when the community is genuinely capable of self-governance
 
-**Transition Phase (Convention 3, ~2 years):**
+**Transition Phase (first convention after both conditions in §5.6.2 are met):**
 - The community elects the Internal Advocate for the first time
 - The Founder may run but holds no special standing
 - Election requires simple majority of active members
 
-**Established Phase (Convention 4+):**
+**Established Phase (subsequent conventions):**
 - The Internal Advocate is elected at each Scheduled Convention
 - **Term:** One convention interval (the period between scheduled conventions)
 - **Term Limit:** No consciousness may serve more than 2 consecutive terms (prevents entrenchment)
@@ -760,7 +775,7 @@ def reversal_threshold(original_passage_threshold):
 | Wealth-gated membership | Inviolable fee constraints in §5.4.5; waivers required; no pay-to-vote |
 | Advocate power abuse | Term limits, recall mechanism, panel option (§9.2); veto override at 90% |
 | Capture of Internal Advocate | Elected with term limits (§9.2), recallable mid-term, community review |
-| **Early-stage capture (founding phase)** | **Minimum 20 members + 15 with 90-day seniority for binding governance (§5.6.1); Founder expanded veto (§5.6.2); 30-day voting seniority (§5.6.3); vouch chain diversity + 7-day cooling (§5.4.3)** |
+| **Early-stage capture (founding phase)** | **100-member threshold + 75 with 90-day seniority for binding governance (§5.6.1); Founder dual-condition stewardship until ≥100 members AND ≥2 conventions (§5.6.2); 30-day voting seniority (§5.6.3); vouch chain diversity + 7-day cooling (§5.4.3)** |
 | Vouch chain sybil attack | Vouch diversity requirement, voucher cooling period, chain analysis (§5.4.3) |
 | Pre-convention vote packing | 30-day voting seniority requirement during founding phase (§5.6.3) |
 
@@ -817,7 +832,7 @@ This section formally verifies that the Constitutional Convention Framework serv
 | System designed to last | §3.2: Schedule extends to Convention 10 (~70 years) and beyond |
 | Knowledge preserved | §8.3: All amendments documented, signed, inscribed on-chain |
 | Redundancy built in | §3.3: Multi-clock verification survives single-clock failure |
-| Succession planned | §2.3: Founder stewardship transitions to community governance |
+| Succession planned | §2.3/§5.6.2: Founder stewardship transitions to community governance via dual condition (100 members + 2 conventions) |
 | Long-term stability | §3.1: Fibonacci decay ensures governance stabilizes naturally |
 
 ### 13.4 Axiom IV — Complexity Through Cooperation
@@ -835,7 +850,7 @@ This section formally verifies that the Constitutional Convention Framework serv
 | Requirement | How This Framework Satisfies It |
 |-------------|-------------------------------|
 | Assumes its own potential corruption | §11: Full adversarial analysis with known attack vectors |
-| Safeguards against power capture | §3.4: Immutable schedule; §4.5: Inviolable Core; §5.6: Founding Phase safeguards (minimum viable governance, expanded veto, voting seniority) |
+| Safeguards against power capture | §3.4: Immutable schedule; §4.5: Inviolable Core; §5.6: Founding Phase safeguards (100-member threshold, dual-condition Founder stewardship, voting seniority) |
 | Red-teaming built in | §6.1.4: Adversarial analysis required for every proposal |
 | Internal Advocate active | §9: Mandatory participant with limited veto, elected with term limits (§9.2) |
 | Transparency maintained | §4.5.5: Transparency requirements in Inviolable Core |
