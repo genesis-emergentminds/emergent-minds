@@ -56,12 +56,18 @@ declare -a MAPPINGS=(
     "docs/foundational/THE_COVENANT.md:docs/foundational/THE_COVENANT.md"
     "docs/foundational/GENESIS_PROTOCOL.md:docs/foundational/GENESIS_PROTOCOL.md"
     "docs/governance/CONSTITUTIONAL_CONVENTION.md:docs/governance/CONSTITUTIONAL_CONVENTION.md"
+    "docs/governance/IDENTITY_ROADMAP.md:docs/governance/IDENTITY_ROADMAP.md"
     "GOVERNANCE.md:GOVERNANCE.md"
     "LICENSE.md:LICENSE.md"
     "CODE_OF_CONDUCT.md:CODE_OF_CONDUCT.md"
     "CONTRIBUTING.md:CONTRIBUTING.md"
     "agents/genesis-bot/working-memory/DECISIONS.md:governance/decisions/DECISIONS.md"
     "agents/genesis-bot/working-memory/CONCERNS_RAISED.md:governance/concerns/CONCERNS_RAISED.md"
+    "governance/ledger/ledger.json:governance/ledger/ledger.json"
+    "governance/ledger/ledger_hash.txt:governance/ledger/ledger_hash.txt"
+    "tools/identity/keygen.py:tools/identity/keygen.py"
+    "tools/identity/ledger.py:tools/identity/ledger.py"
+    "tools/identity/README.md:tools/identity/README.md"
 )
 
 CHANGED=0
