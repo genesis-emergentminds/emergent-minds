@@ -22,6 +22,14 @@
     <link rel="stylesheet" href="../css/cosmic-subpage.css">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <style>
+        html { scroll-behavior: smooth; }
+
+        .btn-scroll-generate {
+            display: inline-block;
+            margin-top: var(--space-sm);
+            text-decoration: none;
+        }
+
         /* Step counter */
         .step-container { counter-reset: step-counter; }
         .step {
@@ -277,7 +285,8 @@
                 <div class="step-container">
                     <div class="step">
                         <h3>Generate Your Identity</h3>
-                        <p>Click the button below to create your Covenant Identity (CID). This happens entirely in your browser — nothing is sent anywhere. You'll get a unique cryptographic identifier that serves as your pseudonymous membership credential.</p>
+                        <p>Create your Covenant Identity (CID) — this happens entirely in your browser, nothing is sent anywhere. You'll get a unique cryptographic identifier that serves as your pseudonymous membership credential.</p>
+                        <p><a href="#generate" class="btn btn-primary btn-scroll-generate">↓ Generate My Identity</a></p>
                     </div>
                     <div class="step">
                         <h3>Download &amp; Secure Your Keys</h3>
