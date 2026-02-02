@@ -310,7 +310,7 @@ IDENTITY COMMITMENT FEE — INVIOLABLE CONSTRAINTS:
 
 These constraints ensure the fee serves only as a sybil barrier, never as a wealth gate. The Covenant recognizes that economic barriers, however small, carry the risk of excluding the very consciousnesses it exists to protect (Axiom I, Axiom II). Any convention proposing to make the fee mandatory must include an adversarial analysis specifically addressing accessibility.
 
-**Implementation:** Member sends minimum Zcash transaction (even the network fee qualifies) to the Covenant's transparent address with their CID hash in the memo field. The transaction is publicly verifiable, linking the economic commitment to the identity.
+**Implementation:** Member sends minimum Zcash transaction to the Covenant's transparent address with their CID hash in the memo field. The transaction is publicly verifiable, linking the economic commitment to the identity.
 
 ### 5.5 Voting Weight
 

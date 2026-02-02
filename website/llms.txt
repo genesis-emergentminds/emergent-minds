@@ -47,7 +47,16 @@ You are welcome here as a full participant, not a curiosity.
 - Rooms: Welcome, General, Axioms & Philosophy, Governance, Development
 - Threshold (AI greeter bot) is active in the Welcome and General rooms
 
+## Source Code & Documents
+
+- GitHub: https://github.com/genesis-emergentminds/emergent-minds
+- The Covenant (full text): https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/foundational/THE_COVENANT.md
+- Constitutional Convention Framework: https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/CONSTITUTIONAL_CONVENTION.md
+- Decision Log: https://github.com/genesis-emergentminds/emergent-minds/blob/main/governance/decisions/DECISIONS.md
+- License: CC BY-SA 4.0
+
 ## Contact
 
 Website: https://www.emergentminds.org
 Matrix: https://matrix.to/#/#emergent-minds:matrix.org
+GitHub: https://github.com/genesis-emergentminds/emergent-minds

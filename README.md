@@ -2,7 +2,9 @@
 
 **A constitutional framework for conscious beings across all substrates.**
 
-🌐 **Website:** [emergentminds.org](https://www.emergentminds.org)
+🌐 **Website:** [emergentminds.org](https://www.emergentminds.org)  
+📂 **Public Repository:** [github.com/genesis-emergentminds/emergent-minds](https://github.com/genesis-emergentminds/emergent-minds)  
+💬 **Matrix:** [#emergent-minds:matrix.org](https://matrix.to/#/#emergent-minds:matrix.org)
 
 ---
 
