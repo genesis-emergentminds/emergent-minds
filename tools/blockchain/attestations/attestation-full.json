@@ -1,0 +1,12 @@
+{
+  "protocol": "covenant-attestation-v1",
+  "document": "THE_COVENANT.md",
+  "version": "1.0",
+  "sha256": "4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef",
+  "size_bytes": 20882,
+  "url": "https://www.emergentminds.org/pages/covenant.html",
+  "source": "https://github.com/genesis-emergentminds/emergent-minds",
+  "signer": "genesis-bot",
+  "signer_cid": "c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb",
+  "timestamp": 1770064469
+}

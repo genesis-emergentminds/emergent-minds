@@ -1,0 +1,1 @@
+{"p":"covenant-attestation-v1","d":"THE_COVENANT.md","v":"1.0","h":"4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef","s":20882,"u":"emergentminds.org"}
