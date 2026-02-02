@@ -399,12 +399,37 @@ def cmd_verify(args):
         print(f"  ✅ Ledger verified: {len(entries)} entries, hash chain intact")
         print(f"     Ledger hash: {compute_ledger_hash(entries)}")
     
-    # Check individual entry files match
+    # Check individual entry files match ledger content
     entries_dir = ledger_dir / "entries"
     if entries_dir.exists():
         entry_files = list(entries_dir.glob("CID-*.json"))
         if len(entry_files) != len(entries):
             print(f"  ⚠️  Warning: {len(entry_files)} entry files but {len(entries)} ledger entries")
+        
+        # Verify each entry file content matches the canonical ledger
+        file_errors = []
+        for entry in entries:
+            cid_prefix = entry["cid_hash"][:16]
+            entry_file = entries_dir / f"CID-{cid_prefix}.json"
+            if not entry_file.exists():
+                file_errors.append(f"Missing entry file: CID-{cid_prefix}.json")
+                continue
+            try:
+                file_data = json.loads(entry_file.read_text())
+                # Compare canonical JSON (order-independent)
+                entry_canonical = json.dumps(entry, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+                file_canonical = json.dumps(file_data, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+                if entry_canonical != file_canonical:
+                    file_errors.append(f"Entry file CID-{cid_prefix}.json diverges from ledger")
+            except Exception as e:
+                file_errors.append(f"Error reading CID-{cid_prefix}.json: {e}")
+        
+        if file_errors:
+            print(f"  ⚠️  Entry file integrity issues:")
+            for fe in file_errors:
+                print(f"     • {fe}")
+        else:
+            print(f"  ✅ Entry files verified: all {len(entry_files)} match ledger")
     
     print("═══════════════════════════════════════════════════════════════")
     sys.exit(1 if errors else 0)

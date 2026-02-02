@@ -172,6 +172,18 @@ All implementations MUST pass this test suite before deployment.
 
 CCJ is compatible with a subset of [RFC 8785 (JSON Canonicalization Scheme / JCS)](https://www.rfc-editor.org/rfc/rfc8785) but does not implement JCS fully (JCS has additional requirements around number serialization). For The Covenant's purposes — where values are strings, integers, booleans, and null — the simpler CCJ specification is sufficient and easier to implement correctly across platforms.
 
+### ⚠️ Known Limitation: Float Serialization
+
+**Discovered:** 2026-02-02 adversarial testing (CAN-01)
+
+Python and JavaScript serialize floating-point numbers differently:
+- Python: `json.dumps(1e10)` → `10000000000.0` (trailing `.0`)
+- JavaScript: `JSON.stringify(1e10)` → `10000000000` (no decimal)
+
+**Impact:** If a signed document ever contains a float value, signatures generated in Python will NOT verify in JavaScript (and vice versa) because the canonical bytes differ.
+
+**Mitigation:** All signed content in The Covenant uses only strings, integers, booleans, arrays, objects, and null. **Never use floating-point numbers in signed content.** Thresholds (e.g., 0.382 engagement minimum) are stored as display metadata, never included in signed payloads. This is enforced by convention and documented here as a hard rule.
+
 If future needs require full JCS compliance, CCJ can be upgraded without breaking existing signatures (all current CCJ output is valid JCS output).
 
 ---
