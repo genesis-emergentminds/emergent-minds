@@ -487,6 +487,29 @@
             return btoa(binary);
         }
 
+        /**
+         * Canonical JSON serialization — deterministic byte representation.
+         * Recursively sorts all object keys, uses compact separators.
+         * Produces identical output to Python's:
+         *   json.dumps(obj, sort_keys=True, separators=(",",":"))
+         *
+         * This is critical for cryptographic signing — both browser and CLI
+         * MUST produce the same bytes for the same logical object.
+         */
+        function canonicalJSON(obj) {
+            if (obj === null || typeof obj !== 'object') {
+                return JSON.stringify(obj);
+            }
+            if (Array.isArray(obj)) {
+                return '[' + obj.map(function(item) { return canonicalJSON(item); }).join(',') + ']';
+            }
+            var keys = Object.keys(obj).sort();
+            var pairs = keys.map(function(k) {
+                return JSON.stringify(k) + ':' + canonicalJSON(obj[k]);
+            });
+            return '{' + pairs.join(',') + '}';
+        }
+
         function formatTimestamp(ts) {
             return new Date(ts * 1000).toISOString().replace('T', ' ').replace(/\.\d+Z/, ' UTC');
         }
@@ -539,9 +562,9 @@
                     requested_at: now,
                 };
 
-                // Canonical message for signing (sorted keys)
-                var sortedKeys = Object.keys(statement).sort();
-                var msgForSigning = new TextEncoder().encode(JSON.stringify(statement, sortedKeys));
+                // Canonical message for signing (recursive key sort, compact separators)
+                // Matches Python: json.dumps(obj, sort_keys=True, separators=(",",":"))
+                var msgForSigning = new TextEncoder().encode(canonicalJSON(statement));
 
                 // Dual sign — noble API: sign(msg, secretKey)
                 var pqSignature = C.ml_dsa65.sign(msgForSigning, pqKeys.secretKey);

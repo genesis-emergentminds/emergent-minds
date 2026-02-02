@@ -69,7 +69,7 @@ PHASE_THRESHOLDS = {
 
 def compute_ledger_hash(entries: list) -> str:
     """Compute the hash chain of the entire ledger."""
-    canonical = json.dumps(entries, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    canonical = json.dumps(entries, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(canonical).hexdigest()
 
 
@@ -77,7 +77,7 @@ def compute_entry_hash(entry: dict) -> str:
     """Compute hash of a single entry for chain verification."""
     # Exclude the entry_hash field itself
     hashable = {k: v for k, v in entry.items() if k != "entry_hash"}
-    canonical = json.dumps(hashable, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    canonical = json.dumps(hashable, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(canonical).hexdigest()
 
 
@@ -165,13 +165,9 @@ def validate_registration(registration: dict, ledger: dict) -> list:
     # Verify signatures
     if not errors:
         try:
-            # Match browser's JSON.stringify(statement, sortedKeys) behavior:
-            # Top-level keys sorted, but nested objects serialized with only
-            # keys present in the top-level sorted key list (effectively empty).
-            # This is a quirk of JS JSON.stringify with a replacer array.
-            top_keys = sorted(reg.keys())
-            browser_compat = {k: reg[k] if not isinstance(reg[k], dict) else {} for k in top_keys}
-            canonical = json.dumps(browser_compat, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            # Canonical JSON: recursive key sort, compact separators, raw UTF-8
+            # Both browser and CLI use this identical canonical form
+            canonical = json.dumps(reg, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
             
             # Import verification functions
             from keygen import dual_verify

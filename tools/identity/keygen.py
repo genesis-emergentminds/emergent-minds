@@ -184,7 +184,8 @@ def create_registration_request(identity_dir: Path) -> dict:
     }
     
     # Dual-sign the canonical statement
-    canonical = json.dumps(statement, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    # ensure_ascii=False produces raw UTF-8, matching JavaScript's JSON.stringify behavior
+    canonical = json.dumps(statement, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     signatures = dual_sign(canonical, secret_data["secret_keys"])
     
     return {
