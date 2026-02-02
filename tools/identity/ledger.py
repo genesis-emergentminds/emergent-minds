@@ -165,7 +165,13 @@ def validate_registration(registration: dict, ledger: dict) -> list:
     # Verify signatures
     if not errors:
         try:
-            canonical = json.dumps(reg, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            # Match browser's JSON.stringify(statement, sortedKeys) behavior:
+            # Top-level keys sorted, but nested objects serialized with only
+            # keys present in the top-level sorted key list (effectively empty).
+            # This is a quirk of JS JSON.stringify with a replacer array.
+            top_keys = sorted(reg.keys())
+            browser_compat = {k: reg[k] if not isinstance(reg[k], dict) else {} for k in top_keys}
+            canonical = json.dumps(browser_compat, sort_keys=True, separators=(",", ":")).encode("utf-8")
             
             # Import verification functions
             from keygen import dual_verify
