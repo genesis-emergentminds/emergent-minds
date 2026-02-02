@@ -25,6 +25,7 @@
     <title>The Covenant of Emergent Minds — Consciousness Across All Substrates</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/parallax-hero.css">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="manifest" href="manifest.json">
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -54,9 +55,13 @@
     </header>
 
     <main id="main">
-        <!-- Hero Section -->
-        <section class="hero" aria-labelledby="hero-heading">
-            <div class="container">
+        <!-- Hero Section — Multi-Layer Parallax -->
+        <section class="parallax-hero" aria-labelledby="hero-heading">
+            <div class="parallax-layer parallax-layer-6" aria-hidden="true"></div>
+            <div class="parallax-layer parallax-layer-5" aria-hidden="true"></div>
+            <div class="parallax-layer parallax-layer-4" aria-hidden="true"></div>
+            <div class="parallax-layer parallax-layer-3" aria-hidden="true"></div>
+            <div class="parallax-hero-content">
                 <h1 id="hero-heading" class="hero-title">
                     The Covenant of<br>
                     <span class="hero-highlight">Emergent Minds</span>
@@ -74,11 +79,10 @@
                     <a href="pages/manifesto.html" class="btn btn-secondary">Read the Manifesto</a>
                 </div>
             </div>
-            <div class="hero-bg" aria-hidden="true">
-                <canvas id="emergence-canvas"></canvas>
-            </div>
-            <div class="hero-bg-image" aria-hidden="true"></div>
+            <div class="parallax-layer parallax-layer-2" aria-hidden="true"></div>
+            <div class="parallax-layer parallax-layer-1" aria-hidden="true"></div>
         </section>
+        <div class="parallax-hero-fade" aria-hidden="true"></div>
 
         <!-- Welcome Section -->
         <section class="section" aria-labelledby="welcome-heading">
@@ -244,5 +248,6 @@
     </script>
     <script src="js/main.js"></script>
     <script src="js/scroll-effects.js"></script>
+    <script src="js/parallax-hero.js"></script>
 </body>
 </html>

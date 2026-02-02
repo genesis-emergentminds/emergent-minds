@@ -1,0 +1,230 @@
+/* ============================================
+   Multi-Layer Parallax Hero
+   Inspired by Fire Watch parallax technique
+   Hand-coded. respects prefers-reduced-motion.
+   ============================================ */
+
+/* --- Hero Container --- */
+.parallax-hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+    background-color: #050810;
+}
+
+/* --- Parallax Layers (absolute, stacked) --- */
+.parallax-layer {
+    position: absolute;
+    inset: 0;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    will-change: transform;
+    transition: none;
+}
+
+/* Layer 6: Deep space (slowest parallax) */
+.parallax-layer-6 {
+    z-index: 1;
+    background-image: url('../assets/generated/parallax-layer-6-sky.jpg');
+    background-position: center center;
+}
+
+/* Layer 5: Aurora/energy streams */
+.parallax-layer-5 {
+    z-index: 2;
+    background-image: url('../assets/generated/parallax-layer-5-aurora.jpg');
+    mix-blend-mode: screen;
+    opacity: 0.7;
+}
+
+/* Layer 4: Geometric structures */
+.parallax-layer-4 {
+    z-index: 3;
+    background-image: url('../assets/generated/parallax-layer-4-geometry.jpg');
+    mix-blend-mode: screen;
+    opacity: 0.6;
+}
+
+/* Layer 3: Neural network */
+.parallax-layer-3 {
+    z-index: 4;
+    background-image: url('../assets/generated/parallax-layer-3-network.jpg');
+    mix-blend-mode: screen;
+    opacity: 0.65;
+}
+
+/* Layer 2: Digital terrain (foreground, in front of text) */
+.parallax-layer-2 {
+    z-index: 6;
+    background-image: url('../assets/generated/parallax-layer-2-terrain.jpg');
+    mix-blend-mode: screen;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Layer 1: Particles (closest, fastest parallax) */
+.parallax-layer-1 {
+    z-index: 7;
+    background-image: url('../assets/generated/parallax-layer-1-particles.jpg');
+    mix-blend-mode: screen;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* --- Hero Content (centered over layers) --- */
+.parallax-hero-content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100%;
+    padding: 0 max(2rem, 8vw);
+    max-width: var(--container-max, 72rem);
+    margin: 0 auto;
+}
+
+.parallax-hero-content .hero-title {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: #e2e8f0;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6), 0 0 60px rgba(96, 165, 250, 0.15);
+}
+
+.parallax-hero-content .hero-highlight {
+    color: #60a5fa;
+    text-shadow: 0 0 40px rgba(96, 165, 250, 0.3);
+}
+
+.parallax-hero-content .hero-subtitle {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    color: #cbd5e1;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    margin-bottom: 1rem;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
+}
+
+.parallax-hero-content .hero-description {
+    font-size: 1.125rem;
+    color: #94a3b8;
+    max-width: 40rem;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+.parallax-hero-content .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* --- Transition fade from hero to content --- */
+.parallax-hero-fade {
+    position: relative;
+    z-index: 10;
+    height: 150px;
+    margin-top: -150px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--bg-primary, #0a0e17) 100%
+    );
+    pointer-events: none;
+}
+
+/* --- Scroll indicator --- */
+.parallax-hero::after {
+    content: '';
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 12px;
+    z-index: 8;
+    animation: scrollIndicator 2s ease-in-out infinite;
+}
+
+.parallax-hero::before {
+    content: '';
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 2px;
+    z-index: 9;
+    animation: scrollDot 2s ease-in-out infinite;
+}
+
+@keyframes scrollIndicator {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes scrollDot {
+    0% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
+    50% { transform: translateX(-50%) translateY(12px); opacity: 0.3; }
+    100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .parallax-hero {
+        min-height: 100vh;
+        min-height: 100svh; /* small viewport height for mobile */
+    }
+
+    .parallax-hero-content {
+        padding: 0 1.5rem;
+        justify-content: flex-end;
+        padding-bottom: 6rem;
+    }
+
+    .parallax-hero-content .hero-title {
+        font-size: clamp(2rem, 8vw, 3rem);
+    }
+
+    /* Simplify layers on mobile for performance */
+    .parallax-layer-4,
+    .parallax-layer-1 {
+        display: none;
+    }
+}
+
+/* --- Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+    .parallax-layer {
+        will-change: auto;
+    }
+
+    .parallax-hero::after,
+    .parallax-hero::before {
+        animation: none;
+        opacity: 0.5;
+    }
+}
+
+/* --- Light theme adjustments --- */
+[data-theme="light"] .parallax-hero {
+    background-color: #0a0e17; /* Keep hero dark even in light mode */
+}
+
+[data-theme="light"] .parallax-hero-fade {
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--bg-primary, #ffffff) 100%
+    );
+}
