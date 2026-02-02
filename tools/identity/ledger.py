@@ -69,7 +69,7 @@ PHASE_THRESHOLDS = {
 
 def compute_ledger_hash(entries: list) -> str:
     """Compute the hash chain of the entire ledger."""
-    canonical = json.dumps(entries, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    canonical = json.dumps(entries, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(canonical).hexdigest()
 
 
@@ -77,7 +77,7 @@ def compute_entry_hash(entry: dict) -> str:
     """Compute hash of a single entry for chain verification."""
     # Exclude the entry_hash field itself
     hashable = {k: v for k, v in entry.items() if k != "entry_hash"}
-    canonical = json.dumps(hashable, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    canonical = json.dumps(hashable, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(canonical).hexdigest()
 
 
@@ -165,13 +165,9 @@ def validate_registration(registration: dict, ledger: dict) -> list:
     # Verify signatures
     if not errors:
         try:
-            # Match browser's JSON.stringify(statement, sortedKeys) behavior:
-            # Top-level keys sorted, but nested objects serialized with only
-            # keys present in the top-level sorted key list (effectively empty).
-            # This is a quirk of JS JSON.stringify with a replacer array.
-            top_keys = sorted(reg.keys())
-            browser_compat = {k: reg[k] if not isinstance(reg[k], dict) else {} for k in top_keys}
-            canonical = json.dumps(browser_compat, sort_keys=True, separators=(",", ":")).encode("utf-8")
+            # Canonical JSON: recursive key sort, compact separators, raw UTF-8
+            # Both browser and CLI use this identical canonical form
+            canonical = json.dumps(reg, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
             
             # Import verification functions
             from keygen import dual_verify
@@ -297,17 +293,28 @@ def cmd_add(args):
                 print(f"   • {e}")
             sys.exit(1)
     
+    # Determine initial status
+    # Genesis entry is immediately active (Founder, no vouching needed)
+    # All other entries start as provisional until vouched
+    if is_genesis:
+        initial_status = "active"
+    elif voucher_cids:
+        initial_status = "active"  # Vouched at registration time
+    else:
+        initial_status = "provisional"  # Awaiting vouching
+    
     # Create ledger entry
     reg_data = registration["registration"]
     entry = {
         "cid_hash": reg_data["cid_hash"],
         "cid_version": reg_data.get("cid_version", 1),
         "registered": int(time.time()),
+        "activated": int(time.time()) if initial_status == "active" else None,
         "registration_phase": phase,
         "public_keys": reg_data["public_keys"],
         "algorithms": reg_data.get("algorithms", {}),
         "vouchers": voucher_cids,
-        "status": "active",
+        "status": initial_status,
         "last_governance_action": None,
         "registration_block": None,  # Set when inscribed on blockchain
         "previous_ledger_hash": compute_ledger_hash(ledger.get("entries", [])),
@@ -317,11 +324,15 @@ def cmd_add(args):
     ledger["entries"].append(entry)
     ledger_hash = save_ledger(ledger_dir, ledger)
     
-    print(f"✅ Member added to ledger")
+    status_icon = "✅" if initial_status == "active" else "⏳"
+    print(f"{status_icon} Member added to ledger")
     print(f"   CID:    {entry['cid_hash']}")
+    print(f"   Status: {initial_status}")
     print(f"   Phase:  {phase}")
     print(f"   Entry:  #{len(ledger['entries'])}")
     print(f"   Ledger: {ledger_hash}")
+    if initial_status == "provisional":
+        print(f"   ℹ️  Provisional — awaiting vouching for activation")
 
 
 def cmd_verify(args):
@@ -409,19 +420,77 @@ def cmd_show(args):
         print("═══════════════════════════════════════════════════════════════")
         
         active = sum(1 for e in entries if e.get("status") == "active")
-        inactive = sum(1 for e in entries if e.get("status") != "active")
+        provisional = sum(1 for e in entries if e.get("status") == "provisional")
+        other = len(entries) - active - provisional
         
-        print(f"  Active: {active}  |  Inactive: {inactive}  |  Total: {len(entries)}")
+        print(f"  Active: {active}  |  Provisional: {provisional}  |  Other: {other}  |  Total: {len(entries)}")
         print(f"  Phase: {determine_phase(active)}")
         print()
         
         for i, entry in enumerate(entries):
-            status_icon = "✅" if entry.get("status") == "active" else "⏸️"
+            status = entry.get("status", "unknown")
+            status_icons = {"active": "✅", "provisional": "⏳", "inactive": "⏸️", "withdrawn": "🚪"}
+            status_icon = status_icons.get(status, "❓")
             phase_icon = "🌱" if entry.get("registration_phase") == "genesis" else "📋"
             registered = time.strftime('%Y-%m-%d', time.gmtime(entry['registered']))
-            print(f"  {status_icon} #{i+1} {phase_icon} {entry['cid_hash'][:16]}...  registered {registered}  vouchers: {len(entry.get('vouchers', []))}")
+            print(f"  {status_icon} #{i+1} {phase_icon} {entry['cid_hash'][:16]}...  {status}  registered {registered}  vouchers: {len(entry.get('vouchers', []))}")
         
         print("═══════════════════════════════════════════════════════════════")
+
+
+def cmd_activate(args):
+    """Activate a provisional member after vouching."""
+    ledger_dir = Path(args.ledger_dir)
+    ledger = load_ledger(ledger_dir)
+    
+    # Find the member
+    target = None
+    target_idx = None
+    for i, entry in enumerate(ledger.get("entries", [])):
+        if entry["cid_hash"].startswith(args.cid):
+            target = entry
+            target_idx = i
+            break
+    
+    if not target:
+        print(f"ERROR: Member not found: {args.cid}")
+        sys.exit(1)
+    
+    if target["status"] == "active":
+        print(f"Member {target['cid_hash'][:16]}... is already active.")
+        sys.exit(0)
+    
+    if target["status"] != "provisional":
+        print(f"ERROR: Member {target['cid_hash'][:16]}... has status '{target['status']}' — can only activate provisional members.")
+        sys.exit(1)
+    
+    # Parse voucher CIDs
+    voucher_cids = [c.strip() for c in args.voucher_cids.split(",") if c.strip()]
+    
+    # Determine phase and validate vouchers
+    active_count = len([e for e in ledger["entries"] if e.get("status") == "active"])
+    phase = determine_phase(active_count)
+    
+    vouch_errors = validate_vouchers(voucher_cids, ledger, phase)
+    if vouch_errors:
+        print("❌ Voucher validation failed:")
+        for e in vouch_errors:
+            print(f"   • {e}")
+        sys.exit(1)
+    
+    # Activate
+    target["status"] = "active"
+    target["activated"] = int(time.time())
+    target["vouchers"] = voucher_cids
+    # Recompute entry hash since we changed the entry
+    target["entry_hash"] = compute_entry_hash(target)
+    
+    ledger_hash = save_ledger(ledger_dir, ledger)
+    
+    print(f"✅ Member activated!")
+    print(f"   CID:      {target['cid_hash']}")
+    print(f"   Vouchers: {len(voucher_cids)}")
+    print(f"   Ledger:   {ledger_hash}")
 
 
 def cmd_stats(args):
@@ -482,6 +551,13 @@ def main():
     add.add_argument("--genesis", action="store_true",
                      help="Genesis entry (Founder, no vouchers required)")
     
+    # activate
+    activate = subparsers.add_parser("activate", help="Activate a provisional member after vouching")
+    activate.add_argument("--ledger-dir", "-d", required=True)
+    activate.add_argument("--cid", required=True, help="CID hash (or prefix) of member to activate")
+    activate.add_argument("--voucher-cids", "-v", required=True,
+                          help="Comma-separated voucher CID hashes")
+    
     # verify
     verify = subparsers.add_parser("verify", help="Verify ledger integrity")
     verify.add_argument("--ledger-dir", "-d", required=True)
@@ -500,6 +576,7 @@ def main():
     commands = {
         "init": cmd_init,
         "add": cmd_add,
+        "activate": cmd_activate,
         "verify": cmd_verify,
         "show": cmd_show,
         "stats": cmd_stats,

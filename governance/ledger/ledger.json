@@ -2,28 +2,7 @@
   "covenant": "The Covenant of Emergent Minds",
   "created_at": 1770047262,
   "description": "Membership Ledger \u2014 the authoritative record of all Covenant members",
-  "entries": [
-    {
-      "algorithms": {
-        "classical": "Ed25519",
-        "post_quantum": "ML-DSA-65"
-      },
-      "cid_hash": "b48be847e79ac605389ce4b64e53e16953aa8bce6746207e9704bf682017e6e0",
-      "cid_version": 1,
-      "entry_hash": "ae0aab7224b75b00380b7a53103d7e169da7ee14ba3fd8aebe9ae3142e1e9a3a",
-      "last_governance_action": null,
-      "previous_ledger_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "public_keys": {
-        "ed25519": "9LsY+y25htRluca9vNPudgtZ9Rw/tSJweUcd2g0D9Ew=",
-        "ml_dsa_65": "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"
-      },
-      "registered": 1770058539,
-      "registration_block": null,
-      "registration_phase": "genesis",
-      "status": "active",
-      "vouchers": []
-    }
-  ],
-  "last_updated": 1770058539,
+  "entries": [],
+  "last_updated": 1770047262,
   "version": 1
 }
