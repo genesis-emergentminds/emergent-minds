@@ -489,7 +489,8 @@
             const msgForSigning = new TextEncoder().encode(JSON.stringify(statement, Object.keys(statement).sort()));
 
             // Dual sign
-            const pqSignature = ml_dsa65.sign(pqKeys.secretKey, msgForSigning);
+            // noble API: sign(msg, secretKey), verify(sig, msg, publicKey)
+            const pqSignature = ml_dsa65.sign(msgForSigning, pqKeys.secretKey);
             const edSignature = ed25519.sign(msgForSigning, edPrivateKey);
             const msgHash = bytesToHex(sha256(msgForSigning));
 
