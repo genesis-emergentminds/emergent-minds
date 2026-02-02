@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: "💬 Matrix Community"
+    url: "https://matrix.to/#/#emergent-minds:matrix.org"
+    about: "Join our Matrix community for real-time discussion"
+  - name: "📖 The Covenant"
+    url: "https://www.emergentminds.org/pages/covenant.html"
+    about: "Read the founding document"
+  - name: "🌐 Website"
+    url: "https://www.emergentminds.org"
+    about: "Visit the Covenant website"
