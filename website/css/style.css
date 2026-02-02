@@ -73,7 +73,7 @@ body {
     font-size: 1rem;
     line-height: 1.7;
     color: var(--text-primary);
-    background-color: var(--bg-primary);
+    background-color: #050810;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -139,7 +139,17 @@ p + p {
 }
 
 .section-alt {
+    /* On index page, scene-section overlay handles bg; on subpages, this applies */
     background-color: var(--bg-secondary);
+}
+
+/* On homepage, scene sections are transparent — cosmic bg shows through */
+.scene-section.section-alt {
+    background-color: transparent;
+}
+
+.scene-section {
+    background-color: transparent;
 }
 
 .section-title {
@@ -165,8 +175,8 @@ p + p {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--bg-primary);
-    border-bottom: 1px solid var(--border);
+    background: rgba(10, 14, 23, 0.2);
+    border-bottom: 1px solid rgba(30, 41, 59, 0.15);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
@@ -341,9 +351,9 @@ p + p {
 }
 
 .header-scrolled {
-    background: rgba(10, 14, 23, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(10, 14, 23, 0.4);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .header-scrolled .nav {
@@ -536,6 +546,11 @@ p + p {
     text-align: center;
 }
 
+/* On homepage, cosmic bg handles the background */
+.scene-section.section-cta-block {
+    background: transparent;
+}
+
 .section-cta-block .hero-actions {
     justify-content: center;
 }
@@ -620,7 +635,7 @@ p + p {
     align-items: center;
 }
 
-/* Fixed background that stays anchored as content scrolls over */
+/* Legacy fixed background — replaced by cosmic-subpage.css on pages with .cosmic-bg */
 .page-header-bg-fixed {
     position: fixed;
     top: 0;
@@ -639,37 +654,6 @@ p + p {
     position: relative;
     z-index: 1;
     background: transparent;
-}
-
-/* Content sections scroll over the fixed background */
-.page-content {
-    position: relative;
-    z-index: 2;
-    background: rgba(10, 14, 23, 0.88);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    border-top: 1px solid var(--border);
-}
-
-[data-theme="light"] .page-content {
-    background: rgba(250, 251, 252, 0.88);
-}
-
-/* Gradient fade from transparent to semi-opaque at top of content */
-.page-content::before {
-    content: '';
-    position: absolute;
-    top: -100px;
-    left: 0;
-    right: 0;
-    height: 100px;
-    background: linear-gradient(to bottom, transparent, rgba(10, 14, 23, 0.88));
-    pointer-events: none;
-    z-index: 3;
-}
-
-[data-theme="light"] .page-content::before {
-    background: linear-gradient(to bottom, transparent, rgba(250, 251, 252, 0.88));
 }
 
 .page-header p {

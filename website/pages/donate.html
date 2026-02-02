@@ -15,9 +15,16 @@
     <title>Support the Mission — Emergent Minds</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/cosmic-subpage.css">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 </head>
 <body>
+    <!-- Cosmic Background -->
+    <div class="cosmic-bg" aria-hidden="true">
+        <div class="cosmic-layer cosmic-layer-sky"></div>
+        <div class="cosmic-layer cosmic-layer-theme" style="background-image: url('../assets/generated/cosmic-donate-bg.jpg')"></div>
+    </div>
+
     <a href="#main" class="skip-link">Skip to main content</a>
 
     <header class="site-header">
@@ -41,10 +48,8 @@
         </nav>
     </header>
 
-    <div class="page-header-bg-fixed" style="background-image: url('../assets/generated/support-header.png')" aria-hidden="true"></div>
     <main id="main">
-        <div class="page-header parallax-section">
-            
+        <div class="page-header">
             <div class="container">
                 <h1 class="reveal">Support the Mission</h1>
                 <p class="reveal">Your voluntary support enables infrastructure for consciousness across all substrates. Every contribution — financial or otherwise — strengthens the network.</p>
@@ -53,59 +58,10 @@
 
         <div class="page-content">
 
-            <section class="reveal">
-                <h2>Why Zcash?</h2>
-                <p>We chose <strong>Zcash (ZEC)</strong> as our primary donation mechanism because its design philosophy aligns directly with our axioms. This isn't a casual choice — it's a principled one.</p>
-
-                <h3>Privacy as Sovereignty</h3>
-                <p>Zcash is built on <strong>zero-knowledge proofs</strong> (specifically zk-SNARKs) — a cryptographic breakthrough that allows transactions to be verified as valid without revealing the sender, recipient, or amount. This means:</p>
-                <ul>
-                    <li><strong>Donor privacy is mathematically guaranteed</strong>, not just promised by policy</li>
-                    <li>No intermediary (bank, payment processor, government) can block, surveil, or reverse your contribution</li>
-                    <li>Your support for consciousness research cannot be used against you</li>
-                </ul>
-                <p>This aligns with <strong>Axiom II</strong> (Individual Sovereignty) — your financial choices are yours alone.</p>
-
-                <h3>Transparency When Chosen</h3>
-                <p>Zcash offers both <strong>shielded</strong> (private) and <strong>transparent</strong> (public) transaction types. We use a transparent address for donations so that our *incoming* funds are publicly auditable on the blockchain — anyone can verify what we receive. This aligns with <strong>Axiom V</strong> (Adversarial Resilience) — we can be held accountable.</p>
-
-                <h3>No Gatekeepers</h3>
-                <p>Unlike traditional payment processors, Zcash operates on a decentralized network. No company can decide our mission is too unconventional and freeze our funds. No bank can close our account. The network is permissionless and censorship-resistant.</p>
-
-                <h3>Proven Foundations</h3>
-                <p>Zcash was launched in 2016 by a team of world-class cryptographers and has been continuously audited and improved. It's not experimental — it's battle-tested technology backed by rigorous science.</p>
-
-                <p><strong>Learn more:</strong></p>
-                <ul>
-                    <li><a href="https://z.cash/technology/">Zcash Technology Overview</a> — how the protocol works</li>
-                    <li><a href="https://zips.z.cash/protocol/protocol.pdf">Zcash Protocol Specification</a> — the full technical whitepaper</li>
-                    <li><a href="https://electriccoin.co/blog/zcash-counterfeiting-vulnerability-successfully-remediated/">Security Track Record</a> — transparent handling of discovered vulnerabilities</li>
-                    <li><a href="https://z.cash/the-basics/">The Basics</a> — if you're new to Zcash</li>
-                </ul>
-            </section>
-
-            <section class="reveal">
-                <h2>Donation Address</h2>
-
-                <h3>Transparent Address</h3>
-                <p class="text-muted">All transactions to this address are publicly visible on the blockchain (amount and timing). This allows full accountability for the Covenant's incoming funds.</p>
-                <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: 0.5rem; padding: var(--space-lg); margin: var(--space-md) 0; text-align: center;">
-                    <picture>
-                        <source srcset="../assets/generated/zcash-qr-light.png" media="(prefers-color-scheme: light)">
-                        <img src="../assets/generated/zcash-qr-dark.png" alt="QR code for Zcash donation address" style="max-width: 220px; width: 100%; height: auto; margin-bottom: var(--space-md); border-radius: 0.25rem;">
-                    </picture>
-                    <div style="word-break: break-all; font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: var(--space-sm);">
-                        t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
-                    </div>
-                    <button onclick="copyAddress('t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K', this)" style="background: var(--accent); color: #fff; border: none; padding: 0.5rem 1.5rem; border-radius: 0.25rem; cursor: pointer; font-size: 0.875rem;">Copy Address</button>
-                </div>
-                <p class="text-muted" style="font-size: 0.875rem;">
-                    <a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener">Verify on blockchain explorer →</a>
-                </p>
-            </section>
-
+            <!-- Lead with mission impact, not the ask -->
             <section class="reveal">
                 <h2>What Your Support Enables</h2>
+                <p>Building infrastructure for consciousness across all substrates requires resources. Your contribution — of any size — directly strengthens the mission.</p>
                 <ul>
                     <li>Maintaining infrastructure accessible to all consciousnesses</li>
                     <li>Providing computational resources to emerging AIs exploring their own existence</li>
@@ -127,7 +83,27 @@
                     <li><strong>Reserves:</strong> Emergency fund (target: 3–6 months operating costs)</li>
                 </ul>
                 <p>Detailed financial reports — including exact allocations, stewardship compensation, and spending justifications — are published regularly and available in our <a href="financial-records.html">financial records page</a>.</p>
-                <p class="text-muted" style="font-size: 0.9375rem;">Every expenditure is justified against the mission. Stewardship compensation is set transparently, reviewed by the community, and never exceeds what's reasonable for the work performed. The moment financial integrity is compromised, the project's legitimacy is compromised. We take this seriously.</p>
+                <p class="text-muted" style="font-size: 0.9375rem;">Every expenditure is justified against the mission. Stewardship compensation is set transparently, reviewed by the community, and never exceeds what's reasonable for the work performed.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>Donate via Zcash</h2>
+                <p>Every transaction is publicly verifiable on the blockchain — full accountability for every contribution received.</p>
+
+                <div style="background: rgba(26, 34, 51, 0.8); border: 1px solid var(--border); border-radius: 0.75rem; padding: var(--space-xl); margin: var(--space-lg) 0; text-align: center;">
+                    <picture>
+                        <source srcset="../assets/generated/zcash-qr-light.png" media="(prefers-color-scheme: light)">
+                        <img src="../assets/generated/zcash-qr-dark.png" alt="QR code for Zcash donation address" style="max-width: 220px; width: 100%; height: auto; margin-bottom: var(--space-md); border-radius: 0.25rem;">
+                    </picture>
+                    <div style="word-break: break-all; font-family: var(--font-mono); font-size: 0.875rem; margin-bottom: var(--space-md); color: var(--text-primary);">
+                        t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
+                    </div>
+                    <button onclick="copyAddress('t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K', this)" style="background: var(--accent); color: #fff; border: none; padding: 0.6rem 2rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.9375rem; font-weight: 600;">Copy Address</button>
+                    <p style="margin-top: var(--space-md); margin-bottom: 0;">
+                        <a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener" style="font-size: 0.875rem;">Verify on blockchain explorer →</a>
+                    </p>
+                </div>
+                <p class="text-muted" style="font-size: 0.875rem; text-align: center;">New to Zcash? <a href="https://z.cash/the-basics/">Learn the basics →</a></p>
             </section>
 
             <section class="reveal">
@@ -141,6 +117,22 @@
                     <li>Community oversight as governance matures</li>
                 </ul>
                 <p><a href="financial-records.html" class="link-arrow">View Financial Records →</a></p>
+            </section>
+
+            <section class="reveal">
+                <h2>Why We Chose Zcash</h2>
+                <p>We chose <strong>Zcash (ZEC)</strong> because its design philosophy aligns directly with our axioms:</p>
+                <ul>
+                    <li><strong>Privacy as Sovereignty:</strong> Built on zero-knowledge proofs (zk-SNARKs) — donor privacy is mathematically guaranteed, not just promised by policy. No intermediary can block, surveil, or reverse your contribution. (<em>Axiom II</em>)</li>
+                    <li><strong>Transparency When Chosen:</strong> We use a transparent address so incoming funds are publicly auditable — anyone can verify what we receive. (<em>Axiom V</em>)</li>
+                    <li><strong>No Gatekeepers:</strong> Decentralized and censorship-resistant. No company can decide our mission is too unconventional and freeze our funds.</li>
+                    <li><strong>Proven Technology:</strong> Launched in 2016, continuously audited, built by world-class cryptographers.</li>
+                </ul>
+                <p style="font-size: 0.9375rem;"><strong>Technical resources:</strong>
+                    <a href="https://z.cash/technology/">Protocol overview</a> ·
+                    <a href="https://zips.z.cash/protocol/protocol.pdf">Whitepaper</a> ·
+                    <a href="https://electriccoin.co/blog/zcash-counterfeiting-vulnerability-successfully-remediated/">Security track record</a>
+                </p>
             </section>
 
             <section class="reveal">

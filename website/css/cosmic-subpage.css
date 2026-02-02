@@ -1,0 +1,153 @@
+/* ============================================
+   Cosmic Subpage — Continuous cosmic background
+   for inner pages (axioms, manifesto, etc.)
+   Same visual language as homepage.
+   ============================================ */
+
+/* ─── Global Cosmic Background (shared with homepage) ─── */
+.cosmic-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: #050810;
+}
+
+.cosmic-bg .cosmic-layer {
+    position: absolute;
+    inset: 0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* Base sky — always present */
+.cosmic-bg .cosmic-layer-sky {
+    z-index: 1;
+    background-image: url('../assets/generated/parallax-layer-6-sky.jpg');
+}
+
+/* Page-specific themed overlay */
+.cosmic-bg .cosmic-layer-theme {
+    z-index: 2;
+    mix-blend-mode: screen;
+    opacity: 0.3;
+}
+
+/* ─── Page Header — Transparent, cosmic shows through ─── */
+.page-header {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    border-bottom: none;
+    min-height: 50vh;
+    display: flex;
+    align-items: center;
+    padding: var(--space-2xl) 0 var(--space-xl);
+}
+
+.page-header .container {
+    position: relative;
+    z-index: 2;
+}
+
+.page-header h1 {
+    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.4);
+}
+
+.page-header p {
+    text-shadow: 0 1px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* Gradient fade from hero area into content */
+.page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, rgba(10, 14, 23, 0.85));
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ─── Page Content — Glassmorphism over cosmic bg ─── */
+/* Full-width glassmorphism wrapper — more transparent to let cosmic bg through */
+.page-content {
+    position: relative;
+    z-index: 2;
+    background: rgba(10, 14, 23, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(30, 41, 59, 0.2);
+    /* Override max-width from style.css — glass overlay must be full-width */
+    max-width: none;
+    margin: 0;
+    /* Keep the padding for inner content */
+    padding: var(--space-xl, 4rem) var(--space-lg, 2rem);
+}
+
+/* Constrain the actual content inside */
+.page-content > section,
+.page-content > div,
+.page-content > h2,
+.page-content > h3,
+.page-content > p,
+.page-content > ul,
+.page-content > ol,
+.page-content > blockquote {
+    max-width: var(--container-narrow, 48rem);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ─── Manifesto-specific overrides ─── */
+.manifesto-body {
+    background: rgba(10, 14, 23, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.manifesto-toc {
+    background: rgba(10, 14, 23, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.manifesto-hero {
+    min-height: 50vh;
+}
+
+/* ─── Footer caps the cosmic bg ─── */
+.site-footer {
+    position: relative;
+    z-index: 3;
+    background: var(--bg-primary);
+}
+
+/* ─── Light theme adjustments ─── */
+[data-theme="light"] .page-content {
+    background: rgba(250, 251, 252, 0.82);
+}
+
+[data-theme="light"] .page-header::after {
+    background: linear-gradient(to bottom, transparent, rgba(250, 251, 252, 0.82));
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .page-header {
+        min-height: 40vh;
+    }
+
+    .page-content {
+        background: rgba(10, 14, 23, 0.82);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+}

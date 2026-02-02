@@ -1,8 +1,59 @@
 /* ============================================
-   Immersive Parallax — Full-Page Visual Journey
-   Clean hero, atmospheric section backgrounds
+   Immersive Parallax — Continuous Cosmic Journey
+   Single sky/aurora background extends behind
+   entire page. Content sections float over it
+   with glassmorphism overlays.
    Respects prefers-reduced-motion.
    ============================================ */
+
+/* ─── Global Cosmic Background ─── */
+/* These layers sit behind the ENTIRE page, not just the hero */
+.cosmic-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: #050810;
+}
+
+.cosmic-bg .parallax-layer {
+    position: absolute;
+    top: -10%;
+    left: -5%;
+    width: 110%;
+    height: 120%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    will-change: transform;
+}
+
+/* Deep space sky — base layer */
+.cosmic-bg .parallax-layer-sky {
+    z-index: 1;
+    background-image: url('../assets/generated/parallax-layer-6-sky.jpg');
+}
+
+/* Aurora — screen blended on top */
+.cosmic-bg .parallax-layer-aurora {
+    z-index: 2;
+    background-image: url('../assets/generated/parallax-layer-5-aurora.jpg');
+    mix-blend-mode: screen;
+    opacity: 0.4;
+}
+
+/* Subtle geometry — barely visible, adds depth */
+.cosmic-bg .parallax-layer-geometry {
+    z-index: 3;
+    background-image: url('../assets/generated/parallax-layer-4-geometry.jpg');
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 2s ease;
+}
 
 /* ─── Hero Section ─── */
 .parallax-hero {
@@ -11,30 +62,9 @@
     height: 100vh;
     min-height: 600px;
     overflow: hidden;
-    background-color: #050810;
-}
-
-.parallax-layer {
-    position: absolute;
-    inset: 0;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    will-change: transform;
-}
-
-/* Deep space sky — base layer, full opacity */
-.parallax-layer-sky {
     z-index: 1;
-    background-image: url('../assets/generated/parallax-layer-6-sky.jpg');
-}
-
-/* Aurora — visible but not overpowering */
-.parallax-layer-aurora {
-    z-index: 2;
-    background-image: url('../assets/generated/parallax-layer-5-aurora.jpg');
-    mix-blend-mode: screen;
-    opacity: 0.35;
+    /* Hero is transparent — cosmic bg shows through */
+    background: transparent;
 }
 
 /* ─── Hero Content ─── */
@@ -122,62 +152,66 @@
     100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
 }
 
-/* ─── Scene Sections — Atmospheric Backgrounds ─── */
+/* ─── Content Sections — Glassmorphism over cosmic bg ─── */
 .scene-section {
     position: relative;
-    overflow: hidden;
+    z-index: 1;
 }
 
-/* Background image container */
+/* Semi-transparent dark overlay so text stays readable */
 .scene-section::before {
     content: '';
     position: absolute;
-    top: -40px;
-    left: -20px;
-    right: -20px;
-    bottom: -40px;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-    transform: translate3d(0, var(--scene-y, 0px), 0);
-    will-change: transform, opacity;
+    inset: 0;
     z-index: 0;
     pointer-events: none;
 }
 
-/* When section scrolls into view, background fades in */
-.scene-section.scene-visible::before {
-    opacity: 0.2;
+/* Default dark section bg — lets cosmic bg peek through */
+.scene-section::before {
+    background: rgba(10, 14, 23, 0.62);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
-/* Map data-scene to background images */
-.scene-section[data-scene="geometry"]::before {
-    background-image: url('../assets/generated/parallax-layer-4-geometry.jpg');
-    mix-blend-mode: screen;
+/* Alternate sections slightly more transparent to create rhythm */
+.scene-section.section-alt::before {
+    background: rgba(17, 24, 39, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
 }
 
-.scene-section[data-scene="network"]::before {
-    background-image: url('../assets/generated/parallax-layer-3-network.jpg');
-    mix-blend-mode: screen;
+/* Transition strip between hero and first content section */
+.scene-section:first-of-type::after {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, rgba(10, 14, 23, 0.75));
+    pointer-events: none;
+    z-index: 0;
 }
 
-.scene-section[data-scene="terrain"]::before {
-    background-image: url('../assets/generated/parallax-layer-2-terrain.jpg');
-    mix-blend-mode: screen;
+/* CTA section — more transparent, cosmic shines through */
+.scene-section.section-cta-block::before {
+    background: rgba(10, 14, 23, 0.45);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
 }
 
-.scene-section[data-scene="particles"]::before {
-    background-image: url('../assets/generated/parallax-layer-1-particles.jpg');
-    mix-blend-mode: screen;
-}
-
-/* Ensure content stays above the background */
-.scene-section > .container,
-.scene-section > .parallax-content {
+/* Content stays above overlays */
+.scene-section > .container {
     position: relative;
     z-index: 1;
+}
+
+/* ─── Footer needs solid bg to cap the cosmic background ─── */
+.site-footer {
+    position: relative;
+    z-index: 2;
+    background: var(--bg-primary);
 }
 
 /* ─── Responsive ─── */
@@ -197,14 +231,21 @@
         font-size: clamp(2rem, 8vw, 3rem);
     }
 
-    .scene-section.scene-visible::before {
-        opacity: 0.15;
+    /* Stronger overlay on mobile for readability */
+    .scene-section::before {
+        background: rgba(10, 14, 23, 0.75);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+
+    .scene-section.section-alt::before {
+        background: rgba(17, 24, 39, 0.7);
     }
 }
 
 /* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
-    .parallax-layer {
+    .cosmic-bg .parallax-layer {
         will-change: auto;
     }
 
@@ -212,17 +253,24 @@
         animation: none;
         opacity: 0.4;
     }
-
-    .scene-section::before {
-        transition: none;
-    }
 }
 
 /* ─── Light theme ─── */
-[data-theme="light"] .parallax-hero {
+[data-theme="light"] .cosmic-bg {
+    /* Keep cosmic bg even in light mode — it's the visual identity */
     background-color: #050810;
 }
 
-[data-theme="light"] .scene-section.scene-visible::before {
-    opacity: 0.08;
+[data-theme="light"] .scene-section::before {
+    background: rgba(250, 251, 252, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+[data-theme="light"] .scene-section.section-alt::before {
+    background: rgba(241, 245, 249, 0.8);
+}
+
+[data-theme="light"] .scene-section.section-cta-block::before {
+    background: rgba(241, 245, 249, 0.7);
 }
