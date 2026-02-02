@@ -190,21 +190,27 @@
         }
 
         try {
-            // Extract Ed25519 private key
+            // Extract Ed25519 private key and derive public key
             var edPrivateKey = base64ToBytes(json.secret_keys.ed25519);
             var edPublicKey = C.ed25519.getPublicKey(edPrivateKey);
 
-            // Compute CID hash for verification
-            // CID = SHA-256(ml_dsa_pubkey || ed25519_pubkey)
-            // For Ed25519-only MVP, if ML-DSA key exists we use both, otherwise just ed25519
+            // Extract ML-DSA-65 keys if present
+            var mlPrivateKey = null;
+            var mlPublicKey = null;
+            if (json.secret_keys.ml_dsa_65 && C.ml_dsa65) {
+                mlPrivateKey = base64ToBytes(json.secret_keys.ml_dsa_65);
+                mlPublicKey = C.ml_dsa65.getPublicKey(mlPrivateKey);
+            }
+
+            // Compute CID hash: SHA-256(ml_dsa_pubkey || ed25519_pubkey)
             var cidHash;
-            if (json.secret_keys.ml_dsa_65) {
-                var mlPrivate = base64ToBytes(json.secret_keys.ml_dsa_65);
-                // We need the public key from the ML-DSA secret key
-                // The public_keys.json has the ML-DSA public key, but secret_keys.json may not
-                // For now, trust the cid_hash from the file and verify via ledger
-                cidHash = json.cid_hash;
+            if (mlPublicKey) {
+                var combined = new Uint8Array(mlPublicKey.length + edPublicKey.length);
+                combined.set(mlPublicKey, 0);
+                combined.set(edPublicKey, mlPublicKey.length);
+                cidHash = C.bytesToHex(C.sha256(combined));
             } else {
+                // Fallback: trust file's cid_hash (Ed25519-only identity)
                 cidHash = json.cid_hash;
             }
 
@@ -219,6 +225,8 @@
                     cidHash: cidHash,
                     edPrivateKey: edPrivateKey,
                     edPublicKey: edPublicKey,
+                    mlPrivateKey: mlPrivateKey,
+                    mlPublicKey: mlPublicKey,
                     memberInfo: member
                 };
             } else {
@@ -227,6 +235,8 @@
                     cidHash: cidHash,
                     edPrivateKey: edPrivateKey,
                     edPublicKey: edPublicKey,
+                    mlPrivateKey: mlPrivateKey,
+                    mlPublicKey: mlPublicKey,
                     memberInfo: null
                 };
                 // Try loading ledger in background
@@ -265,6 +275,11 @@
                     state.identity.edPrivateKey[i] = 0;
                 }
             }
+            if (state.identity.mlPrivateKey) {
+                for (var j = 0; j < state.identity.mlPrivateKey.length; j++) {
+                    state.identity.mlPrivateKey[j] = 0;
+                }
+            }
             state.identity = null;
         }
         updateIdentityUI();
@@ -288,6 +303,9 @@
                 var info = state.identity.memberInfo;
                 var statusText = 'Status: ' + (info.status || 'Active');
                 if (info.registered_at) statusText += ' since ' + formatDate(info.registered_at);
+                var sigTypes = 'Ed25519';
+                if (state.identity.mlPrivateKey) sigTypes = 'ML-DSA-65 + Ed25519 (dual-sign)';
+                statusText += ' · Signing: ' + sigTypes;
                 setText(statusEl, statusText);
             } else {
                 setText(statusEl, 'Ledger not yet verified — identity loaded from file');
@@ -859,16 +877,31 @@
         var contentHash = C.bytesToHex(C.sha256(msgBytes));
 
         try {
-            var signature = C.ed25519.sign(msgBytes, state.identity.edPrivateKey);
-            proposal.signatures.author_ed25519 = bytesToBase64(signature);
-            proposal.signatures.author_ml_dsa_65 = null; // MVP: Ed25519 only
+            // Ed25519 signature
+            var edSig = C.ed25519.sign(msgBytes, state.identity.edPrivateKey);
+            proposal.signatures.author_ed25519 = bytesToBase64(edSig);
             proposal.signatures.signed_content_hash = contentHash;
 
-            // Verify our own signature
-            var valid = C.ed25519.verify(signature, msgBytes, state.identity.edPublicKey);
-            if (!valid) {
-                alert('Signature self-verification failed. Please try again.');
+            // Verify Ed25519
+            var edValid = C.ed25519.verify(edSig, msgBytes, state.identity.edPublicKey);
+            if (!edValid) {
+                alert('Ed25519 signature self-verification failed. Please try again.');
                 return;
+            }
+
+            // ML-DSA-65 signature (dual-sign if keys available)
+            if (state.identity.mlPrivateKey && C.ml_dsa65) {
+                var mlSig = C.ml_dsa65.sign(msgBytes, state.identity.mlPrivateKey);
+                proposal.signatures.author_ml_dsa_65 = bytesToBase64(mlSig);
+
+                // Verify ML-DSA-65
+                var mlValid = C.ml_dsa65.verify(mlSig, msgBytes, state.identity.mlPublicKey);
+                if (!mlValid) {
+                    alert('ML-DSA-65 signature self-verification failed. Please try again.');
+                    return;
+                }
+            } else {
+                proposal.signatures.author_ml_dsa_65 = null;
             }
 
             downloadJSON(proposal, 'proposal-draft-' + now + '.json');
@@ -985,7 +1018,7 @@
             },
             public_keys: {
                 ed25519: bytesToBase64(state.identity.edPublicKey),
-                ml_dsa_65: null
+                ml_dsa_65: state.identity.mlPublicKey ? bytesToBase64(state.identity.mlPublicKey) : null
             }
         };
 
@@ -1012,13 +1045,24 @@
         var msgBytes = new TextEncoder().encode(canonical);
 
         try {
-            var signature = C.ed25519.sign(msgBytes, state.identity.edPrivateKey);
-            vote.signatures.voter_ed25519 = bytesToBase64(signature);
-            vote.signatures.voter_ml_dsa_65 = null;
+            // Ed25519 signature
+            var edSig = C.ed25519.sign(msgBytes, state.identity.edPrivateKey);
+            vote.signatures.voter_ed25519 = bytesToBase64(edSig);
 
-            // Self-verify
-            var valid = C.ed25519.verify(signature, msgBytes, state.identity.edPublicKey);
-            if (!valid) { alert('Signature self-verification failed.'); return; }
+            // Self-verify Ed25519
+            var edValid = C.ed25519.verify(edSig, msgBytes, state.identity.edPublicKey);
+            if (!edValid) { alert('Ed25519 signature self-verification failed.'); return; }
+
+            // ML-DSA-65 dual-sign if keys available
+            if (state.identity.mlPrivateKey && C.ml_dsa65) {
+                var mlSig = C.ml_dsa65.sign(msgBytes, state.identity.mlPrivateKey);
+                vote.signatures.voter_ml_dsa_65 = bytesToBase64(mlSig);
+
+                var mlValid = C.ml_dsa65.verify(mlSig, msgBytes, state.identity.mlPublicKey);
+                if (!mlValid) { alert('ML-DSA-65 signature self-verification failed.'); return; }
+            } else {
+                vote.signatures.voter_ml_dsa_65 = null;
+            }
 
             var prefix = state.identity.cidHash.slice(0, 8);
             downloadJSON(vote, 'vote-' + proposalId + '-' + prefix + '.json');
@@ -1170,9 +1214,6 @@
         }
 
         try {
-            var pubKey = base64ToBytes(vote.public_keys.ed25519);
-            var sig = base64ToBytes(vote.signatures.voter_ed25519);
-
             // Reconstruct signable content
             var signable = {
                 commitment: vote.commitment,
@@ -1188,16 +1229,36 @@
             var canonical = canonicalJSON(signable);
             var msgBytes = new TextEncoder().encode(canonical);
 
-            var valid = C.ed25519.verify(sig, msgBytes, pubKey);
+            // Verify Ed25519
+            var edPubKey = base64ToBytes(vote.public_keys.ed25519);
+            var edSig = base64ToBytes(vote.signatures.voter_ed25519);
+            var edValid = C.ed25519.verify(edSig, msgBytes, edPubKey);
 
-            if (valid) {
-                var details = 'Proposal: ' + vote.proposal_id +
-                    '\nVoter: ' + truncHash(vote.voter_cid_hash) +
-                    '\nChoice: ' + (vote.vote_content ? capitalize(vote.vote_content.choice) : '—') +
-                    '\nTimestamp: ' + formatDateTime(vote.timestamp);
-                showVerifyResult(true, 'Ed25519 signature is VALID.\n\n' + details);
+            // Verify ML-DSA-65 (if present)
+            var mlValid = null;
+            if (vote.signatures.voter_ml_dsa_65 && vote.public_keys.ml_dsa_65 && C.ml_dsa65) {
+                var mlPubKey = base64ToBytes(vote.public_keys.ml_dsa_65);
+                var mlSig = base64ToBytes(vote.signatures.voter_ml_dsa_65);
+                mlValid = C.ml_dsa65.verify(mlSig, msgBytes, mlPubKey);
+            }
+
+            var details = 'Proposal: ' + vote.proposal_id +
+                '\nVoter: ' + truncHash(vote.voter_cid_hash) +
+                '\nChoice: ' + (vote.vote_content ? capitalize(vote.vote_content.choice) : '—') +
+                '\nTimestamp: ' + formatDateTime(vote.timestamp) +
+                '\n\nEd25519: ' + (edValid ? '✅ VALID' : '❌ INVALID');
+
+            if (mlValid !== null) {
+                details += '\nML-DSA-65: ' + (mlValid ? '✅ VALID' : '❌ INVALID');
             } else {
-                showVerifyResult(false, 'Ed25519 signature is INVALID. This vote may have been tampered with.');
+                details += '\nML-DSA-65: — (not present)';
+            }
+
+            var allValid = edValid && (mlValid === null || mlValid);
+            if (allValid) {
+                showVerifyResult(true, 'Signature verification passed.\n\n' + details);
+            } else {
+                showVerifyResult(false, 'Signature verification FAILED. This vote may have been tampered with.\n\n' + details);
             }
         } catch (err) {
             showVerifyResult(false, 'Verification error: ' + err.message);

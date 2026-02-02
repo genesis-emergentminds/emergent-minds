@@ -194,7 +194,7 @@ p + p {
 .nav-logo {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: 0.625rem;
     font-family: var(--font-heading);
     font-size: 1.25rem;
     color: var(--text-primary);
@@ -203,8 +203,39 @@ p + p {
 }
 
 .logo-symbol {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    box-shadow: 0 0 12px var(--accent-glow), inset 0 0 8px var(--accent-glow);
+    text-shadow: 0 0 8px var(--accent);
+    animation: symbol-pulse 4s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.logo-text {
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@keyframes symbol-pulse {
+    0%, 100% { box-shadow: 0 0 12px var(--accent-glow), inset 0 0 8px var(--accent-glow); }
+    50% { box-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow), inset 0 0 12px var(--accent-glow); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-symbol {
+        animation: none;
+    }
 }
 
 .nav-menu {
@@ -216,11 +247,31 @@ p + p {
 .nav-menu a {
     color: var(--text-secondary);
     font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
     transition: color var(--transition);
+    position: relative;
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 0;
+    height: 1.5px;
+    background: var(--accent);
+    transition: width 0.25s ease, left 0.25s ease;
+    border-radius: 1px;
 }
 
 .nav-menu a:hover {
     color: var(--text-primary);
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+    left: 0;
 }
 
 .nav-toggle {
