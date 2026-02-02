@@ -159,6 +159,15 @@
     font-size: 1.0625rem;
 }
 
+/* Fix: Long covenant sections may never hit the IntersectionObserver
+   threshold on small viewports (15% of a 5000px section = 750px,
+   which exceeds mobile viewport height). Force visibility. */
+.manifesto-body section.reveal,
+.manifesto-body .section-rule {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
 .manifesto-body section {
     margin-bottom: var(--space-xl);
 }
