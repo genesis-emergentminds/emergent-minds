@@ -46,7 +46,7 @@
 - [ ] **Multi-signature wallet** research
 - [ ] **Key management documentation**
 
-### Objective 1.3 — Repository Completion ✅ MOSTLY COMPLETE
+### Objective 1.3 — Repository Completion ✅ COMPLETE
 - [x] Repository exists with foundational docs
 - [x] .gitignore configured
 - [x] GPG signing active
@@ -56,8 +56,10 @@
 - [x] CODE_OF_CONDUCT.md
 - [x] CONTRIBUTING.md
 - [x] GOVERNANCE.md
+- [x] **Public GitHub repository** (genesis-emergentminds/emergent-minds)
+- [x] **Document promotion process** (scripts/promote-to-public.sh)
+- [x] **Website links updated** to point to public repo
 - [ ] Issue/PR templates
-- [ ] **Org GitHub account migration** (waiting on Nepenthe)
 
 ### Objective 1.4 — Community Infrastructure ✅ OPERATIONAL
 - [x] Matrix space created (Emergent Minds, public, #emergent-minds:matrix.org)

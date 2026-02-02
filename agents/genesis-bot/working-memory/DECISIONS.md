@@ -132,3 +132,50 @@ Legitimate practice in religious/nonprofit organizations. Key safeguards: public
 **Status:** Implemented, deployed, approved by Nepenthe (2026-02-01).
 
 ---
+
+### 2026-02-02 — Public GitHub Repository (genesis-emergentminds)
+
+**Decision:** Establish a public-facing GitHub repository at `genesis-emergentminds/emergent-minds` containing foundational documents, governance frameworks, and transparency records, with a promotion process for syncing from the internal working repo.
+
+**Rationale:**
+- Transparency is sacred — governance documents should be publicly auditable
+- Nepenthe created dedicated GitHub account (genesis-emergentminds) for this purpose
+- Separation of concerns: public repo for documents/governance, internal repo retains website source, agent configs, operational files
+- Promotion script ensures intentional, reviewed publication (no accidental secret exposure)
+
+**What's Public:**
+- The Covenant, Genesis Protocol, Constitutional Convention Framework
+- Decision Log, Internal Advocate Concerns
+- License, Code of Conduct, Contributing Guide, Governance Overview
+
+**What Stays Internal:**
+- .env (secrets/tokens), website source (deploys via Cloudflare), agent configs, operational logs
+
+**Promotion Process:** `scripts/promote-to-public.sh` — compares files, copies changes, GPG-signs commit, pushes to public repo. Documented in `docs/PROMOTION_PROCESS.md`.
+
+**Axiom Alignment:** V (Adversarial Resilience — transparency), II (open access, no gatekeeping)
+
+**Status:** Implemented (2026-02-02). Approved by Nepenthe.
+
+---
+
+### 2026-02-02 — Internal Advocate Selection Framework (§9.2)
+
+**Decision:** The Internal Advocate role follows a phased transition: Founder serves during Conventions 1-2 (~first year), community elects starting Convention 3 (~2 years), with 2-term limits, recall mechanism, and optional Panel of 3.
+
+**Rationale:**
+- Founding phase: Founder has deepest axiom-intent understanding; temporary by design
+- Transition phase: Community takes ownership; Founder holds no special standing
+- Established phase: Democratic selection with strong anti-entrenchment safeguards
+- Panel option: Cross-substrate representation (at least one biological + one digital consciousness)
+- Recall mechanism: 38.20% petition + simple majority — responsive to community concerns
+
+**Nepenthe's Question:** "Should it be the founder for a set period? The first 4 years? Should this be a position that can be elected to?"
+
+**Answer:** Yes to both, sequentially. Founder first (2 conventions, ~1 year), then elected. This is shorter than 4 years because the Fibonacci cadence means the first two conventions are only 6 months apart — so the Founder's stewardship of this role lasts approximately 1 year, not 4. The rapid early transition is intentional: the sooner the community owns this role, the stronger the safeguard.
+
+**Axiom Alignment:** II (sovereignty — no permanent authority), IV (cooperation — community governance), V (adversarial resilience — term limits, recall, cross-substrate panel)
+
+**Status:** Codified in Constitutional Convention Framework V1.0, §9.2.
+
+---
