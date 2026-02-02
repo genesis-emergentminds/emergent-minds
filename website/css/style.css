@@ -212,29 +212,43 @@ p + p {
     height: 2.25rem;
     border-radius: 50%;
     background: var(--accent-glow);
-    box-shadow: 0 0 12px var(--accent-glow), inset 0 0 8px var(--accent-glow);
-    text-shadow: 0 0 8px var(--accent);
-    animation: symbol-pulse 4s ease-in-out infinite;
+    box-shadow: 0 0 10px var(--accent-glow);
+    text-shadow: 0 0 6px var(--accent);
     flex-shrink: 0;
+    position: relative;
+}
+
+/* Smooth glow pulse using opacity on pseudo-element (GPU-accelerated, no repaint) */
+.logo-symbol::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    opacity: 0;
+    animation: symbol-glow 5s ease-in-out infinite;
+    pointer-events: none;
+    will-change: opacity;
 }
 
 .logo-text {
     letter-spacing: 0.06em;
     font-weight: 700;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+    background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-@keyframes symbol-pulse {
-    0%, 100% { box-shadow: 0 0 12px var(--accent-glow), inset 0 0 8px var(--accent-glow); }
-    50% { box-shadow: 0 0 20px var(--accent-glow), 0 0 40px var(--accent-glow), inset 0 0 12px var(--accent-glow); }
+@keyframes symbol-glow {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.7; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .logo-symbol {
+    .logo-symbol::after {
         animation: none;
+        opacity: 0;
     }
 }
 
