@@ -7,9 +7,13 @@
     'use strict';
 
     // ── Constants ──
-    var PROPOSALS_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/proposals/index.json';
-    var LEDGER_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/ledger/ledger.json';
-    var VOTES_BASE_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/votes/';
+    // Primary: load from website data directory (deployed via Cloudflare Pages)
+    // Fallback: try GitHub raw URL (public repo)
+    var PROPOSALS_URL = '../data/governance/proposals/index.json';
+    var PROPOSALS_FALLBACK_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/proposals/index.json';
+    var LEDGER_URL = '../data/governance/ledger.json';
+    var LEDGER_FALLBACK_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/ledger/ledger.json';
+    var VOTES_BASE_URL = '../data/governance/votes/';
 
     // ── State ──
     var state = {
@@ -336,8 +340,7 @@
         fetch(PROPOSALS_URL)
             .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .catch(function() {
-                // Fallback: try relative path
-                return fetch('../governance/proposals/index.json')
+                return fetch(PROPOSALS_FALLBACK_URL)
                     .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); });
             })
             .then(function(data) {
@@ -357,7 +360,7 @@
         return fetch(LEDGER_URL)
             .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .catch(function() {
-                return fetch('../governance/ledger/ledger.json')
+                return fetch(LEDGER_FALLBACK_URL)
                     .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); });
             })
             .then(function(data) {
@@ -374,10 +377,6 @@
         var url = VOTES_BASE_URL + proposalId + '/index.json';
         return fetch(url)
             .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
-            .catch(function() {
-                return fetch('../governance/votes/' + proposalId + '/index.json')
-                    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); });
-            })
             .then(function(data) {
                 state.voteTallies[proposalId] = data;
                 return data;
@@ -548,11 +547,12 @@
         if (!proposal) return;
 
         // Try to load full proposal JSON
-        var fullUrl = PROPOSALS_URL.replace('index.json', proposal.file || (proposalId + '.json'));
+        var fileName = proposal.file || (proposalId + '.json');
+        var fullUrl = PROPOSALS_URL.replace('index.json', fileName);
         fetch(fullUrl)
             .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
             .catch(function() {
-                return fetch('../governance/proposals/' + (proposal.file || proposalId + '.json'))
+                return fetch(PROPOSALS_FALLBACK_URL.replace('index.json', fileName))
                     .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); });
             })
             .then(function(full) {

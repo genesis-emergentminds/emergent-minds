@@ -203,53 +203,35 @@ p + p {
 }
 
 .logo-symbol {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     color: var(--accent);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    background: var(--accent-glow);
-    box-shadow: 0 0 10px var(--accent-glow);
-    text-shadow: 0 0 6px var(--accent);
+    background: rgba(96, 165, 250, 0.1);
+    border: 1px solid rgba(96, 165, 250, 0.25);
+    text-shadow: 0 0 8px var(--accent);
     flex-shrink: 0;
-    position: relative;
-}
-
-/* Smooth glow pulse using opacity on pseudo-element (GPU-accelerated, no repaint) */
-.logo-symbol::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-    opacity: 0;
-    animation: symbol-glow 5s ease-in-out infinite;
-    pointer-events: none;
-    will-change: opacity;
+    line-height: 1;
 }
 
 .logo-text {
-    letter-spacing: 0.06em;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: var(--text-primary);
+    opacity: 0.92;
+    transition: opacity 0.3s ease;
 }
 
-@keyframes symbol-glow {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 0.7; }
+.nav-logo:hover .logo-text {
+    opacity: 1;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .logo-symbol::after {
-        animation: none;
-        opacity: 0;
-    }
+.nav-logo:hover .logo-symbol {
+    text-shadow: 0 0 12px var(--accent), 0 0 24px var(--accent);
 }
 
 .nav-menu {
