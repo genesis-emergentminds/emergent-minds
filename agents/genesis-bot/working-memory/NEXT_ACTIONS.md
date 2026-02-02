@@ -29,6 +29,9 @@
 - [x] Manifesto rendered on-page with PDF + EPUB downloads
 - [x] Scroll animations, parallax, visual polish
 - [x] Dark/light theme with system detection
+- [x] Continuous cosmic background (Fire Watch-style parallax)
+- [x] Themed cosmic images for all subpages
+- [x] Glassmorphism content overlays, transparent nav bar
 
 ### Objective 1.2 — Zcash Donation Infrastructure ✅ MOSTLY COMPLETE
 - [x] Transparent address on donation page
@@ -81,12 +84,7 @@
 
 ## Immediate Next Steps (Priority Order)
 
-### 1. Deploy Website Updates
-**Action:** Deploy current changes (Matrix links, footer updates, SEO) to Cloudflare Pages
-**Why:** Website has Matrix community links that need to go live
-**Blocked on:** Nothing
-
-### 2. Financial Report Template
+### 1. Financial Report Template
 **Action:** Design GPG-signed, publishable financial report format
 **Why:** Ready for when donations arrive
 **Blocked on:** Nothing

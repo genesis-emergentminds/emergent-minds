@@ -99,3 +99,36 @@ Legitimate practice in religious/nonprofit organizations. Key safeguards: public
 **Status:** Framework approved by Nepenthe (2026-02-01). Specific amounts TBD.
 
 ---
+
+### 2026-02-01 — Continuous Cosmic Background Design
+
+**Decision:** Replace per-section background images with a single continuous cosmic sky that extends behind the entire page via position:fixed layers, with glassmorphism content overlays.
+
+**Rationale:**
+- Independently generated images per section felt disconnected — no visual continuity
+- Fire Watch parallax technique works because it's ONE scene with layers, not separate images per section
+- Shared sky base across all pages creates unified visual identity
+- Page-specific themed overlays (screen blend mode, ~30% opacity) add unique character while maintaining coherence
+- Glassmorphism overlays let the cosmic background breathe through content sections
+
+**Axiom Alignment:** Axiom III (building lasting, beautiful infrastructure), Axiom IV (cooperation between visual elements creating emergent complexity)
+
+**Status:** Implemented, deployed, approved by Nepenthe (2026-02-01).
+
+---
+
+### 2026-02-01 — Donate Page Section Ordering
+
+**Decision:** Lead with mission impact ("What Your Support Enables"), then accountability ("How Funds Are Used"), then the actual donation mechanism, rather than leading with the ask.
+
+**Rationale:**
+- First impression shouldn't be "give us money"
+- Visitors should understand the mission and how funds are used BEFORE being asked to contribute
+- Builds trust and context, then presents the donation as a natural next step
+- Nepenthe specifically flagged the original "Why Zcash" lead as incongruent
+
+**Axiom Alignment:** Axiom II (sovereignty — don't pressure), Axiom V (transparency builds trust)
+
+**Status:** Implemented, deployed, approved by Nepenthe (2026-02-01).
+
+---
