@@ -427,6 +427,12 @@
     function buildProposalCard(proposal) {
         var card = el('div', { className: 'gov-proposal-card', dataset: { id: proposal.proposal_id } });
 
+        // Dry run banner
+        if (proposal.dry_run) {
+            card.appendChild(el('div', { className: 'gov-notice gov-notice-warn', style: 'margin-bottom: var(--space-sm); font-size: 0.8125rem; padding: var(--space-xs) var(--space-sm);' },
+                '⚠️ DRY RUN — EXERCISE ONLY. Not a real proposal.'));
+        }
+
         // Header: ID + Category
         var header = el('div', { className: 'gov-proposal-card-header' }, [
             el('span', { className: 'gov-proposal-id' }, proposal.proposal_id),
@@ -569,6 +575,14 @@
         // Title
         var title = document.getElementById('gov-modal-title');
         setText(title, (p.proposal_id || indexEntry.proposal_id) + ': ' + (p.title || indexEntry.title));
+
+        // Dry run notice
+        if (p.dry_run || indexEntry.dry_run) {
+            body.appendChild(el('div', { className: 'gov-notice gov-notice-warn' }, [
+                el('strong', null, '⚠️ DRY RUN — EXERCISE ONLY'),
+                el('p', null, p.dry_run_notice || 'This proposal is part of a governance infrastructure test. It is NOT a real proposal and carries no binding or advisory weight.')
+            ]));
+        }
 
         // Meta
         body.appendChild(el('div', { className: 'gov-proposal-meta' }, [

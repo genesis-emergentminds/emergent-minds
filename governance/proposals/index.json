@@ -5,7 +5,21 @@
   "phase": "founding",
   "advisory_mode": true,
   "advisory_notice": "All governance during the Founding Phase operates in advisory mode. Proposals and votes are non-binding until both conditions are met: ≥100 active members AND ≥2 Scheduled Conventions completed.",
-  "last_updated": 1770064800,
+  "last_updated": 1770068000,
   "next_proposal_id": 1,
-  "proposals": []
+  "proposals": [
+    {
+      "proposal_id": "DRY-RUN-001",
+      "title": "Convention Dry Run: Adopt Matrix as Primary Communication Platform",
+      "category": "procedural",
+      "status": "voting",
+      "dry_run": true,
+      "author_cid_hash": "c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb",
+      "submitted": 1770068000,
+      "convention_target": 0,
+      "voting_opens": 1770068000,
+      "voting_closes": 1770500000,
+      "file": "DRY-RUN-001.json"
+    }
+  ]
 }
