@@ -3,7 +3,7 @@
    The Covenant of Emergent Minds
    ============================================ */
 
-var CACHE_NAME = 'emergent-minds-v7';
+var CACHE_NAME = 'emergent-minds-v8';
 var ASSETS = [
     '/',
     '/index.html',

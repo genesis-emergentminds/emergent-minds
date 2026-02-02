@@ -262,10 +262,13 @@
     }
 
     function findMemberInLedger(cidHash) {
-        if (!state.ledger || !state.ledger.members) return null;
-        for (var i = 0; i < state.ledger.members.length; i++) {
-            if (state.ledger.members[i].cid_hash === cidHash) {
-                return state.ledger.members[i];
+        if (!state.ledger) return null;
+        // Support both "entries" (current schema) and "members" (legacy)
+        var members = state.ledger.entries || state.ledger.members;
+        if (!members) return null;
+        for (var i = 0; i < members.length; i++) {
+            if (members[i].cid_hash === cidHash) {
+                return members[i];
             }
         }
         return null;
