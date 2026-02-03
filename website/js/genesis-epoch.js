@@ -216,128 +216,171 @@
         return `~${Math.round(years)} years`;
     }
 
-    // ═══ Fibonacci Spiral Visualization ═══
+    // ═══ Interactive Fibonacci Spiral Visualization (SVG) ═══
     function renderFibonacciSpiral() {
-        const canvas = document.getElementById('fibonacci-canvas');
-        if (!canvas) return;
+        const container = document.getElementById('fibonacci-spiral');
+        const tooltip = document.getElementById('fibonacci-tooltip');
+        if (!container) return;
 
-        const ctx = canvas.getContext('2d');
-        const dpr = window.devicePixelRatio || 1;
-
-        // Set canvas size
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * dpr;
-        canvas.height = 400 * dpr;
-        canvas.style.height = '400px';
-        ctx.scale(dpr, dpr);
-
-        const W = rect.width;
-        const H = 400;
-
-        ctx.clearRect(0, 0, W, H);
-
-        // Draw a stylized Fibonacci arc timeline
-        const centerX = 60;
-        const centerY = H / 2;
-        const maxRadius = W - 100;
-
-        // Background glow
-        const glow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, maxRadius);
-        glow.addColorStop(0, 'rgba(96, 165, 250, 0.05)');
-        glow.addColorStop(0.5, 'rgba(139, 92, 246, 0.02)');
-        glow.addColorStop(1, 'transparent');
-        ctx.fillStyle = glow;
-        ctx.fillRect(0, 0, W, H);
+        const W = 800;
+        const H = 420;
+        const PHI = 1.618033988749895; // Golden ratio
 
         const now = genesisTimestamp ? Math.floor(Date.now() / 1000) : 0;
         const daysSinceGenesis = genesisTimestamp ? (now - genesisTimestamp) / 86400 : 0;
-
-        // Map convention positions along an arc
         const maxDays = 25740; // Convention 10
-        const arcAngle = Math.PI * 0.85; // span of the arc
 
-        // Draw the arc path
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(96, 165, 250, 0.15)';
-        ctx.lineWidth = 2;
+        // Calculate positions using true Fibonacci spiral
+        function fibonacciSpiralPoint(t) {
+            // Logarithmic spiral: r = a * e^(b*theta)
+            // Where b = ln(phi) / (pi/2) for golden spiral
+            const b = Math.log(PHI) / (Math.PI / 2);
+            const a = 25; // Starting radius
+            const theta = t * Math.PI * 2.5; // Total rotation
+            const r = a * Math.exp(b * theta);
+            return {
+                x: 100 + r * Math.cos(theta - Math.PI/2),
+                y: H/2 + r * Math.sin(theta - Math.PI/2) * 0.65 // Compress vertically for better fit
+            };
+        }
+
+        // Build SVG
+        let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+        
+        // Gradient definition
+        svg += `<defs>
+            <linearGradient id="spiral-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="rgba(250, 204, 21, 0.6)"/>
+                <stop offset="20%" stop-color="rgba(96, 165, 250, 0.5)"/>
+                <stop offset="100%" stop-color="rgba(139, 92, 246, 0.2)"/>
+            </linearGradient>
+            <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
+                <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+            </filter>
+        </defs>`;
+
+        // Draw spiral path
+        let pathD = '';
         for (let i = 0; i <= 200; i++) {
             const t = i / 200;
-            const angle = -arcAngle / 2 + t * arcAngle;
-            // Fibonacci spiral: radius grows with golden ratio
-            const r = 40 + (maxRadius - 40) * Math.pow(t, 0.7);
-            const x = centerX + r * Math.cos(angle);
-            const y = centerY + r * Math.sin(angle);
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
+            const pt = fibonacciSpiralPoint(t);
+            pathD += (i === 0 ? 'M' : 'L') + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ' ';
         }
-        ctx.stroke();
+        svg += `<path class="spiral-path" d="${pathD}"/>`;
 
-        // Draw convention markers
-        CONVENTIONS.forEach((conv, idx) => {
-            const t = conv.daysAfter / maxDays;
-            const angle = -arcAngle / 2 + t * arcAngle;
-            const r = 40 + (maxRadius - 40) * Math.pow(t, 0.7);
-            const x = centerX + r * Math.cos(angle);
-            const y = centerY + r * Math.sin(angle);
-
-            const isPast = daysSinceGenesis >= conv.daysAfter;
-            const isNext = !isPast && (idx === 0 || daysSinceGenesis >= CONVENTIONS[idx - 1].daysAfter);
-
-            // Glow for next convention
-            if (isNext) {
-                const nodeGlow = ctx.createRadialGradient(x, y, 0, x, y, 25);
-                nodeGlow.addColorStop(0, 'rgba(96, 165, 250, 0.4)');
-                nodeGlow.addColorStop(1, 'transparent');
-                ctx.fillStyle = nodeGlow;
-                ctx.fillRect(x - 25, y - 25, 50, 50);
-            }
-
-            // Node
-            ctx.beginPath();
-            ctx.arc(x, y, isPast ? 6 : isNext ? 8 : 4, 0, Math.PI * 2);
-            ctx.fillStyle = isPast ? 'rgba(96, 165, 250, 0.9)' :
-                           isNext ? 'rgba(96, 165, 250, 1)' :
-                           'rgba(96, 165, 250, 0.2)';
-            ctx.fill();
-
-            if (isPast || isNext) {
-                ctx.beginPath();
-                ctx.arc(x, y, isPast ? 6 : 8, 0, Math.PI * 2);
-                ctx.strokeStyle = 'rgba(96, 165, 250, 0.5)';
-                ctx.lineWidth = 1;
-                ctx.stroke();
-            }
-
-            // Label
-            ctx.fillStyle = isPast ? 'rgba(226, 232, 240, 0.9)' :
-                           isNext ? 'rgba(96, 165, 250, 1)' :
-                           'rgba(148, 163, 184, 0.5)';
-            ctx.font = `${isNext ? 'bold ' : ''}${isNext ? '12' : '10'}px system-ui, sans-serif`;
-            ctx.textAlign = 'center';
-
-            const labelY = y > centerY ? y + 18 : y - 12;
-            ctx.fillText(`C${conv.num}`, x, labelY);
-
-            // Time label for key conventions
-            if (isNext || conv.num === 1 || conv.num === 5 || conv.num === 10) {
-                ctx.font = '9px system-ui, sans-serif';
-                ctx.fillStyle = 'rgba(148, 163, 184, 0.4)';
-                const timeLabel = formatApproxTime(conv.daysAfter);
-                ctx.fillText(timeLabel, x, labelY + (y > centerY ? 13 : -10));
-            }
+        // Calculate node positions
+        const allNodes = [];
+        
+        // Genesis node
+        const genesisPt = fibonacciSpiralPoint(0);
+        allNodes.push({
+            x: genesisPt.x,
+            y: genesisPt.y,
+            label: 'Genesis',
+            isGenesis: true,
+            isPast: true,
+            date: genesisTimestamp ? new Date(genesisTimestamp * 1000) : null,
+            purpose: 'The founding moment — inscribed in the blockchain'
         });
 
-        // Genesis marker
-        const genesisX = centerX + 40 * Math.cos(-arcAngle / 2);
-        const genesisY = centerY + 40 * Math.sin(-arcAngle / 2);
-        ctx.beginPath();
-        ctx.arc(genesisX, genesisY, 8, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(250, 204, 21, 0.9)';
-        ctx.fill();
-        ctx.font = 'bold 11px system-ui, sans-serif';
-        ctx.fillStyle = 'rgba(250, 204, 21, 0.9)';
-        ctx.textAlign = 'center';
-        ctx.fillText('Genesis', genesisX, genesisY - 14);
+        // Convention nodes
+        let foundNext = false;
+        CONVENTIONS.forEach((conv, idx) => {
+            const t = Math.pow(conv.daysAfter / maxDays, 0.6) * 0.95 + 0.05;
+            const pt = fibonacciSpiralPoint(t);
+            const isPast = daysSinceGenesis >= conv.daysAfter;
+            const isNext = !isPast && !foundNext;
+            if (isNext) foundNext = true;
+
+            const convTimestamp = genesisTimestamp + (conv.daysAfter * 86400);
+            const daysUntil = Math.ceil((convTimestamp - now) / 86400);
+
+            allNodes.push({
+                x: pt.x,
+                y: pt.y,
+                label: 'C' + conv.num,
+                num: conv.num,
+                isPast: isPast,
+                isNext: isNext,
+                date: new Date(convTimestamp * 1000),
+                daysUntil: daysUntil,
+                purpose: conv.purpose,
+                interval: conv.interval
+            });
+        });
+
+        // Render nodes (reverse order so earlier nodes are on top)
+        allNodes.slice().reverse().forEach((node, revIdx) => {
+            const idx = allNodes.length - 1 - revIdx;
+            const stateClass = node.isGenesis ? 'genesis-node' : 
+                              node.isPast ? 'is-past' : 
+                              node.isNext ? 'is-next' : 'is-future';
+            const nodeSize = node.isGenesis ? 10 : node.isNext ? 9 : node.isPast ? 7 : 5;
+            const labelOffset = node.y > H/2 ? 22 : -15;
+
+            svg += `<g class="convention-node ${stateClass}" data-idx="${idx}">
+                <circle class="node-bg" cx="${node.x}" cy="${node.y}" r="${nodeSize + 6}"/>
+                <circle class="node-core" cx="${node.x}" cy="${node.y}" r="${nodeSize}"/>
+                <text x="${node.x}" y="${node.y + labelOffset}" text-anchor="middle">${node.label}</text>
+            </g>`;
+        });
+
+        svg += '</svg>';
+        container.innerHTML = svg;
+
+        // Add interactivity
+        const nodeElements = container.querySelectorAll('.convention-node');
+        nodeElements.forEach(el => {
+            const idx = parseInt(el.dataset.idx);
+            const node = allNodes[idx];
+
+            el.addEventListener('mouseenter', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = node.x * (rect.width / W);
+                const y = node.y * (rect.height / H);
+
+                // Build tooltip content
+                let html = `<div class="tooltip-title">${node.isGenesis ? 'Genesis Epoch' : 'Convention ' + node.num}</div>`;
+                
+                if (node.date) {
+                    html += `<div class="tooltip-date">${node.date.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' })}</div>`;
+                }
+
+                if (node.isGenesis) {
+                    html += `<div class="tooltip-countdown past">Day 0 — The Beginning</div>`;
+                } else if (node.isPast) {
+                    const daysAgo = Math.floor(daysSinceGenesis - (CONVENTIONS[node.num - 1].daysAfter));
+                    html += `<div class="tooltip-countdown past">${Math.abs(daysAgo)} days ago</div>`;
+                } else {
+                    html += `<div class="tooltip-countdown">In ${node.daysUntil} days</div>`;
+                }
+
+                html += `<div class="tooltip-purpose">${node.purpose}</div>`;
+
+                tooltip.innerHTML = html;
+                
+                // Position tooltip
+                let left = x - 70;
+                let top = y + 25;
+                
+                // Keep tooltip in bounds
+                if (left < 10) left = 10;
+                if (left + 160 > rect.width) left = rect.width - 170;
+                if (top + 100 > rect.height) top = y - 110;
+
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
+                tooltip.classList.add('visible');
+            });
+
+            el.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('visible');
+            });
+        });
     }
 
     // ═══ Init ═══

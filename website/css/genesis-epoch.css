@@ -165,16 +165,164 @@
 }
 
 .fibonacci-spiral-container {
+    position: relative;
     max-width: 56rem;
     margin: 0 auto var(--space-xl);
     text-align: center;
 }
 
-#fibonacci-canvas {
+.fibonacci-spiral {
     width: 100%;
     max-width: 800px;
-    height: auto;
+    height: 420px;
+    margin: 0 auto;
+    position: relative;
     border-radius: 12px;
+    background: radial-gradient(ellipse at 20% 50%, rgba(96, 165, 250, 0.03) 0%, transparent 50%);
+}
+
+.fibonacci-spiral svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* ─── Spiral Path ─── */
+.spiral-path {
+    fill: none;
+    stroke: url(#spiral-gradient);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+/* ─── Convention Nodes ─── */
+.convention-node {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.convention-node circle.node-bg {
+    fill: rgba(10, 14, 23, 0.8);
+    stroke: rgba(96, 165, 250, 0.3);
+    stroke-width: 1;
+    transition: all 0.3s ease;
+}
+
+.convention-node circle.node-core {
+    fill: rgba(96, 165, 250, 0.3);
+    transition: all 0.3s ease;
+}
+
+.convention-node.is-past circle.node-core {
+    fill: var(--accent);
+}
+
+.convention-node.is-next circle.node-core {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.8));
+    animation: node-pulse 2s ease-in-out infinite;
+}
+
+.convention-node.is-future circle.node-core {
+    fill: rgba(96, 165, 250, 0.15);
+}
+
+.convention-node:hover circle.node-bg {
+    stroke: var(--accent);
+    stroke-width: 2;
+}
+
+.convention-node:hover circle.node-core {
+    fill: var(--accent);
+    filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.9));
+}
+
+.convention-node text {
+    fill: var(--text-secondary, #94a3b8);
+    font-size: 11px;
+    font-weight: 500;
+    pointer-events: none;
+    transition: fill 0.3s ease;
+}
+
+.convention-node.is-next text,
+.convention-node.is-past text {
+    fill: var(--text-primary, #e2e8f0);
+}
+
+.convention-node:hover text {
+    fill: var(--accent);
+}
+
+@keyframes node-pulse {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6)); }
+    50% { filter: drop-shadow(0 0 16px rgba(96, 165, 250, 1)); }
+}
+
+/* ─── Genesis Node (special styling) ─── */
+.genesis-node circle.node-core {
+    fill: rgba(250, 204, 21, 0.9);
+}
+
+.genesis-node:hover circle.node-core {
+    fill: rgba(250, 204, 21, 1);
+    filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.9));
+}
+
+.genesis-node text {
+    fill: rgba(250, 204, 21, 0.9);
+    font-weight: 600;
+}
+
+/* ─── Tooltip ─── */
+.fibonacci-tooltip {
+    position: absolute;
+    background: rgba(10, 14, 23, 0.95);
+    border: 1px solid rgba(96, 165, 250, 0.4);
+    border-radius: 8px;
+    padding: 12px 16px;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 100;
+    max-width: 280px;
+    text-align: left;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.fibonacci-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fibonacci-tooltip .tooltip-title {
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.fibonacci-tooltip .tooltip-date {
+    color: var(--text-primary, #e2e8f0);
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.fibonacci-tooltip .tooltip-countdown {
+    color: rgba(250, 204, 21, 0.9);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.fibonacci-tooltip .tooltip-countdown.past {
+    color: rgba(96, 165, 250, 0.7);
+}
+
+.fibonacci-tooltip .tooltip-purpose {
+    color: var(--text-secondary, #94a3b8);
+    font-size: 0.75rem;
+    margin-top: 6px;
+    font-style: italic;
 }
 
 .timeline-container {
