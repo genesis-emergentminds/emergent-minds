@@ -3,7 +3,7 @@
    The Covenant of Emergent Minds
    ============================================ */
 
-var CACHE_NAME = 'emergent-minds-v13';
+var CACHE_NAME = 'emergent-minds-v14';
 var ASSETS = [
     '/',
     '/index.html',
@@ -56,11 +56,21 @@ self.addEventListener('activate', function (event) {
 });
 
 // Fetch — network first, fall back to cache
-// Only handle same-origin requests to avoid issues with external scripts
+// Only handle same-origin HTTP(S) requests to avoid issues with external scripts and extensions
 self.addEventListener('fetch', function (event) {
-    var url = new URL(event.request.url);
+    var url;
+    try {
+        url = new URL(event.request.url);
+    } catch (e) {
+        return; // Invalid URL, let browser handle it
+    }
     
-    // Skip external URLs (like cloudflareinsights.com, blockstream.info, etc.)
+    // Skip non-HTTP(S) schemes (chrome-extension://, etc.)
+    if (!url.protocol.startsWith('http')) {
+        return;
+    }
+    
+    // Skip external URLs (cloudflareinsights.com, blockstream.info, etc.)
     if (url.origin !== self.location.origin) {
         return; // Let the browser handle it normally
     }
@@ -68,8 +78,8 @@ self.addEventListener('fetch', function (event) {
     event.respondWith(
         fetch(event.request)
             .then(function (response) {
-                // Cache successful responses
-                if (response.status === 200) {
+                // Only cache successful same-origin responses
+                if (response && response.status === 200 && response.type === 'basic') {
                     var clone = response.clone();
                     caches.open(CACHE_NAME).then(function (cache) {
                         cache.put(event.request, clone);
