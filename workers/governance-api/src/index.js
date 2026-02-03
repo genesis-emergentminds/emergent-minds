@@ -13,7 +13,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 import { validateVote, validateProposal, MAX_PAYLOAD_BYTES } from './validate.js';
-import { verifyEd25519, sha256Hex } from './crypto.js';
+import { verifyEd25519, sha256Hex, base64ToBytes } from './crypto.js';
 import { canonicalJSON } from './canonical.js';
 import { fetchLedger, findMember, fetchProposalsIndex, fileExists, createFile } from './github.js';
 

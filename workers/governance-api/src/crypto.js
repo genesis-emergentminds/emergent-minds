@@ -1,17 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
    Ed25519 Signature Verification
-   Uses @noble/ed25519 v2.x — same library as browser crypto bundle.
+   Uses Web Crypto API available in Cloudflare Workers.
    ═══════════════════════════════════════════════════════════════ */
 
-import * as ed25519 from '@noble/ed25519';
-import { sha512 } from '@noble/hashes/sha2.js';
 import { canonicalJSON } from './canonical.js';
-
-// @noble/ed25519 v2.x requires SHA-512 to be configured.
-// Use @noble/hashes for compatibility.
-ed25519.etc.sha512Sync = function(...messages) {
-    return sha512(ed25519.etc.concatBytes(...messages));
-};
 
 /**
  * Decode a base64 string to Uint8Array.
@@ -26,23 +18,46 @@ export function base64ToBytes(b64) {
 }
 
 /**
- * Verify an Ed25519 signature against a signable object.
+ * Convert to hex string.
+ */
+export function bytesToHex(bytes) {
+    return Array.from(bytes).map(function(b) {
+        return b.toString(16).padStart(2, '0');
+    }).join('');
+}
+
+/**
+ * Verify an Ed25519 signature against a signable object using Web Crypto API.
  *
  * CRITICAL: publicKeyB64 MUST come from the ledger, NOT from the submission.
  *
  * @param {string} signatureB64 - Base64-encoded Ed25519 signature
  * @param {Object} signableContent - The object that was signed (will be canonicalised)
  * @param {string} publicKeyB64 - Base64-encoded Ed25519 public key FROM LEDGER
- * @returns {boolean} Whether the signature is valid
+ * @returns {Promise<boolean>} Whether the signature is valid
  */
-export function verifyEd25519(signatureB64, signableContent, publicKeyB64) {
+export async function verifyEd25519(signatureB64, signableContent, publicKeyB64) {
     var signature = base64ToBytes(signatureB64);
-    var publicKey = base64ToBytes(publicKeyB64);
+    var publicKeyBytes = base64ToBytes(publicKeyB64);
     var canonical = canonicalJSON(signableContent);
     var msgBytes = new TextEncoder().encode(canonical);
 
-    // @noble/ed25519 v2: verify(signature, message, publicKey) → boolean (sync with sha512Sync)
-    return ed25519.verify(signature, msgBytes, publicKey);
+    // Import the public key using Web Crypto API
+    var publicKey = await crypto.subtle.importKey(
+        'raw',
+        publicKeyBytes,
+        { name: 'Ed25519' },
+        false,
+        ['verify']
+    );
+
+    // Verify the signature
+    return crypto.subtle.verify(
+        { name: 'Ed25519' },
+        publicKey,
+        signature,
+        msgBytes
+    );
 }
 
 /**
