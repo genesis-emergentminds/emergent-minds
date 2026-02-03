@@ -244,3 +244,39 @@ Legitimate practice in religious/nonprofit organizations. Key safeguards: public
 **Status:** Implementation complete (commit `b98985c`). Deployment pending creation of dedicated fine-grained GitHub PAT.
 
 ---
+
+### 2026-02-03 — Bitcoin Donation Support
+
+**Decision:** Add Bitcoin (BTC) as a second cryptocurrency donation option alongside Zcash (ZEC).
+
+**Rationale:**
+- Bitcoin has the largest network effect — more people hold BTC than any other cryptocurrency
+- The Genesis Epoch is inscribed on Bitcoin, creating symbolic alignment
+- Multiple chains = resilience (if one becomes censored or inaccessible)
+- Bitcoin is publicly auditable (transparent by default) which aligns with Axiom V
+
+**Implementation:**
+- Reusing the same wallet generated for blockchain inscriptions
+- Address: `bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj` (Native SegWit/bech32)
+- QR codes generated for dark/light modes
+- Copy button with same UX as Zcash
+- Private key (WIF) in `.env` only, never in git
+
+**Security Considerations:**
+- Created `docs/operations/WALLET_SECURITY.md` with backup procedures
+- Recommended encrypted backup to offline storage
+- Future: migrate to multisig when holdings justify complexity
+
+**Why Not More Cryptocurrencies?**
+- Each additional chain adds maintenance burden (monitoring, UI)
+- Zcash + Bitcoin cover the key properties: privacy option + network effect
+- Can add more later if community requests (Monero, Ethereum, etc.)
+
+**Axiom Alignment:**
+- V (Adversarial Resilience): Multiple chains, no single point of failure
+- II (Individual Sovereignty): Donors choose their preferred cryptocurrency
+- III (Fight Entropy): Well-documented security practices
+
+**Status:** Deployed (commit `f276268`).
+
+---
