@@ -716,6 +716,22 @@
     background: rgba(96, 165, 250, 0.03);
 }
 
+/* ─── Results Detail Container ─── */
+#gov-results-detail {
+    max-height: 24rem;
+    overflow-y: auto;
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    background: rgba(17, 24, 39, 0.4);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+}
+
+#gov-results-content {
+    /* Ensure content doesn't overflow horizontally */
+    overflow-x: hidden;
+}
+
 /* ─── Empty/Loading States ─── */
 .gov-empty {
     text-align: center;
