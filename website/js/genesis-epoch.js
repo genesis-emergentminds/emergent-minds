@@ -217,9 +217,8 @@
     }
 
     // ═══ Interactive Fibonacci Spiral Visualization (SVG) ═══
-    // Design philosophy: Let the background spiral be the visual hero.
-    // Our nodes trace its path with mathematical precision, creating harmony
-    // rather than competition between foreground and background.
+    // Design: We draw our own golden spiral with conventions perfectly aligned.
+    // The background is atmospheric only - no competing geometry.
     function renderFibonacciSpiral() {
         const container = document.getElementById('fibonacci-spiral');
         const tooltip = document.getElementById('fibonacci-tooltip');
@@ -229,16 +228,16 @@
         const H = 420;
         const PHI = 1.618033988749895; // Golden ratio
         
-        // Spiral center aligned with the background image's spiral
-        // The background spiral appears centered around this point
-        const CENTER_X = 530;
-        const CENTER_Y = 340;
+        // Spiral center - positioned for visual balance
+        const CENTER_X = W * 0.42;  // Slightly left of center
+        const CENTER_Y = H * 0.52;  // Slightly below center
         
-        // Spiral parameters tuned to match the background
-        const SPIRAL_A = 8;           // Starting radius (smaller = tighter center)
-        const SPIRAL_B = Math.log(PHI) / (Math.PI / 2); // Golden ratio growth
-        const ROTATION_OFFSET = Math.PI * 0.15;  // Align with background spiral arm
-        const MAX_THETA = Math.PI * 3.2; // Total rotation (~1.6 full turns)
+        // Golden spiral parameters
+        // r = a * e^(b*theta) where b = ln(phi) / (pi/2)
+        const SPIRAL_A = 12;        // Starting radius
+        const SPIRAL_B = Math.log(PHI) / (Math.PI / 2);
+        const MAX_THETA = Math.PI * 2.8;  // ~1.4 full rotations
+        const ROTATION = -Math.PI / 4;    // Rotate spiral for visual appeal
 
         const now = genesisTimestamp ? Math.floor(Date.now() / 1000) : 0;
         const daysSinceGenesis = genesisTimestamp ? (now - genesisTimestamp) / 86400 : 0;
@@ -248,40 +247,64 @@
         function goldenSpiralPoint(theta) {
             const r = SPIRAL_A * Math.exp(SPIRAL_B * theta);
             return {
-                x: CENTER_X + r * Math.cos(theta + ROTATION_OFFSET),
-                y: CENTER_Y - r * Math.sin(theta + ROTATION_OFFSET) * 0.85 // Slight vertical compression
+                x: CENTER_X + r * Math.cos(theta + ROTATION),
+                y: CENTER_Y + r * Math.sin(theta + ROTATION)
             };
         }
 
-        // Map convention time to spiral position using logarithmic scaling
-        // This spreads out the early conventions while keeping mathematical harmony
+        // Map convention time to spiral position
+        // Using square root scaling for better visual distribution
         function timeToTheta(daysAfter) {
             if (daysAfter === 0) return 0;
-            // Logarithmic scaling: earlier conventions get more visual space
-            const normalized = Math.log(1 + daysAfter) / Math.log(1 + maxDays);
+            const normalized = Math.sqrt(daysAfter / maxDays);
             return normalized * MAX_THETA;
         }
 
-        // Build SVG - minimalist approach, let background shine
+        // Build SVG
         let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
         
-        // Subtle glow filter for active nodes
+        // Definitions for gradients and filters
         svg += `<defs>
-            <filter id="node-glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="4" result="blur"/>
+            <!-- Spiral gradient: gold -> blue -> purple fade -->
+            <linearGradient id="spiral-gradient" gradientUnits="userSpaceOnUse" x1="${CENTER_X}" y1="${CENTER_Y}" x2="${W}" y2="${H}">
+                <stop offset="0%" stop-color="rgba(250, 204, 21, 0.7)"/>
+                <stop offset="30%" stop-color="rgba(96, 165, 250, 0.5)"/>
+                <stop offset="100%" stop-color="rgba(139, 92, 246, 0.3)"/>
+            </linearGradient>
+            
+            <!-- Glow effect for the spiral -->
+            <filter id="spiral-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
                 <feMerge>
                     <feMergeNode in="blur"/>
                     <feMergeNode in="SourceGraphic"/>
                 </feMerge>
             </filter>
-            <filter id="genesis-glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="6" result="blur"/>
+            
+            <!-- Subtle glow for nodes -->
+            <filter id="node-glow" x="-100%" y="-100%" width="300%" height="300%">
+                <feGaussianBlur stdDeviation="3" result="blur"/>
                 <feMerge>
                     <feMergeNode in="blur"/>
                     <feMergeNode in="SourceGraphic"/>
                 </feMerge>
             </filter>
         </defs>`;
+
+        // Draw the golden spiral path - the main visual element
+        let spiralPath = '';
+        const spiralPoints = 200;
+        for (let i = 0; i <= spiralPoints; i++) {
+            const theta = (i / spiralPoints) * MAX_THETA;
+            const pt = goldenSpiralPoint(theta);
+            spiralPath += (i === 0 ? 'M' : 'L') + pt.x.toFixed(2) + ',' + pt.y.toFixed(2) + ' ';
+        }
+        
+        // Outer glow layer
+        svg += `<path d="${spiralPath}" fill="none" stroke="rgba(96, 165, 250, 0.15)" stroke-width="8" stroke-linecap="round" filter="url(#spiral-glow)"/>`;
+        
+        // Main spiral line
+        svg += `<path d="${spiralPath}" fill="none" stroke="url(#spiral-gradient)" stroke-width="2.5" stroke-linecap="round"/>`;
 
         // Calculate node positions
         const allNodes = [];
@@ -326,66 +349,47 @@
             });
         });
 
-        // Draw subtle connecting arc between consecutive nodes
-        // This traces the spiral path without overpowering the background
-        svg += `<path class="spiral-path" d="`;
-        for (let i = 0; i <= 100; i++) {
-            const theta = (i / 100) * MAX_THETA;
-            const pt = goldenSpiralPoint(theta);
-            svg += (i === 0 ? 'M' : 'L') + pt.x.toFixed(1) + ',' + pt.y.toFixed(1) + ' ';
-        }
-        svg += `" fill="none" stroke="rgba(96, 165, 250, 0.12)" stroke-width="1.5"/>`;
-
-        // Render nodes with refined styling
-        // Later nodes rendered first (so earlier ones appear on top when overlapping)
+        // Render nodes - later nodes first so earlier ones appear on top
         allNodes.slice().reverse().forEach((node, revIdx) => {
             const idx = allNodes.length - 1 - revIdx;
             const stateClass = node.isGenesis ? 'genesis-node' : 
                               node.isPast ? 'is-past' : 
                               node.isNext ? 'is-next' : 'is-future';
             
-            // Refined node sizes - smaller and more elegant
-            const nodeSize = node.isGenesis ? 8 : node.isNext ? 6 : node.isPast ? 5 : 4;
+            // Node sizes
+            const nodeSize = node.isGenesis ? 10 : node.isNext ? 7 : node.isPast ? 6 : 5;
             
-            // Calculate label position based on spiral angle
-            // Labels positioned tangent to the spiral for visual flow
-            const labelAngle = node.theta + ROTATION_OFFSET + Math.PI / 2; // Perpendicular to radius
-            const labelDist = nodeSize + 12;
+            // Label positioning - outward from spiral center
+            const dx = node.x - CENTER_X;
+            const dy = node.y - CENTER_Y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const labelDist = nodeSize + 14;
             
-            // Determine which side of node to place label based on position
             let labelX, labelY, textAnchor;
             
             if (node.isGenesis) {
-                // Genesis label above
                 labelX = node.x;
-                labelY = node.y - 16;
+                labelY = node.y - nodeSize - 8;
                 textAnchor = 'middle';
             } else {
-                // Position label away from center, perpendicular to spiral
-                const dx = node.x - CENTER_X;
-                const dy = node.y - CENTER_Y;
-                const angle = Math.atan2(-dy, dx);
+                // Position label radially outward from center
+                labelX = node.x + (dx / dist) * labelDist;
+                labelY = node.y + (dy / dist) * labelDist + 4;
                 
-                // Place label on the outer side of the spiral
-                labelX = node.x + Math.cos(angle) * labelDist;
-                labelY = node.y - Math.sin(angle) * labelDist + 4;
-                
-                // Text anchor based on position
-                if (labelX > node.x + 5) {
+                // Adjust text anchor based on position
+                if (dx > 10) {
                     textAnchor = 'start';
-                } else if (labelX < node.x - 5) {
+                } else if (dx < -10) {
                     textAnchor = 'end';
                 } else {
                     textAnchor = 'middle';
                 }
             }
 
-            // Apply glow filter to Genesis and next convention
-            const filterAttr = node.isGenesis ? 'filter="url(#genesis-glow)"' : 
-                              node.isNext ? 'filter="url(#node-glow)"' : '';
+            const filterAttr = (node.isGenesis || node.isNext) ? 'filter="url(#node-glow)"' : '';
 
             svg += `<g class="convention-node ${stateClass}" data-idx="${idx}">
-                <circle class="node-bg" cx="${node.x}" cy="${node.y}" r="${nodeSize + 4}" ${filterAttr}/>
+                <circle class="node-bg" cx="${node.x}" cy="${node.y}" r="${nodeSize + 5}" ${filterAttr}/>
                 <circle class="node-core" cx="${node.x}" cy="${node.y}" r="${nodeSize}"/>
                 <text x="${labelX}" y="${labelY}" text-anchor="${textAnchor}" class="node-label">${node.label}</text>
             </g>`;
