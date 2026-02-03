@@ -225,6 +225,10 @@
         const W = 800;
         const H = 420;
         const PHI = 1.618033988749895; // Golden ratio
+        
+        // Center offset to align spiral with background image
+        const CENTER_X = W / 2 - 60; // Slightly left of center to account for spiral expansion
+        const CENTER_Y = H / 2;
 
         const now = genesisTimestamp ? Math.floor(Date.now() / 1000) : 0;
         const daysSinceGenesis = genesisTimestamp ? (now - genesisTimestamp) / 86400 : 0;
@@ -239,8 +243,8 @@
             const theta = t * Math.PI * 2.5; // Total rotation
             const r = a * Math.exp(b * theta);
             return {
-                x: 100 + r * Math.cos(theta - Math.PI/2),
-                y: H/2 + r * Math.sin(theta - Math.PI/2) * 0.65 // Compress vertically for better fit
+                x: CENTER_X + r * Math.cos(theta - Math.PI/2),
+                y: CENTER_Y + r * Math.sin(theta - Math.PI/2) * 0.65 // Compress vertically for better fit
             };
         }
 
@@ -320,12 +324,47 @@
                               node.isPast ? 'is-past' : 
                               node.isNext ? 'is-next' : 'is-future';
             const nodeSize = node.isGenesis ? 10 : node.isNext ? 9 : node.isPast ? 7 : 5;
-            const labelOffset = node.y > H/2 ? 22 : -15;
+            
+            // Smart label positioning based on quadrant to avoid overlap
+            let labelX = node.x;
+            let labelY = node.y;
+            let textAnchor = 'middle';
+            
+            if (node.isGenesis) {
+                // Genesis label goes above-left
+                labelY = node.y - 18;
+                labelX = node.x - 5;
+            } else {
+                // Position labels based on their position relative to center
+                const dx = node.x - CENTER_X;
+                const dy = node.y - CENTER_Y;
+                
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    // More horizontal - place label to the side
+                    if (dx > 0) {
+                        labelX = node.x + nodeSize + 8;
+                        textAnchor = 'start';
+                    } else {
+                        labelX = node.x - nodeSize - 8;
+                        textAnchor = 'end';
+                    }
+                } else {
+                    // More vertical - place label above or below
+                    if (dy > 0) {
+                        labelY = node.y + nodeSize + 16;
+                    } else {
+                        labelY = node.y - nodeSize - 8;
+                    }
+                }
+            }
+
+            // Ensure label text is correct (C + number)
+            const labelText = node.isGenesis ? node.label : `C${node.num}`;
 
             svg += `<g class="convention-node ${stateClass}" data-idx="${idx}">
                 <circle class="node-bg" cx="${node.x}" cy="${node.y}" r="${nodeSize + 6}"/>
                 <circle class="node-core" cx="${node.x}" cy="${node.y}" r="${nodeSize}"/>
-                <text x="${node.x}" y="${node.y + labelOffset}" text-anchor="middle">${node.label}</text>
+                <text x="${labelX}" y="${labelY}" text-anchor="${textAnchor}">${labelText}</text>
             </g>`;
         });
 

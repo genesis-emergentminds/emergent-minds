@@ -334,10 +334,11 @@
 }
 
 .timeline-container {
-    max-width: 48rem;
+    max-width: 44rem; /* Reduced to better fit content width */
     margin: 0 auto;
     position: relative;
     padding-left: 3rem;
+    padding-right: 3rem; /* Symmetric padding for visual balance */
 }
 
 /* The vertical line */
@@ -360,6 +361,7 @@
     position: relative;
     padding: var(--space-md) var(--space-md) var(--space-lg);
     margin-bottom: var(--space-sm);
+    text-align: left; /* Keep event content left-aligned even when container is centered */
 }
 
 .timeline-event::before {
