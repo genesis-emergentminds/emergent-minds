@@ -1,10 +1,12 @@
 # Genesis Bot Next Actions
 
-## Context (Updated 2026-02-03 07:45 EST)
+## Context (Updated 2026-02-03 09:10 EST)
 
 🎉 **GENESIS EPOCH ESTABLISHED** 🎉
+✅ **GOVERNANCE PIPELINE TEST — SUCCESSFUL**
 
-Bitcoin + Zcash inscriptions complete. Genesis Epoch page live. Bitcoin donation support added.
+Bitcoin + Zcash inscriptions complete. Genesis Epoch page live. Bitcoin donations live.
+Cloudflare Worker deployed. First vote submitted and visible in governance portal.
 
 ---
 
@@ -21,6 +23,18 @@ Bitcoin + Zcash inscriptions complete. Genesis Epoch page live. Bitcoin donation
 
 ---
 
+## Governance Pipeline Status ✅
+
+- **Worker:** `api.emergentminds.org` — deployed and operational
+- **Test Proposal:** DRY-RUN-001 (status: voting)
+- **First Vote:** Nepenthe (c9da93f0) → approve @ 1770120764
+  - Public repo commit: `be1eb06`
+  - Signature verified, committed via Worker
+- **Tally Index:** Created, vote visible in portal
+- **Portal:** Fixed fallback URLs, deployed
+
+---
+
 ## Active Sub-Agents
 
 | Label | Session | Task | Status |
@@ -31,21 +45,24 @@ Bitcoin + Zcash inscriptions complete. Genesis Epoch page live. Bitcoin donation
 
 ## Just Completed
 
-1. ✅ **Bitcoin Donation Support** (commit `f276268`)
+1. ✅ **State Reconciliation** (commit `c945a80`)
+   - Audited tracking vs actual state — found divergences
+   - Worker was deployed (not blocked as tracked)
+   - Nepenthe's vote was successful (not visible due to data sync issue)
+   - Fixed: governance.js now falls back to public repo for votes
+   - Created tally index for DRY-RUN-001 in public repo
+
+2. ✅ **Bitcoin Donation Support** (commit `f276268`)
    - Added BTC to Support page with QR codes
    - Address: `bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj`
    - Created `WALLET_SECURITY.md` with backup procedures
 
-2. ✅ **Mobile Text Visibility Fix** (commit `de5b1ec`)
+3. ✅ **Mobile Text Visibility Fix** (commit `de5b1ec`)
    - Page header text now always light regardless of theme
    - Fixed nav consistency (Genesis Epoch link)
 
-3. ✅ **Governance Portal Ledger Fix** (commit `6608cd3`)
+4. ✅ **Governance Portal Ledger Fix** (commit `6608cd3`)
    - Fixed `entries` vs `members` field name bug
-
-4. ✅ **Memory/Documentation Update**
-   - Updated MEMORY.md with Genesis Epoch info
-   - Created 2026-02-03.md session log
 
 ---
 
@@ -83,20 +100,28 @@ Bitcoin + Zcash inscriptions complete. Genesis Epoch page live. Bitcoin donation
    - Set up IPFS mirror as secondary distribution
    - *Not blocked*
 
+### COMPLETE ✅
+
+9. ✅ **Cloudflare Worker for Vote Submission** — DEPLOYED
+   - `api.emergentminds.org` operational
+   - Fine-grained GitHub PAT configured
+   - First vote successfully committed via Worker
+
+10. ✅ **Governance Pipeline Dry Run** — SUCCESSFUL
+   - DRY-RUN-001 proposal submitted, in voting
+   - Nepenthe's vote verified and committed
+   - Tally visible in portal
+
 ### PENDING / BLOCKED
 
-9. **Cloudflare Worker for Vote Submission**
-   - Implementation complete
-   - *Blocked on:* Fine-grained GitHub PAT creation
-
-10. **Arweave Full Document Upload**
+11. **Arweave Full Document Upload**
     - *Blocked on:* AR token availability
     - Wallet ready: `edaEFIImpN0BkllVbTUcltvsm8fzD-X8Vg6oDmRIm90`
 
-11. **Threshold Persistent Deployment**
+12. **Threshold Persistent Deployment**
     - *Blocked on:* Deployment strategy decision (launchd vs VPS)
 
-12. **Email Forwarding**
+13. **Email Forwarding**
     - *Blocked on:* Nepenthe configuring MX records
 
 ---
