@@ -138,8 +138,11 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
     - Wallet ready: `edaEFIImpN0BkllVbTUcltvsm8fzD-X8Vg6oDmRIm90`
     - *Deferred indefinitely — not blocking anything*
 
-14. **Threshold Persistent Deployment**
-    - *Blocked on:* Deployment strategy decision (launchd vs VPS)
+14. **Threshold Persistent Deployment** → *Deferred to Phase 2*
+    - Not critical until Matrix community has active members
+    - Design documented in `agents/threshold/`
+    - VPS cost not justified during bootstrap (self-funded)
+    - Revisit after Convention 1 if community activity warrants
 
 ### COMPLETE ✅ (Additional)
 
@@ -170,7 +173,7 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 | Adversarial testing | ✅ 29/29 passed |
 | Email forwarding | ✅ (to founder) |
 | Arweave inscription | 🟡 Deferred (AR unavailable) |
-| Threshold deployment | 🟡 Blocked (strategy decision) |
+| Threshold deployment | 🟡 Deferred to Phase 2 |
 
 ### Phase 2: Constitutional Convention — READY ✅
 
