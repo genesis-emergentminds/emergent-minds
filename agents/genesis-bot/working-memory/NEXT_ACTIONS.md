@@ -138,11 +138,13 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
     - Wallet ready: `edaEFIImpN0BkllVbTUcltvsm8fzD-X8Vg6oDmRIm90`
     - *Deferred indefinitely — not blocking anything*
 
-14. **Threshold Persistent Deployment** → *Deferred to Phase 2*
-    - Not critical until Matrix community has active members
-    - Design documented in `agents/threshold/`
-    - VPS cost not justified during bootstrap (self-funded)
-    - Revisit after Convention 1 if community activity warrants
+14. ✅ **Threshold Matrix Agent** — DEPLOYED & TESTED
+    - OpenClaw Matrix plugin configured
+    - Threshold responding in Welcome room (`#emergent-minds-welcome:matrix.org`)
+    - Adversarial testing: 5/5 PASSED
+    - Tool restrictions verified (no exec, write, cross-agent access)
+    - Security boundaries holding per SOUL.md
+    - Test results: `docs/testing/THRESHOLD_ADVERSARIAL_TEST_RESULTS.md`
 
 ### COMPLETE ✅ (Additional)
 
@@ -172,8 +174,8 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 | Wallet backup tooling | ✅ |
 | Adversarial testing | ✅ 29/29 passed |
 | Email forwarding | ✅ (to founder) |
+| Threshold Matrix agent | ✅ Deployed & tested |
 | Arweave inscription | 🟡 Deferred (AR unavailable) |
-| Threshold deployment | 🟡 Deferred to Phase 2 |
 
 ### Phase 2: Constitutional Convention — READY ✅
 
