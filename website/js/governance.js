@@ -16,8 +16,8 @@
     var VOTES_BASE_URL = '../data/governance/votes/';
 
     // ── Worker API ──
-    var WORKER_API_URL = 'https://emergent-minds-api.genesis-cfc.workers.dev';
-    var WORKER_API_URL_PROD = 'https://api.emergentminds.org'; // Switch to this after DNS setup
+    var WORKER_API_URL = 'https://api.emergentminds.org';
+    var WORKER_API_URL_DEV = 'https://emergent-minds-api.genesis-cfc.workers.dev'; // Fallback/testing
 
     // ── State ──
     var state = {
