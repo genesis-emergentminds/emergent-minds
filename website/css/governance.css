@@ -151,6 +151,8 @@
 /* Treasury info expandable details */
 .gov-info-details {
     max-width: 56rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .gov-proposal-list {

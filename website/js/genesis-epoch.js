@@ -229,7 +229,7 @@
         const PHI = 1.618033988749895; // Golden ratio
         
         // Spiral center - positioned for visual balance
-        const CENTER_X = W * 0.38;  // Left of center to give spiral room to expand right
+        const CENTER_X = W * 0.48;  // Moved right ~10% for better horizontal centering
         const CENTER_Y = H * 0.38;  // Moved up ~10% for better vertical centering
         
         // Golden spiral parameters

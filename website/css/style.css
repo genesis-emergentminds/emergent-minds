@@ -386,7 +386,7 @@ p + p {
     inset: 0;
     z-index: -1;
     opacity: 0.25;
-    background-image: url('../assets/generated/hero-bg.png');
+    background-image: url('../assets/generated/hero-bg.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
