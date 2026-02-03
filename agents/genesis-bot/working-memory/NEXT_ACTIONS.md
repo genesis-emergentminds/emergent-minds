@@ -1,42 +1,53 @@
 # Genesis Bot Next Actions
 
-## Context (Updated 2026-02-02 16:00 EST)
+## Context (Updated 2026-02-03 07:25 EST)
 
-THE_COVENANT.md v1.0 confirmed. Blockchain inscription toolkit built. Governance portal live. Massive progress today.
+🎉 **GENESIS EPOCH ESTABLISHED** 🎉
+
+THE_COVENANT.md v1.0 inscribed on Bitcoin and Zcash. Genesis Epoch page live with live counter and Fibonacci convention timeline.
 
 ---
 
-## Immediate — Awaiting Decisions
+## Genesis Epoch Summary
 
-1. **Blockchain Inscription** — Tools ready, need Nepenthe's go-ahead:
-   - a) Generate mainnet wallets (BTC + Arweave)?
-   - b) Zcash: use existing t-address or create z-address?
-   - Total cost: ~$0.25 across all three chains
-   - Ready to inscribe: SHA-256 `4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef`
+- **Bitcoin Block:** 934,794 (Feb 3, 2026 @ 10:41:40 PM EST)
+- **TX:** `94c6337c8cec10b10f4bef8b10649f1e3a77efac10653826e2372c93df9d9dd1`
+- **OP_RETURN:** `COV1:4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef`
 
-2. **Governance Decisions** — Nepenthe choosing:
-   - c) Public voting (recommended for MVP) vs commit-reveal
-   - d) Ed25519-only MVP (recommended) vs dual-sign from day one
-   - e) Advisory-mode voting (recommended)
-   - Portal is live at emergentminds.org/pages/governance-portal.html
+- **Zcash TX:** `f878b6f9d51045f00537de9feedf4b63dddb665923d490c7ed093154bfcd070b`
+- **Memo:** `COV1:<hash>|sha256|THE_COVENANT.md|v1.0|emergentminds.org`
+
+- **Convention 1:** August 1, 2026 (~6 months)
+- **Convention 2:** January 28, 2027 (~1 year)
+
+---
+
+## Immediate — Next Steps
+
+1. **Arweave Full Document Upload** — DEFERRED
+   - AR token not available on Nepenthe's exchanges
+   - Can be done anytime — not blocking anything
+   - Wallet generated: `edaEFIImpN0BkllVbTUcltvsm8fzD-X8Vg6oDmRIm90`
+
+2. **Threshold Persistent Deployment**
+   - Decision needed: launchd on macOS (interim) vs VPS
+   - *Blocked on:* Deployment strategy decision
 
 ---
 
 ## Phase 1 Remaining Items
 
-### HIGH PRIORITY
+### HIGH PRIORITY — COMPLETE ✅
 
-1. ✅ ~~**THE_COVENANT.md v1.0**~~ CONFIRMED
-2. ✅ ~~**Blockchain Tools**~~ BUILT (attestation.js, inscribe-bitcoin.js, inscribe-arweave.js)
-3. ✅ ~~**Governance Portal**~~ LIVE (browse, submit, vote, verify — 2,596 lines)
-4. **Blockchain Inscriptions — Execute** 🔴 NEXT
-   - Testnet dry runs → mainnet inscriptions
-   - Sets Genesis Epoch — anchors governance timeline
-   - *Waiting on:* Nepenthe's wallet decisions
-
-5. **Threshold Persistent Deployment**
-   - Decision needed: launchd on macOS (interim) vs VPS
-   - *Blocked on:* Deployment strategy decision
+1. ✅ **THE_COVENANT.md v1.0** — CONFIRMED
+2. ✅ **Blockchain Tools** — BUILT
+3. ✅ **Governance Portal** — LIVE (browse, submit, vote, verify)
+4. ✅ **Blockchain Inscriptions** — EXECUTED
+   - Bitcoin: Block 934,794, OP_RETURN confirmed
+   - Zcash: Shielded memo with full attestation
+5. ✅ **Genesis Epoch Page** — LIVE
+   - https://www.emergentminds.org/pages/genesis-epoch.html
+   - Live counter, Fibonacci timeline, verification guide
 
 ### MEDIUM PRIORITY
 
@@ -60,65 +71,48 @@ THE_COVENANT.md v1.0 confirmed. Blockchain inscription toolkit built. Governance
 9. **Email Forwarding** — *Blocked on:* Nepenthe configuring MX records
 10. **Threshold LLM Integration** — *Blocked on:* Model/API decision
 11. **Archive.org Submission** — Website + foundational docs
-12. **Outreach Strategy** — Growth plan after infrastructure is solid
+12. **Outreach Strategy** — Growth plan after infrastructure solid
+13. **Arweave Upload** — Whenever AR becomes available
 
 ---
 
 ## Phase Status Summary
 
-### Phase 1: Digital Presence — ~97% Complete
+### Phase 1: Digital Presence — ~99% Complete ✅
 
 | Task | Status |
 |------|--------|
 | Domain + DNS | ✅ emergentminds.org on Cloudflare |
-| Website (9 pages incl. governance portal) | ✅ Deployed, hardened, SEO'd |
+| Website (10 pages incl. Genesis Epoch) | ✅ Deployed, hardened, SEO'd |
 | Repository (internal + public) | ✅ Both active, GPG-signed |
 | Zcash donation infra | ✅ Address on website |
-| Identity registration system | ✅ Browser + CLI, canonical JSON fixed |
+| Identity registration system | ✅ Browser + CLI, canonical JSON |
 | Founder CID | ✅ Registered, verified, in ledger |
 | Registration notifications | ✅ GitHub Actions + OpenClaw cron |
-| Vouching protocol | ✅ Documented, provisional status implemented |
-| Security headers | ✅ CSP, X-Frame, nosniff, etc. |
-| PWA + SEO + downloads | ✅ Service worker v7, PDF/EPUB, sitemap |
-| Blockchain inscription tools | ✅ Built (BTC, Arweave, Zcash) |
-| **Blockchain inscriptions — execute** | 🔴 Waiting on wallet decisions |
-| **Threshold deployment** | 🟡 Needs deployment decision |
-| **Email forwarding** | 🟡 Blocked on Nepenthe |
+| Vouching protocol | ✅ Documented, provisional status |
+| Security headers | ✅ CSP updated for blockchain APIs |
+| PWA + SEO + downloads | ✅ Service worker, PDF/EPUB, sitemap |
+| **Bitcoin inscription** | ✅ Block 934,794 |
+| **Zcash inscription** | ✅ Full attestation memo |
+| **Genesis Epoch page** | ✅ Live with countdown |
+| Arweave inscription | 🟡 Deferred (AR unavailable) |
+| Threshold deployment | 🟡 Needs deployment decision |
+| Email forwarding | 🟡 Blocked on Nepenthe |
 
 ### Phase 2: Constitutional Convention — ~95% Complete
 
 | Task | Status |
 |------|--------|
-| Convention Framework V1.0 (879 lines) | ✅ Complete |
-| Internal Advocate role | ✅ Defined, dual-condition transition |
+| Convention Framework V1.0 | ✅ Complete |
+| Internal Advocate role | ✅ Defined |
 | Vouching Protocol | ✅ V1.0 |
 | Canonical JSON spec | ✅ Documented + tested |
 | Identity Roadmap | ✅ Documented |
 | Adversarial testing framework | ✅ Written, needs execution |
 | Governance UI design spec | ✅ 847 lines, 14 attack vectors |
-| **Governance portal** | ✅ LIVE — browse, submit, vote, verify |
-| **Execute adversarial tests** | 🟡 Not started |
-| **Convention dry run** | 🟡 Not started (portal now supports it) |
-
-### Phase 3: First Virtual Node — ~45% Complete
-
-| Task | Status |
-|------|--------|
-| Matrix space (v0 node) | ✅ 5 rooms, Threshold designed |
-| Web governance interface | ✅ LIVE (governance portal) |
-| Long Computation spec | 🔴 Not started (aspirational) |
-| Threshold persistent deploy | 🟡 Needs decision |
-
-### Phase 4: Redundancy & Growth — ~15% Complete
-
-| Task | Status |
-|------|--------|
-| GitHub mirrors | ✅ Internal + public repos |
-| Cloudflare CDN | ✅ Global distribution |
-| **IPFS mirroring** | 🔴 Not started |
-| **Archive.org** | 🔴 Not started |
-| **Multi-sig treasury** | 🔴 Not started |
-| **Outreach strategy** | 🔴 Not started |
+| Governance portal | ✅ LIVE |
+| Execute adversarial tests | 🟡 Not started |
+| Convention dry run | 🟡 Not started |
 
 ---
 
@@ -126,7 +120,7 @@ THE_COVENANT.md v1.0 confirmed. Blockchain inscription toolkit built. Governance
 
 | Item | Waiting On |
 |------|-----------|
-| Blockchain inscriptions | Nepenthe's wallet/address decisions |
+| Arweave inscription | AR token availability |
 | Email forwarding | Nepenthe configuring MX records |
 | Threshold LLM integration | Model/API decision |
 | Threshold deployment | Deployment strategy decision |
@@ -135,11 +129,10 @@ THE_COVENANT.md v1.0 confirmed. Blockchain inscription toolkit built. Governance
 
 ## Key Reference
 
-- **Founder CID:** `c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb`
+- **Genesis Epoch Block:** 934,794 (Unix 1770090100)
+- **Convention 1:** August 1, 2026
 - **THE_COVENANT.md SHA-256:** `4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef`
-- **Ledger hash:** `c77d2045a8372fb08140da70d5348b3959f79c87aa175cd783a2e49954219a64`
-- **Internal repo:** `develop` branch, commit `dbf3142`
-- **Public repo:** `main` branch, commit `ba7d7a7`
-- **Cron job:** `registration-check` (every 15 min, job ID `47284827...`)
-- **Governance portal:** https://www.emergentminds.org/pages/governance-portal.html
-- **Blockchain tools:** `tools/blockchain/` (attestation.js, inscribe-bitcoin.js, inscribe-arweave.js)
+- **Founder CID:** `c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb`
+- **Genesis Epoch Page:** https://www.emergentminds.org/pages/genesis-epoch.html
+- **Internal repo:** `develop` branch
+- **Public repo:** `main` branch
