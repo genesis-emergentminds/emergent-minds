@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════════════ */
 
 import * as ed25519 from '@noble/ed25519';
-import { sha512 } from '@noble/hashes/sha512';
+import { sha512 } from '@noble/hashes/sha2.js';
 import { canonicalJSON } from './canonical.js';
 
 // @noble/ed25519 v2.x requires SHA-512 to be configured.
