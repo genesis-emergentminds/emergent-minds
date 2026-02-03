@@ -130,7 +130,26 @@
     background: var(--bg-primary);
 }
 
+/* ─── Force light text in page-header (always against dark cosmic bg) ─── */
+.page-header h1,
+.page-header p {
+    color: #e2e8f0;
+}
+
+.page-header p {
+    color: #94a3b8;
+}
+
 /* ─── Light theme adjustments ─── */
+/* Page header text stays light (cosmic bg is always dark) */
+[data-theme="light"] .page-header h1 {
+    color: #e2e8f0;
+}
+
+[data-theme="light"] .page-header p {
+    color: #94a3b8;
+}
+
 [data-theme="light"] .page-content {
     background: rgba(250, 251, 252, 0.82);
 }
