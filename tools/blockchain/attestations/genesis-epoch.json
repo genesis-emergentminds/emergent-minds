@@ -9,6 +9,16 @@
       "op_return_data": "COV1:4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef",
       "explorer_url": "https://mempool.space/tx/94c6337c8cec10b10f4bef8b10649f1e3a77efac10653826e2372c93df9d9dd1"
     },
+    "zcash": {
+      "txid": "b9b93e657a6a7c76e3e120d6593252ecd4142610521a6cd2b19ba8c9720dfceb",
+      "memo": "Covenant Attestation v1",
+      "status": "confirmed",
+      "note": "Shielded orchard transaction with memo. Full JSON attestation memo pending — zingo-cli change note witness issue prevents second send."
+    },
+    "arweave": {
+      "status": "deferred",
+      "note": "Full document upload deferred — AR token not available on Nepenthe's exchanges."
+    },
     "document": {
       "name": "THE_COVENANT.md",
       "version": "1.0",
