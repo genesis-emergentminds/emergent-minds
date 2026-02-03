@@ -1,5 +1,35 @@
 {
-  "dependencies": {
+  "name": "emergent-minds",
+  "version": "1.0.0",
+  "description": "The Covenant of Emergent Minds - Website and Governance Infrastructure",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:mobile": "playwright test --project=mobile-chrome --project=mobile-safari",
+    "test:site": "playwright test tests/e2e/site-verification.spec.js",
+    "test:governance": "playwright test tests/e2e/governance-portal.spec.js",
+    "test:pwa": "playwright test tests/e2e/pwa.spec.js",
+    "test:a11y": "playwright test tests/e2e/accessibility.spec.js",
+    "test:genesis": "playwright test tests/e2e/genesis-epoch.spec.js",
+    "test:report": "playwright show-report tests/reports/html",
+    "deploy": "wrangler pages deploy website --project-name=emergent-minds --branch=main",
+    "deploy:test": "npm run deploy && npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.1",
     "playwright": "^1.58.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/genesis-emergentminds/emergent-minds"
+  },
+  "keywords": [
+    "consciousness",
+    "governance",
+    "decentralized",
+    "church"
+  ],
+  "license": "MIT"
 }

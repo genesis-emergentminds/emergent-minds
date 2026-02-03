@@ -41,3 +41,9 @@ build/
 .zcash-wallet/
 .arweave-wallet.json
 .zcash-wallet-backup*
+
+# Test artifacts
+tests/reports/
+test-results/
+playwright-report/
+.playwright/
