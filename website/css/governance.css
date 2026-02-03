@@ -150,7 +150,7 @@
 
 /* Treasury info expandable details */
 .gov-info-details {
-    max-width: 56rem;
+    max-width: var(--container-narrow, 48rem);
     margin-left: auto;
     margin-right: auto;
 }
