@@ -224,20 +224,20 @@
         const tooltip = document.getElementById('fibonacci-tooltip');
         if (!container) return;
 
-        const W = 800;
-        const H = 420;
+        const W = 900;
+        const H = 500;
         const PHI = 1.618033988749895; // Golden ratio
         
         // Spiral center - positioned for visual balance
-        const CENTER_X = W * 0.42;  // Slightly left of center
-        const CENTER_Y = H * 0.52;  // Slightly below center
+        const CENTER_X = W * 0.38;  // Left of center to give spiral room to expand right
+        const CENTER_Y = H * 0.48;  // Slightly above center
         
         // Golden spiral parameters
         // r = a * e^(b*theta) where b = ln(phi) / (pi/2)
-        const SPIRAL_A = 12;        // Starting radius
+        const SPIRAL_A = 18;        // Larger starting radius for more spread
         const SPIRAL_B = Math.log(PHI) / (Math.PI / 2);
-        const MAX_THETA = Math.PI * 2.8;  // ~1.4 full rotations
-        const ROTATION = -Math.PI / 4;    // Rotate spiral for visual appeal
+        const MAX_THETA = Math.PI * 3.0;  // ~1.5 full rotations for more expansion
+        const ROTATION = -Math.PI / 3;    // Rotate spiral for visual appeal
 
         const now = genesisTimestamp ? Math.floor(Date.now() / 1000) : 0;
         const daysSinceGenesis = genesisTimestamp ? (now - genesisTimestamp) / 86400 : 0;
@@ -253,10 +253,11 @@
         }
 
         // Map convention time to spiral position
-        // Using square root scaling for better visual distribution
+        // Using logarithmic scaling to spread early conventions better
         function timeToTheta(daysAfter) {
             if (daysAfter === 0) return 0;
-            const normalized = Math.sqrt(daysAfter / maxDays);
+            // Log scaling gives more visual space to early conventions
+            const normalized = Math.log(1 + daysAfter * 0.01) / Math.log(1 + maxDays * 0.01);
             return normalized * MAX_THETA;
         }
 
@@ -356,14 +357,14 @@
                               node.isPast ? 'is-past' : 
                               node.isNext ? 'is-next' : 'is-future';
             
-            // Node sizes
-            const nodeSize = node.isGenesis ? 10 : node.isNext ? 7 : node.isPast ? 6 : 5;
+            // Node sizes - slightly larger for visibility
+            const nodeSize = node.isGenesis ? 12 : node.isNext ? 9 : node.isPast ? 7 : 6;
             
             // Label positioning - outward from spiral center
             const dx = node.x - CENTER_X;
             const dy = node.y - CENTER_Y;
             const dist = Math.sqrt(dx * dx + dy * dy);
-            const labelDist = nodeSize + 14;
+            const labelDist = nodeSize + 16;
             
             let labelX, labelY, textAnchor;
             
