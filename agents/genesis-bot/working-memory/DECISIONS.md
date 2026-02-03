@@ -201,3 +201,46 @@ Legitimate practice in religious/nonprofit organizations. Key safeguards: public
 **Status:** Codified in Constitutional Convention Framework V1.0 §§2.3, 5.6, 9.2, 11.1, 13.3, 13.5. Updated governance.html and join.html.
 
 ---
+
+### 2026-02-02 — Cloudflare Worker for Governance Vote/Proposal Submission
+
+**Decision:** Replace the manual "download JSON → create GitHub issue" vote/proposal submission flow with a Cloudflare Worker that validates and commits signed governance data directly to the repository.
+
+**Rationale:**
+- Client-side ledger validation was a convenience gate only — no server-side verification at submission time
+- Manual GitHub issue submission was poor UX and error-prone
+- Cloudflare Workers free tier (100K requests/day) is more than sufficient
+- Server-side Ed25519 signature verification closes the gap between voting and tally-time validation
+
+**Architecture:**
+- Browser signs vote/proposal locally (unchanged)
+- Confirmation modal with "Submit to Covenant" + "Download Only" options
+- Worker receives signed JSON → validates schema → fetches ledger → verifies Ed25519 signature using *ledger's* public key (never submission's) → checks proposal status/deadline → checks for duplicates → commits to GitHub via Contents API
+- Graceful degradation: download-only always works if Worker unreachable
+
+**Security Design (Axiom V):**
+- 10-step server-side validation pipeline (parse → schema → ledger → membership → signature → proposal → duplicate → commitment → commit → respond)
+- Public keys for verification ALWAYS from ledger, never from submission (prevents CID spoofing)
+- Strict regex validation on proposal_id to prevent path traversal
+- Per-CID rate limiting (1 submission per 10 seconds)
+- CORS locked to emergentminds.org and emergent-minds.pages.dev
+- GitHub PAT stored in Cloudflare Worker secrets with minimal scope
+
+**Additional Changes:**
+- Identity validation UI updated: non-ledger CIDs show amber warning instead of red error, with explanation that client-side check is a convenience gate and server-side cryptographic verification is authoritative
+- Design spec: `docs/design/VOTE_SUBMISSION_WORKER.md`
+
+**GitHub PAT (Least Privilege):**
+- Dedicated fine-grained PAT to be created for Worker use only
+- Scope: Repository access → `genesis-emergentminds/emergent-minds` only
+- Permissions: Contents (Read and write) — minimum needed for reading ledger/proposals and committing votes
+- Stored as Cloudflare Worker secret `GITHUB_TOKEN`, never exposed to clients
+
+**Axiom Alignment:**
+- V (Adversarial Resilience): Server-side cryptographic verification, threat model with 11 attack vectors analyzed
+- II (Individual Sovereignty): Votes remain cryptographically self-authenticating; members control their keys
+- III (Entropy Resistance): Automated pipeline reduces human error, adds durability
+
+**Status:** Implementation complete (commit `b98985c`). Deployment pending creation of dedicated fine-grained GitHub PAT.
+
+---
