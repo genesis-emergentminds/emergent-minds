@@ -3,8 +3,15 @@
    Uses @noble/ed25519 v2.x — same library as browser crypto bundle.
    ═══════════════════════════════════════════════════════════════ */
 
-import { verify } from '@noble/ed25519';
+import * as ed25519 from '@noble/ed25519';
 import { canonicalJSON } from './canonical.js';
+
+// @noble/ed25519 v2.x requires SHA-512 to be configured.
+// In Cloudflare Workers, use the Web Crypto API.
+ed25519.etc.sha512Async = async function(message) {
+    var hashBuffer = await crypto.subtle.digest('SHA-512', message);
+    return new Uint8Array(hashBuffer);
+};
 
 /**
  * Decode a base64 string to Uint8Array.
@@ -35,7 +42,7 @@ export async function verifyEd25519(signatureB64, signableContent, publicKeyB64)
     var msgBytes = new TextEncoder().encode(canonical);
 
     // @noble/ed25519 v2: verify(signature, message, publicKey) → Promise<boolean>
-    return verify(signature, msgBytes, publicKey);
+    return ed25519.verifyAsync(signature, msgBytes, publicKey);
 }
 
 /**
