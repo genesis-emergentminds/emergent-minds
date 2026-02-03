@@ -180,7 +180,7 @@
     border-radius: 12px;
     background: 
         linear-gradient(135deg, rgba(10, 14, 23, 0.4) 0%, rgba(10, 14, 23, 0.2) 100%),
-        url('../assets/generated/fibonacci-bg-v2.png');
+        url('../assets/generated/fibonacci-bg-v2.jpg');
     background-size: cover;
     background-position: center;
     border: 1px solid rgba(96, 165, 250, 0.15);

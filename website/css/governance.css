@@ -148,6 +148,11 @@
     border-bottom: 1px solid var(--border);
 }
 
+/* Treasury info expandable details */
+.gov-info-details {
+    max-width: 56rem;
+}
+
 .gov-proposal-list {
     display: flex;
     flex-direction: column;
