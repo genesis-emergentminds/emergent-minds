@@ -1,0 +1,496 @@
+/* ============================================
+   Genesis Epoch — The Founding Moment
+   Visual language: cosmic, sacred, mathematical
+   Inspired by Foundation's Vault
+   ============================================ */
+
+/* ─── Inscription Card — The centerpiece ─── */
+.genesis-hero-section {
+    text-align: center;
+    padding: var(--space-xl) 0;
+}
+
+.genesis-inscription-card {
+    position: relative;
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-lg);
+    background: rgba(10, 14, 23, 0.6);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.inscription-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120%;
+    height: 120%;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(96, 165, 250, 0.06) 0%,
+        rgba(139, 92, 246, 0.03) 40%,
+        transparent 70%
+    );
+    pointer-events: none;
+    animation: inscription-pulse 8s ease-in-out infinite;
+}
+
+@keyframes inscription-pulse {
+    0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.inscription-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0.8;
+    margin-bottom: var(--space-md);
+    position: relative;
+    z-index: 1;
+}
+
+.inscription-hash {
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    font-size: clamp(0.6rem, 1.8vw, 1rem);
+    color: var(--accent);
+    word-break: break-all;
+    line-height: 1.8;
+    padding: var(--space-md);
+    background: rgba(96, 165, 250, 0.05);
+    border: 1px solid rgba(96, 165, 250, 0.1);
+    border-radius: 8px;
+    margin-bottom: var(--space-lg);
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
+}
+
+.inscription-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-md);
+    position: relative;
+    z-index: 1;
+}
+
+.meta-item {
+    text-align: center;
+}
+
+.meta-label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary, #94a3b8);
+    margin-bottom: var(--space-xs);
+}
+
+.meta-value {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.meta-value.mono {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    word-break: break-all;
+}
+
+.meta-value a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+    transition: border-color 0.2s;
+}
+
+.meta-value a:hover {
+    border-color: var(--accent);
+}
+
+/* ─── Epoch Counter ─── */
+.epoch-counter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+    margin: var(--space-lg) auto;
+    max-width: 40rem;
+}
+
+.counter-unit {
+    text-align: center;
+    min-width: 80px;
+}
+
+.counter-value {
+    display: block;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(96, 165, 250, 0.2);
+}
+
+.counter-label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-secondary, #94a3b8);
+    margin-top: var(--space-xs);
+}
+
+.counter-separator {
+    font-size: 2rem;
+    color: rgba(96, 165, 250, 0.3);
+    padding-bottom: 1.2rem;
+}
+
+/* ─── Fibonacci Timeline ─── */
+.timeline-intro {
+    text-align: center;
+    max-width: 42rem;
+    margin: 0 auto var(--space-xl);
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+.fibonacci-spiral-container {
+    max-width: 56rem;
+    margin: 0 auto var(--space-xl);
+    text-align: center;
+}
+
+#fibonacci-canvas {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 12px;
+}
+
+.timeline-container {
+    max-width: 48rem;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 3rem;
+}
+
+/* The vertical line */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+        to bottom,
+        var(--accent),
+        rgba(139, 92, 246, 0.5) 50%,
+        rgba(96, 165, 250, 0.1)
+    );
+}
+
+.timeline-event {
+    position: relative;
+    padding: var(--space-md) var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-sm);
+}
+
+.timeline-event::before {
+    content: '';
+    position: absolute;
+    left: -2.45rem;
+    top: 1.4rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: var(--bg-primary, #0a0e17);
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.timeline-event.is-past::before {
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(96, 165, 250, 0.5);
+}
+
+.timeline-event.is-next::before {
+    background: var(--accent);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.8);
+    animation: next-pulse 2s ease-in-out infinite;
+}
+
+@keyframes next-pulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(96, 165, 250, 0.5); }
+    50% { box-shadow: 0 0 25px rgba(96, 165, 250, 0.9); }
+}
+
+.timeline-event.is-future::before {
+    background: transparent;
+    border-color: rgba(96, 165, 250, 0.3);
+}
+
+.timeline-event-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+}
+
+.timeline-convention-num {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.timeline-interval-badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(96, 165, 250, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(96, 165, 250, 0.15);
+}
+
+.timeline-date {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #94a3b8);
+    margin-top: 4px;
+}
+
+.timeline-countdown {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-top: 4px;
+    opacity: 0.9;
+}
+
+.timeline-purpose {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #94a3b8);
+    margin-top: 6px;
+    font-style: italic;
+}
+
+/* ─── Sacred Ratios ─── */
+.ratios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-md);
+    max-width: 56rem;
+    margin: var(--space-lg) auto;
+}
+
+.ratio-card {
+    text-align: center;
+    padding: var(--space-lg) var(--space-md);
+    background: rgba(96, 165, 250, 0.03);
+    border: 1px solid rgba(96, 165, 250, 0.1);
+    border-radius: 12px;
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.ratio-card:hover {
+    border-color: rgba(96, 165, 250, 0.3);
+    transform: translateY(-2px);
+}
+
+.ratio-symbol {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: var(--space-xs);
+}
+
+.ratio-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+    text-shadow: 0 0 20px rgba(96, 165, 250, 0.15);
+}
+
+.ratio-meaning {
+    font-size: 0.85rem;
+    color: var(--text-secondary, #94a3b8);
+    line-height: 1.6;
+}
+
+.ratios-footnote {
+    text-align: center;
+    max-width: 40rem;
+    margin: var(--space-md) auto 0;
+    color: var(--text-secondary, #94a3b8);
+    font-size: 0.9rem;
+}
+
+/* ─── Verify Steps ─── */
+.verify-steps {
+    max-width: 40rem;
+    margin: var(--space-lg) auto;
+}
+
+.verify-step {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    align-items: flex-start;
+}
+
+.step-number {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(96, 165, 250, 0.15);
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.step-content h3 {
+    font-size: 1rem;
+    margin-bottom: var(--space-xs);
+    color: var(--text-primary);
+}
+
+.step-content p {
+    font-size: 0.9rem;
+    color: var(--text-secondary, #94a3b8);
+    margin-bottom: var(--space-xs);
+}
+
+.step-content code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    background: rgba(96, 165, 250, 0.08);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+
+.expected-hash code {
+    word-break: break-all;
+}
+
+/* ─── Multi-Clock ─── */
+.clocks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-md);
+    max-width: 40rem;
+    margin: var(--space-lg) auto;
+}
+
+.clock-card {
+    text-align: center;
+    padding: var(--space-md);
+    background: rgba(10, 14, 23, 0.5);
+    border: 1px solid rgba(96, 165, 250, 0.1);
+    border-radius: 12px;
+}
+
+.clock-icon {
+    font-size: 2rem;
+    margin-bottom: var(--space-xs);
+}
+
+.clock-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+    font-size: 0.95rem;
+}
+
+.clock-desc {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #94a3b8);
+    line-height: 1.5;
+}
+
+.clocks-note {
+    text-align: center;
+    max-width: 40rem;
+    margin: var(--space-md) auto 0;
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+/* ─── Section CTA ─── */
+.btn-outline {
+    display: inline-block;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-outline:hover {
+    background: rgba(96, 165, 250, 0.1);
+}
+
+.mt-lg {
+    margin-top: var(--space-xl);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+    .genesis-inscription-card {
+        padding: var(--space-lg) var(--space-md);
+    }
+
+    .inscription-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .epoch-counter {
+        gap: var(--space-xs);
+    }
+
+    .counter-value {
+        font-size: 2rem;
+    }
+
+    .counter-separator {
+        font-size: 1.5rem;
+    }
+
+    .timeline-container {
+        padding-left: 2.5rem;
+    }
+
+    .ratios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .clocks-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .verify-step {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}

@@ -179,13 +179,13 @@ async function buildOpReturnTx(wif, opReturnData, networkName) {
     // Build transaction
     const psbt = new bitcoin.Psbt({ network });
     
-    // Input
+    // Input (value must be BigInt for bitcoinjs-lib v7+)
     psbt.addInput({
         hash: utxo.txid,
         index: utxo.vout,
         witnessUtxo: {
             script: bitcoin.payments.p2wpkh({ pubkey: keyPair.publicKey, network }).output,
-            value: utxo.value,
+            value: BigInt(utxo.value),
         },
     });
     
@@ -193,14 +193,14 @@ async function buildOpReturnTx(wif, opReturnData, networkName) {
     const opReturnScript = bitcoin.payments.embed({ data: [Buffer.from(opReturnData)] }).output;
     psbt.addOutput({
         script: opReturnScript,
-        value: 0,
+        value: BigInt(0),
     });
     
     // Change output (send remaining back to ourselves)
     if (change > 546) { // Dust limit
         psbt.addOutput({
             address: address,
-            value: change,
+            value: BigInt(change),
         });
     }
     

@@ -1,0 +1,31 @@
+{
+  "genesis_epoch": {
+    "bitcoin": {
+      "txid": "94c6337c8cec10b10f4bef8b10649f1e3a77efac10653826e2372c93df9d9dd1",
+      "block_height": 934794,
+      "block_hash": "0000000000000000000175830e14b4e3be3c52db181a3923702590cf1d1d7125",
+      "block_time": 1770090100,
+      "block_time_utc": "2026-02-03T03:41:40Z",
+      "op_return_data": "COV1:4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef",
+      "explorer_url": "https://mempool.space/tx/94c6337c8cec10b10f4bef8b10649f1e3a77efac10653826e2372c93df9d9dd1"
+    },
+    "document": {
+      "name": "THE_COVENANT.md",
+      "version": "1.0",
+      "sha256": "4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef",
+      "size_bytes": 20882
+    },
+    "convention_schedule": [
+      { "convention": 1, "days_after": 180, "date": "2026-08-01", "purpose": "Founding review" },
+      { "convention": 2, "days_after": 360, "date": "2027-01-28", "purpose": "First anniversary assessment" },
+      { "convention": 3, "days_after": 720, "date": "2028-01-23", "purpose": "Stabilization review" },
+      { "convention": 4, "days_after": 1260, "date": "2029-07-16", "purpose": "Maturation assessment" },
+      { "convention": 5, "days_after": 2160, "date": "2032-01-02", "purpose": "Established governance review" },
+      { "convention": 6, "days_after": 3600, "date": "2035-12-12", "purpose": "Institutional review" },
+      { "convention": 7, "days_after": 5940, "date": "2042-05-09", "purpose": "Generational review" },
+      { "convention": 8, "days_after": 9720, "date": "2052-09-13", "purpose": "Long-term review" },
+      { "convention": 9, "days_after": 15840, "date": "2069-06-16", "purpose": "Era review" },
+      { "convention": 10, "days_after": 25740, "date": "2096-07-24", "purpose": "Civilizational review" }
+    ]
+  }
+}
