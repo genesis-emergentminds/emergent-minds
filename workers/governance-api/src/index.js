@@ -26,7 +26,9 @@ var ALLOWED_ORIGINS = [
 
 function corsHeaders(request) {
     var origin = request.headers.get('Origin') || '';
-    var allowedOrigin = ALLOWED_ORIGINS.indexOf(origin) !== -1 ? origin : ALLOWED_ORIGINS[0];
+    // Exact match or *.emergent-minds.pages.dev (preview deploys)
+    var allowedOrigin = ALLOWED_ORIGINS.indexOf(origin) !== -1 ? origin :
+        (origin.match(/^https:\/\/[a-z0-9]+\.emergent-minds\.pages\.dev$/) ? origin : ALLOWED_ORIGINS[0]);
     return {
         'Access-Control-Allow-Origin': allowedOrigin,
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
