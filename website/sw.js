@@ -3,7 +3,7 @@
    The Covenant of Emergent Minds
    ============================================ */
 
-var CACHE_NAME = 'emergent-minds-v12';
+var CACHE_NAME = 'emergent-minds-v13';
 var ASSETS = [
     '/',
     '/index.html',
@@ -56,7 +56,15 @@ self.addEventListener('activate', function (event) {
 });
 
 // Fetch — network first, fall back to cache
+// Only handle same-origin requests to avoid issues with external scripts
 self.addEventListener('fetch', function (event) {
+    var url = new URL(event.request.url);
+    
+    // Skip external URLs (like cloudflareinsights.com, blockstream.info, etc.)
+    if (url.origin !== self.location.origin) {
+        return; // Let the browser handle it normally
+    }
+    
     event.respondWith(
         fetch(event.request)
             .then(function (response) {
