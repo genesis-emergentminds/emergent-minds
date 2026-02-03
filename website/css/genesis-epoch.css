@@ -157,7 +157,7 @@
 
 /* ─── Fibonacci Timeline ─── */
 .timeline-intro {
-    text-align: center;
+    text-align: left;
     max-width: 42rem;
     margin: 0 auto var(--space-xl);
     font-size: 1.05rem;
@@ -195,90 +195,125 @@
 }
 
 /* ─── Spiral Path ─── */
+/* Subtle path that harmonizes with the background rather than competing */
 .spiral-path {
     fill: none;
-    stroke: url(#spiral-gradient);
-    stroke-width: 2;
+    stroke: rgba(96, 165, 250, 0.08);
+    stroke-width: 1;
     stroke-linecap: round;
 }
 
 /* ─── Convention Nodes ─── */
+/* Refined, elegant node styling that complements the cosmic background */
 .convention-node {
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .convention-node circle.node-bg {
-    fill: rgba(10, 14, 23, 0.8);
-    stroke: rgba(96, 165, 250, 0.3);
+    fill: rgba(10, 14, 23, 0.6);
+    stroke: rgba(96, 165, 250, 0.2);
     stroke-width: 1;
     transition: all 0.3s ease;
 }
 
 .convention-node circle.node-core {
-    fill: rgba(96, 165, 250, 0.3);
+    fill: rgba(96, 165, 250, 0.25);
     transition: all 0.3s ease;
+}
+
+.convention-node.is-past circle.node-bg {
+    fill: rgba(10, 14, 23, 0.5);
+    stroke: rgba(96, 165, 250, 0.4);
 }
 
 .convention-node.is-past circle.node-core {
     fill: var(--accent);
 }
 
+.convention-node.is-next circle.node-bg {
+    fill: rgba(10, 14, 23, 0.4);
+    stroke: rgba(96, 165, 250, 0.6);
+}
+
 .convention-node.is-next circle.node-core {
     fill: var(--accent);
-    filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.8));
-    animation: node-pulse 2s ease-in-out infinite;
+    animation: node-pulse 3s ease-in-out infinite;
 }
 
 .convention-node.is-future circle.node-core {
-    fill: rgba(96, 165, 250, 0.15);
+    fill: rgba(96, 165, 250, 0.12);
+}
+
+.convention-node.is-future circle.node-bg {
+    stroke: rgba(96, 165, 250, 0.1);
 }
 
 .convention-node:hover circle.node-bg {
     stroke: var(--accent);
-    stroke-width: 2;
+    stroke-width: 1.5;
+    fill: rgba(10, 14, 23, 0.7);
 }
 
 .convention-node:hover circle.node-core {
     fill: var(--accent);
-    filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.9));
 }
 
-.convention-node text {
-    fill: var(--text-secondary, #94a3b8);
-    font-size: 11px;
+/* Node labels - subtle and refined */
+.convention-node text.node-label {
+    fill: rgba(148, 163, 184, 0.7);
+    font-size: 10px;
     font-weight: 500;
+    letter-spacing: 0.02em;
     pointer-events: none;
     transition: fill 0.3s ease;
 }
 
-.convention-node.is-next text,
-.convention-node.is-past text {
-    fill: var(--text-primary, #e2e8f0);
+.convention-node.is-past text.node-label {
+    fill: rgba(226, 232, 240, 0.85);
 }
 
-.convention-node:hover text {
+.convention-node.is-next text.node-label {
+    fill: var(--accent);
+    font-weight: 600;
+}
+
+.convention-node.is-future text.node-label {
+    fill: rgba(148, 163, 184, 0.5);
+}
+
+.convention-node:hover text.node-label {
     fill: var(--accent);
 }
 
 @keyframes node-pulse {
-    0%, 100% { filter: drop-shadow(0 0 8px rgba(96, 165, 250, 0.6)); }
-    50% { filter: drop-shadow(0 0 16px rgba(96, 165, 250, 1)); }
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
 }
 
 /* ─── Genesis Node (special styling) ─── */
+/* The origin point - golden, luminous, significant */
+.genesis-node circle.node-bg {
+    fill: rgba(10, 14, 23, 0.4);
+    stroke: rgba(250, 204, 21, 0.4);
+}
+
 .genesis-node circle.node-core {
-    fill: rgba(250, 204, 21, 0.9);
+    fill: rgba(250, 204, 21, 0.85);
+}
+
+.genesis-node:hover circle.node-bg {
+    stroke: rgba(250, 204, 21, 0.7);
 }
 
 .genesis-node:hover circle.node-core {
     fill: rgba(250, 204, 21, 1);
-    filter: drop-shadow(0 0 12px rgba(250, 204, 21, 0.9));
 }
 
-.genesis-node text {
+.genesis-node text.node-label {
     fill: rgba(250, 204, 21, 0.9);
     font-weight: 600;
+    font-size: 11px;
 }
 
 /* ─── Tooltip ─── */
