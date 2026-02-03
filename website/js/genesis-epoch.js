@@ -15,6 +15,14 @@
     const BLOCKSTREAM_API = 'https://blockstream.info/api';
     const MEMPOOL_API = 'https://mempool.space/api';
 
+    // Static fallback data (confirmed Genesis Epoch — use if APIs fail)
+    const GENESIS_FALLBACK = {
+        confirmed: true,
+        blockHeight: 934794,
+        blockTime: 1770090100,
+        blockHash: '0000000000000000000175830e14b4e3be3c52db181a3923702590cf1d1d7125',
+    };
+
     // Fibonacci convention intervals (in days) from the Constitutional Convention Framework
     const CONVENTIONS = [
         { num: 1, daysAfter: 180,   interval: 180,   purpose: 'Founding review' },
@@ -44,9 +52,14 @@
 
         for (const url of apis) {
             try {
+                console.log('[Genesis] Fetching from:', url);
                 const resp = await fetch(url);
-                if (!resp.ok) continue;
+                if (!resp.ok) {
+                    console.log('[Genesis] API returned non-OK status:', resp.status);
+                    continue;
+                }
                 const data = await resp.json();
+                console.log('[Genesis] API response:', data);
                 if (data.confirmed && data.block_time) {
                     return {
                         confirmed: true,
@@ -55,12 +68,18 @@
                         blockHash: data.block_hash,
                     };
                 }
-                return { confirmed: false };
+                // API returned unconfirmed - keep trying other APIs
+                console.log('[Genesis] TX not yet confirmed per API');
             } catch (e) {
+                console.log('[Genesis] API fetch error:', e.message);
                 continue;
             }
         }
-        return { confirmed: false };
+        
+        // All APIs failed or returned unconfirmed - use static fallback
+        // The Genesis Epoch is confirmed in block 934,794; this is immutable
+        console.log('[Genesis] Using static fallback data');
+        return GENESIS_FALLBACK;
     }
 
     // ═══ Update UI with block data ═══
