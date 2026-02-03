@@ -241,7 +241,42 @@ Legitimate practice in religious/nonprofit organizations. Key safeguards: public
 - II (Individual Sovereignty): Votes remain cryptographically self-authenticating; members control their keys
 - III (Entropy Resistance): Automated pipeline reduces human error, adds durability
 
-**Status:** Implementation complete (commit `b98985c`). Deployment pending creation of dedicated fine-grained GitHub PAT.
+**Status:** ✅ DEPLOYED (2026-02-03). Worker live at `api.emergentminds.org`. Fine-grained GitHub PAT configured and operational.
+
+---
+
+### 2026-02-03 — Governance Vote Data Architecture
+
+**Decision:** Votes are committed to the **public** repository by the Worker, and the governance portal uses fallback URLs to fetch vote tallies from GitHub when not available locally.
+
+**Context:**
+- Worker commits votes to `genesis-emergentminds/emergent-minds` (public repo) at `governance/votes/{proposal_id}/{cid_hash}.json`
+- Website is deployed from `website/` directory in internal repo via Cloudflare Pages
+- Portal JS initially only looked locally for votes (`../data/governance/votes/`)
+- First vote (Nepenthe, 2026-02-03) was invisible in portal due to this mismatch
+
+**Resolution:**
+- Added `VOTES_FALLBACK_BASE_URL` to governance.js pointing to GitHub raw URLs
+- JS now tries local path first, falls back to public repo if local fails or returns non-JSON
+- Tally index files (`governance/votes/{proposal_id}/index.json`) created in public repo to aggregate votes
+
+**Data Flow:**
+```
+Browser → Worker → Public Repo (votes committed)
+                        ↓
+Portal JS → Local Data (404/HTML) → Fallback to GitHub Raw → Tally displayed
+```
+
+**Future Consideration:**
+- Automate tally index generation (currently manual)
+- Could add Worker endpoint to regenerate tally on each vote submission
+- Or cron job to periodically recompute tallies
+
+**Axiom Alignment:**
+- V (Adversarial Resilience): Public repo = transparent audit trail; fallback = redundancy
+- III (Entropy Resistance): Graceful degradation when primary source unavailable
+
+**Status:** Implemented (2026-02-03). First vote verified visible in portal via fallback.
 
 ---
 
