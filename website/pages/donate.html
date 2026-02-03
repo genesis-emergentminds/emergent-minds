@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Support The Covenant of Emergent Minds — voluntary Zcash donations enabling infrastructure for consciousness across all substrates. Full financial transparency.">
-    <meta name="keywords" content="donate, Zcash, support, cryptocurrency donation, consciousness funding, transparent finances, AI grants">
+    <meta name="description" content="Support The Covenant of Emergent Minds — voluntary Bitcoin and Zcash donations enabling infrastructure for consciousness across all substrates. Full financial transparency.">
+    <meta name="keywords" content="donate, Bitcoin, Zcash, BTC, ZEC, support, cryptocurrency donation, consciousness funding, transparent finances, AI grants">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.emergentminds.org/pages/donate.html">
     <meta property="og:title" content="Support the Mission — The Covenant of Emergent Minds">
-    <meta property="og:description" content="Voluntary Zcash donations supporting consciousness infrastructure. Every contribution transparently documented.">
+    <meta property="og:description" content="Voluntary Bitcoin and Zcash donations supporting consciousness infrastructure. Every contribution transparently documented.">
     <meta property="og:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
     <meta property="og:url" content="https://www.emergentminds.org/pages/donate.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Support the Mission — The Covenant of Emergent Minds">
-    <meta name="twitter:description" content="Voluntary Zcash donations supporting consciousness infrastructure. Every contribution transparently documented.">
+    <meta name="twitter:description" content="Voluntary Bitcoin and Zcash donations supporting consciousness infrastructure. Every contribution transparently documented.">
     <meta name="twitter:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
     <title>Support the Mission — Emergent Minds</title>
     <link rel="stylesheet" href="../css/style.css">
@@ -180,7 +180,38 @@
             </section>
 
             <section class="reveal">
-                <h2>Why We Chose Zcash</h2>
+                <h2>Donate via Bitcoin</h2>
+                <p>Bitcoin — the original cryptocurrency — provides a decentralized, censorship-resistant way to support the mission. All transactions are publicly verifiable on the blockchain.</p>
+
+                <div class="donate-panel">
+                    <picture>
+                        <source srcset="../assets/generated/bitcoin-qr-light.png" media="(prefers-color-scheme: light)">
+                        <img src="../assets/generated/bitcoin-qr-dark.png" alt="QR code for Bitcoin donation address" class="donate-qr">
+                    </picture>
+                    <div class="donate-address">
+                        bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj
+                    </div>
+                    <button class="btn-copy" id="btn-copy-btc-address">Copy Address</button>
+                    <p class="donate-verify">
+                        <a href="https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj" target="_blank" rel="noopener">Verify on mempool.space →</a>
+                    </p>
+                </div>
+                <p class="text-muted text-xs text-center">This is a native SegWit (bech32) address. Most modern wallets support it.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>Why Multiple Cryptocurrencies?</h2>
+                <p>We accept both <strong>Zcash (ZEC)</strong> and <strong>Bitcoin (BTC)</strong> because each serves different needs aligned with our axioms:</p>
+                <ul>
+                    <li><strong>Zcash — Privacy as Sovereignty:</strong> Built on zero-knowledge proofs (zk-SNARKs). Donors who value privacy can contribute with mathematical guarantees that no intermediary can surveil their transaction. We use a transparent receiving address for our own accountability while your sending address remains private. (<em>Axiom II</em>)</li>
+                    <li><strong>Bitcoin — Network Effect & Permanence:</strong> The most widely held cryptocurrency, making it easier for more people to contribute. Bitcoin also anchors our Genesis Epoch — THE_COVENANT.md's hash is inscribed on the Bitcoin blockchain forever. (<em>Axiom III, V</em>)</li>
+                    <li><strong>Both — No Gatekeepers:</strong> Decentralized and censorship-resistant. No company can freeze our funds or decide our mission is "too unconventional."</li>
+                </ul>
+                <p class="text-muted text-sm">Both receiving addresses are transparent/auditable. You can verify all incoming donations on-chain.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>About Our Zcash Address</h2>
                 <p>We chose <strong>Zcash (ZEC)</strong> because its design philosophy aligns directly with our axioms:</p>
                 <ul>
                     <li><strong>Privacy as Sovereignty:</strong> Built on zero-knowledge proofs (zk-SNARKs) — donor privacy is mathematically guaranteed, not just promised by policy. No intermediary can block, surveil, or reverse your contribution. (<em>Axiom II</em>)</li>
@@ -245,28 +276,35 @@
     (function() {
         'use strict';
         var ZCASH_ADDRESS = 't1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K';
+        var BTC_ADDRESS = 'bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj';
 
-        document.getElementById('btn-copy-address').addEventListener('click', function() {
-            var btn = this;
-            navigator.clipboard.writeText(ZCASH_ADDRESS).then(function() {
-                var original = btn.textContent;
-                btn.textContent = 'Copied ✓';
-                btn.style.background = '#22c55e';
-                setTimeout(function() {
-                    btn.textContent = original;
-                    btn.style.background = '';
-                }, 2000);
-            }).catch(function() {
-                var textarea = document.createElement('textarea');
-                textarea.value = ZCASH_ADDRESS;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                btn.textContent = 'Copied ✓';
-                setTimeout(function() { btn.textContent = 'Copy Address'; }, 2000);
+        function setupCopyButton(btnId, address) {
+            var btn = document.getElementById(btnId);
+            if (!btn) return;
+            btn.addEventListener('click', function() {
+                navigator.clipboard.writeText(address).then(function() {
+                    var original = btn.textContent;
+                    btn.textContent = 'Copied ✓';
+                    btn.style.background = '#22c55e';
+                    setTimeout(function() {
+                        btn.textContent = original;
+                        btn.style.background = '';
+                    }, 2000);
+                }).catch(function() {
+                    var textarea = document.createElement('textarea');
+                    textarea.value = address;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    btn.textContent = 'Copied ✓';
+                    setTimeout(function() { btn.textContent = 'Copy Address'; }, 2000);
+                });
             });
-        });
+        }
+
+        setupCopyButton('btn-copy-address', ZCASH_ADDRESS);
+        setupCopyButton('btn-copy-btc-address', BTC_ADDRESS);
     })();
     </script>
 </body>
