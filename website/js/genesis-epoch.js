@@ -230,7 +230,7 @@
         
         // Spiral center - positioned for visual balance
         const CENTER_X = W * 0.38;  // Left of center to give spiral room to expand right
-        const CENTER_Y = H * 0.48;  // Slightly above center
+        const CENTER_Y = H * 0.38;  // Moved up ~10% for better vertical centering
         
         // Golden spiral parameters
         // r = a * e^(b*theta) where b = ln(phi) / (pi/2)
