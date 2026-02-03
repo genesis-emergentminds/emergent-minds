@@ -508,8 +508,23 @@
          * MUST produce the same bytes for the same logical object.
          */
         function canonicalJSON(obj) {
-            if (obj === null || typeof obj !== 'object') {
-                return JSON.stringify(obj);
+            if (obj === null) {
+                return 'null';
+            }
+            if (typeof obj === 'boolean') {
+                return obj ? 'true' : 'false';
+            }
+            if (typeof obj === 'number') {
+                // Reject floats - they serialize differently in Python vs JS
+                if (!Number.isInteger(obj)) {
+                    throw new Error('Float values are forbidden in signed content: ' + obj);
+                }
+                return String(obj);
+            }
+            if (typeof obj === 'string') {
+                // Apply Unicode NFC normalization for consistent bytes
+                var normalized = obj.normalize('NFC');
+                return JSON.stringify(normalized);
             }
             if (Array.isArray(obj)) {
                 return '[' + obj.map(function(item) { return canonicalJSON(item); }).join(',') + ']';

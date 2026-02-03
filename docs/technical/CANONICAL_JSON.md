@@ -28,6 +28,8 @@ The Covenant Canonical JSON (CCJ) form is defined as:
 4. **Standard JSON value encoding:** Strings use `\"` escaping per RFC 8259. Numbers, booleans, and null follow standard JSON representation
 5. **Array order preserved:** Arrays are NOT sorted — element order is significant
 6. **Encoding:** The resulting string is encoded as UTF-8 bytes for signing
+7. **No floats:** Floating-point numbers are FORBIDDEN in signed content (raises error)
+8. **Unicode NFC normalization:** All strings are normalized to NFC form before serialization
 
 ### 2.1 Formal Definition
 
@@ -35,8 +37,9 @@ The Covenant Canonical JSON (CCJ) form is defined as:
 CCJ(value):
   if value is null    → "null"
   if value is boolean → "true" | "false"
-  if value is number  → standard JSON number representation
-  if value is string  → standard JSON string (with raw UTF-8, no \uXXXX for non-ASCII)
+  if value is float   → ERROR (floats forbidden)
+  if value is integer → string representation of integer
+  if value is string  → NFC_NORMALIZE(value), then standard JSON string encoding
   if value is array   → "[" + CCJ(item[0]) + "," + CCJ(item[1]) + ... + "]"
   if value is object  → "{" + for each key in sorted(keys):
                            JSON_STRING(key) + ":" + CCJ(value[key])
@@ -172,17 +175,23 @@ All implementations MUST pass this test suite before deployment.
 
 CCJ is compatible with a subset of [RFC 8785 (JSON Canonicalization Scheme / JCS)](https://www.rfc-editor.org/rfc/rfc8785) but does not implement JCS fully (JCS has additional requirements around number serialization). For The Covenant's purposes — where values are strings, integers, booleans, and null — the simpler CCJ specification is sufficient and easier to implement correctly across platforms.
 
-### ⚠️ Known Limitation: Float Serialization
+### ⚠️ Resolved Limitations
 
-**Discovered:** 2026-02-02 adversarial testing (CAN-01)
+**CAN-01: Float Serialization (Resolved 2026-02-03)**
 
 Python and JavaScript serialize floating-point numbers differently:
 - Python: `json.dumps(1e10)` → `10000000000.0` (trailing `.0`)
 - JavaScript: `JSON.stringify(1e10)` → `10000000000` (no decimal)
 
-**Impact:** If a signed document ever contains a float value, signatures generated in Python will NOT verify in JavaScript (and vice versa) because the canonical bytes differ.
+**Resolution:** As of 2026-02-03, all CCJ implementations now **reject floats at serialization time** with an explicit error. This is enforced in code, not just by convention. Attempting to sign content containing a float will raise an error before any signature is computed.
 
-**Mitigation:** All signed content in The Covenant uses only strings, integers, booleans, arrays, objects, and null. **Never use floating-point numbers in signed content.** Thresholds (e.g., 0.382 engagement minimum) are stored as display metadata, never included in signed payloads. This is enforced by convention and documented here as a hard rule.
+**ID-06: Unicode Normalization (Resolved 2026-02-03)**
+
+Unicode allows multiple byte representations for visually identical characters:
+- é as U+00E9 (precomposed) vs U+0065 U+0301 (e + combining accent)
+- These produce different bytes, breaking signatures
+
+**Resolution:** As of 2026-02-03, all CCJ implementations apply **Unicode NFC normalization** to strings before serialization. This ensures byte-identical output regardless of input normalization form.
 
 If future needs require full JCS compliance, CCJ can be upgraded without breaking existing signatures (all current CCJ output is valid JCS output).
 

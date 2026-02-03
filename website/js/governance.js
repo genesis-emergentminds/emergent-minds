@@ -29,13 +29,31 @@
     };
 
     // ── Utility: Canonical JSON (matches CANONICAL_JSON.md spec) ──
+    // Features: recursive key sorting, float rejection, NFC normalization
     function canonicalJSON(obj) {
-        if (obj === null || typeof obj !== 'object') {
-            return JSON.stringify(obj);
+        if (obj === null) {
+            return 'null';
+        }
+        if (typeof obj === 'boolean') {
+            return obj ? 'true' : 'false';
+        }
+        if (typeof obj === 'number') {
+            // Reject floats - they serialize differently in Python vs JS
+            if (!Number.isInteger(obj)) {
+                throw new Error('Float values are forbidden in signed content: ' + obj +
+                    '. Use integers for counts, strings for human-readable decimals.');
+            }
+            return String(obj);
+        }
+        if (typeof obj === 'string') {
+            // Apply Unicode NFC normalization for consistent bytes
+            var normalized = obj.normalize('NFC');
+            return JSON.stringify(normalized);
         }
         if (Array.isArray(obj)) {
             return '[' + obj.map(function(item) { return canonicalJSON(item); }).join(',') + ']';
         }
+        // Object
         var keys = Object.keys(obj).sort();
         var pairs = keys.map(function(k) {
             return JSON.stringify(k) + ':' + canonicalJSON(obj[k]);
