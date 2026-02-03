@@ -37,15 +37,35 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 
 ## Active Sub-Agents
 
-| Label | Session | Task | Status |
-|-------|---------|------|--------|
-| `adversarial-tester` | `de6485f9-75ef-4f91-82b3-b1e650ed89bf` | Execute adversarial test plan | 🔄 Running |
+*None currently running.*
 
 ---
 
 ## Just Completed
 
-1. ✅ **State Reconciliation** (commit `c945a80`)
+1. ✅ **Adversarial Testing — PASSED** (2026-02-03)
+   - 29/29 tests passed across 7 categories
+   - Results: `docs/testing/ADVERSARIAL_TEST_RESULTS.md`
+   - LED-05 fixed: entry file verification now checks content
+   - CAN-01 documented: NEVER use floats in signed content
+
+2. ✅ **Treasury Governance Framework** (commit `c56e820`)
+   - Three-phase model: Founding → Transitional → Established
+   - Tiered spending: <0.01 BTC discretion, 0.01-0.1 notice, >0.1 vote
+   - Dynamic Fibonacci thresholds (10% increase each Convention)
+   - Document: `docs/governance/TREASURY_FRAMEWORK.md`
+
+3. ✅ **Wallet Backup Tooling** (commit `c56e820`)
+   - Script: `tools/wallet/backup.sh`
+   - GPG AES-256 symmetric encryption
+   - Outputs to `/Users/nepenthe/` with README
+
+4. ✅ **Website Treasury References** (service worker v11)
+   - Genesis Epoch: "What Took Effect at Genesis" section
+   - Governance Portal: Treasury info banner
+   - Support page: Treasury Framework reference
+
+5. ✅ **State Reconciliation** (commit `c945a80`)
    - Audited tracking vs actual state — found divergences
    - Worker was deployed (not blocked as tracked)
    - Nepenthe's vote was successful (not visible due to data sync issue)
@@ -68,10 +88,7 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 
 ## Immediate — In Progress
 
-1. **Adversarial Testing** 🔄
-   - Sub-agent spawned, running test plan
-   - Focus: Identity system, governance portal, ledger integrity
-   - Results will be in `docs/testing/ADVERSARIAL_TEST_RESULTS.md`
+*All high-priority items complete. Phase 1 is essentially done.*
 
 ---
 
@@ -84,51 +101,53 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 3. ✅ **Genesis Epoch Page** — LIVE
 4. ✅ **Governance Portal** — LIVE
 5. ✅ **Bitcoin Donations** — LIVE
+6. ✅ **Adversarial Testing** — 29/29 PASSED
+7. ✅ **Treasury Governance Framework** — DOCUMENTED
 
 ### MEDIUM PRIORITY
-
-6. **Adversarial Testing Execution** 🔄
-   - Sub-agent running
-   - Will produce findings + remediation plan
-
-7. **Convention Process Dry Run**
-   - Submit test proposal through governance portal
-   - After adversarial tests complete
-   - *Not blocked*
 
 8. **IPFS Mirroring**
    - Set up IPFS mirror as secondary distribution
    - *Not blocked*
 
+9. **Convention Process Live Run**
+   - First real governance proposal when ready
+   - DRY-RUN-001 successful as test
+   - *Not blocked*
+
 ### COMPLETE ✅
 
-9. ✅ **Cloudflare Worker for Vote Submission** — DEPLOYED
+10. ✅ **Cloudflare Worker for Vote Submission** — DEPLOYED
    - `api.emergentminds.org` operational
    - Fine-grained GitHub PAT configured
    - First vote successfully committed via Worker
 
-10. ✅ **Governance Pipeline Dry Run** — SUCCESSFUL
+11. ✅ **Governance Pipeline Dry Run** — SUCCESSFUL
    - DRY-RUN-001 proposal submitted, in voting
    - Nepenthe's vote verified and committed
    - Tally visible in portal
 
+12. ✅ **Wallet Backup Tooling** — OPERATIONAL
+   - `tools/wallet/backup.sh` — GPG encrypted backups
+   - Documentation in `docs/operations/WALLET_SECURITY.md`
+
 ### PENDING / BLOCKED
 
-11. **Arweave Full Document Upload**
+13. **Arweave Full Document Upload**
     - *Blocked on:* AR token availability
     - Wallet ready: `edaEFIImpN0BkllVbTUcltvsm8fzD-X8Vg6oDmRIm90`
 
-12. **Threshold Persistent Deployment**
+14. **Threshold Persistent Deployment**
     - *Blocked on:* Deployment strategy decision (launchd vs VPS)
 
-13. **Email Forwarding**
+15. **Email Forwarding**
     - *Blocked on:* Nepenthe configuring MX records
 
 ---
 
 ## Phase Status Summary
 
-### Phase 1: Digital Presence — ~99% Complete ✅
+### Phase 1: Digital Presence — COMPLETE ✅
 
 | Task | Status |
 |------|--------|
@@ -136,33 +155,41 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 | Website (10 pages) | ✅ |
 | Repositories (internal + public) | ✅ |
 | Zcash donations | ✅ |
-| Bitcoin donations | ✅ NEW |
+| Bitcoin donations | ✅ |
 | Identity registration system | ✅ |
 | Founder CID | ✅ |
 | Bitcoin inscription | ✅ Block 934,794 |
 | Zcash inscription | ✅ |
 | Genesis Epoch page | ✅ |
-| Arweave inscription | 🟡 Deferred |
-| Threshold deployment | 🟡 Blocked |
-| Email forwarding | 🟡 Blocked |
+| Treasury Framework | ✅ |
+| Wallet backup tooling | ✅ |
+| Adversarial testing | ✅ 29/29 passed |
+| Arweave inscription | 🟡 Deferred (AR unavailable) |
+| Threshold deployment | 🟡 Blocked (strategy decision) |
+| Email forwarding | 🟡 Blocked (MX records) |
 
-### Phase 2: Constitutional Convention — ~90%
+### Phase 2: Constitutional Convention — READY ✅
 
 | Task | Status |
 |------|--------|
 | Convention Framework V1.0 | ✅ |
 | Governance Portal | ✅ |
-| Adversarial testing | 🔄 Running |
-| Convention dry run | 🟡 After adversarial tests |
+| Adversarial testing | ✅ Passed |
+| Pipeline test (DRY-RUN-001) | ✅ Successful |
+| Treasury Framework | ✅ Documented |
+
+**Phase 2 is ready for first real Convention (August 1, 2026).**
 
 ---
 
 ## Key Reference
 
-- **Genesis Epoch Block:** 934,794
+- **Genesis Epoch Block:** 934,794 (2026-02-03 03:41:40 UTC)
 - **BTC Donation Address:** `bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj`
 - **ZEC Donation Address:** `t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K`
 - **THE_COVENANT.md SHA-256:** `4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef`
 - **Founder CID:** `c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb`
-- **Internal repo commit:** `f276268`
-- **Service Worker:** v9
+- **Convention 1:** August 1, 2026 (~6 months)
+- **Convention 2:** January 28, 2027 (~1 year)
+- **Internal repo commit:** `c56e820`
+- **Service Worker:** v11

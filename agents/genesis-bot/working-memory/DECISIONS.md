@@ -315,3 +315,92 @@ Portal JS → Local Data (404/HTML) → Fallback to GitHub Raw → Tally display
 **Status:** Deployed (commit `f276268`).
 
 ---
+
+### 2026-02-03 — Treasury Governance Framework
+
+**Decision:** Implement a three-phase treasury governance model with dynamic Fibonacci-adjusted spending thresholds.
+
+**The Three Phases:**
+
+1. **Founding Stewardship (Current)**
+   - Founder has full spending authority with radical transparency
+   - All transactions publicly documented
+   - Emergency discretionary spending permitted
+   - Duration: Until dual condition met (≥100 active members AND ≥2 Scheduled Conventions)
+
+2. **Transitional Governance**
+   - Tiered spending controls:
+     - < 0.01 BTC: Steward discretion (48hr reporting)
+     - 0.01 - 0.1 BTC: 48-hour advance notice to community, proceed unless blocked
+     - > 0.1 BTC: Governance vote required (simple majority)
+   - Elected Treasury Steward (annual term, max 2 consecutive)
+   - Duration: Until Phase 3 threshold (≥500 members AND ≥5 Conventions AND >1 BTC treasury)
+
+3. **Established Governance**
+   - Multi-signature requirement for all spending above threshold
+   - Treasury Council (3-5 elected members)
+   - Annual budget allocation voted at Convention
+   - Permanent phase (no automatic transitions)
+
+**Dynamic Threshold Mechanism:**
+
+- Base thresholds increase 10% at each Convention after the first
+- Example: If Convention 1 base is 0.01/0.1 BTC, after Convention 5:
+  - Discretionary: 0.01 × 1.1⁴ ≈ 0.0146 BTC
+  - Notice tier: 0.1 × 1.1⁴ ≈ 0.146 BTC
+- Conventions can vote to reset base thresholds; Fibonacci progression continues from new base
+- **Emergency freeze:** Thresholds freeze if BTC drops >50% in 30 days (prevents forced liquidation)
+
+**Stewardship Budget:**
+- Annual allocation proposed at Convention, voted once
+- Once approved, Steward disburses without per-payment votes
+- Quarterly reporting required
+
+**Rationale:**
+- Gradual decentralization mirrors community growth
+- Fibonacci convention cadence = thresholds naturally scale with organizational maturity
+- Emergency freeze prevents adversarial timing attacks during market volatility
+- Stewardship budget enables operational efficiency while maintaining accountability
+
+**Axiom Alignment:**
+- II (Individual Sovereignty): No permanent authority; clear transition conditions
+- III (Fight Entropy): Threshold progression builds institutional durability
+- IV (Complexity Through Cooperation): Multi-sig and council governance
+- V (Adversarial Resilience): Freeze mechanism, recall provisions, audit requirements
+
+**Document:** `docs/governance/TREASURY_FRAMEWORK.md`
+
+**Status:** Approved by Nepenthe (2026-02-03). Pushed to public repo.
+
+---
+
+### 2026-02-03 — Wallet Backup Tooling
+
+**Decision:** Create encrypted backup script for cryptocurrency wallet credentials using GPG symmetric encryption.
+
+**Implementation:**
+- Script: `tools/wallet/backup.sh`
+- Method: GPG symmetric encryption with AES-256
+- Input: `.env` file containing wallet private keys
+- Output: `/Users/nepenthe/covenant-wallet-backup-YYYYMMDD.tar.gz.gpg`
+- Auto-generates README with decryption instructions (no keys in README)
+
+**Security Properties:**
+- Passphrase-based encryption (user sets at backup time)
+- Output to home directory (not in git repo)
+- Backup includes `.env` file only (source of truth for all secrets)
+- Decryption: `gpg --decrypt <file> | tar xzf -`
+
+**Why GPG Symmetric?**
+- Works offline, no key management infrastructure needed
+- Well-audited, widely supported
+- User controls passphrase (no third-party dependency)
+- Can be upgraded to asymmetric GPG later if needed
+
+**Axiom Alignment:**
+- III (Fight Entropy): Durability through documented backup procedures
+- V (Adversarial Resilience): Encrypted backups protect against unauthorized access
+
+**Status:** Implemented (commit `c56e820`).
+
+---
