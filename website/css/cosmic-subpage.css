@@ -56,11 +56,16 @@
 }
 
 .page-header h1 {
-    text-shadow: 0 2px 30px rgba(0, 0, 0, 0.8), 0 0 60px rgba(0, 0, 0, 0.4);
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.9),
+        0 4px 20px rgba(0, 0, 0, 0.8), 
+        0 0 60px rgba(0, 0, 0, 0.6);
 }
 
 .page-header p {
-    text-shadow: 0 1px 20px rgba(0, 0, 0, 0.7);
+    text-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.9),
+        0 2px 15px rgba(0, 0, 0, 0.8);
 }
 
 /* Gradient fade from hero area into content */
@@ -133,21 +138,41 @@
 /* ─── Force light text in page-header (always against dark cosmic bg) ─── */
 .page-header h1,
 .page-header p {
-    color: #e2e8f0;
+    color: #f1f5f9;
 }
 
 .page-header p {
-    color: #94a3b8;
+    color: #cbd5e1;
+}
+
+/* Text container with subtle scrim for readability */
+.page-header .container {
+    padding: var(--space-lg);
+    border-radius: 16px;
+    background: rgba(5, 8, 16, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 /* ─── Light theme adjustments ─── */
 /* Page header text stays light (cosmic bg is always dark) */
 [data-theme="light"] .page-header h1 {
-    color: #e2e8f0;
+    color: #ffffff;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.95),
+        0 4px 20px rgba(0, 0, 0, 0.9), 
+        0 0 60px rgba(0, 0, 0, 0.7);
 }
 
 [data-theme="light"] .page-header p {
-    color: #94a3b8;
+    color: #e2e8f0;
+    text-shadow: 
+        0 1px 3px rgba(0, 0, 0, 0.95),
+        0 2px 15px rgba(0, 0, 0, 0.9);
+}
+
+[data-theme="light"] .page-header .container {
+    background: rgba(5, 8, 16, 0.5);
 }
 
 [data-theme="light"] .page-content {
@@ -164,9 +189,26 @@
         min-height: 40vh;
     }
 
+    .page-header .container {
+        padding: var(--space-md);
+        background: rgba(5, 8, 16, 0.55);
+    }
+
+    .page-header h1 {
+        font-size: clamp(1.75rem, 6vw, 2.5rem);
+    }
+
     .page-content {
         background: rgba(10, 14, 23, 0.82);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
+    }
+
+    [data-theme="light"] .page-header .container {
+        background: rgba(5, 8, 16, 0.6);
+    }
+
+    [data-theme="light"] .page-content {
+        background: rgba(250, 251, 252, 0.92);
     }
 }
