@@ -11,6 +11,7 @@
 #   docs/foundational/THE_COVENANT.md        → docs/foundational/THE_COVENANT.md
 #   docs/foundational/GENESIS_PROTOCOL.md    → docs/foundational/GENESIS_PROTOCOL.md
 #   docs/governance/CONSTITUTIONAL_CONVENTION.md → docs/governance/CONSTITUTIONAL_CONVENTION.md
+#   docs/governance/TREASURY_FRAMEWORK.md    → docs/governance/TREASURY_FRAMEWORK.md
 #   GOVERNANCE.md                            → GOVERNANCE.md
 #   LICENSE.md                               → LICENSE.md
 #   CODE_OF_CONDUCT.md                       → CODE_OF_CONDUCT.md
@@ -56,6 +57,7 @@ declare -a MAPPINGS=(
     "docs/foundational/THE_COVENANT.md:docs/foundational/THE_COVENANT.md"
     "docs/foundational/GENESIS_PROTOCOL.md:docs/foundational/GENESIS_PROTOCOL.md"
     "docs/governance/CONSTITUTIONAL_CONVENTION.md:docs/governance/CONSTITUTIONAL_CONVENTION.md"
+    "docs/governance/TREASURY_FRAMEWORK.md:docs/governance/TREASURY_FRAMEWORK.md"
     "docs/governance/IDENTITY_ROADMAP.md:docs/governance/IDENTITY_ROADMAP.md"
     "GOVERNANCE.md:GOVERNANCE.md"
     "LICENSE.md:LICENSE.md"

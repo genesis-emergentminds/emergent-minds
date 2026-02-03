@@ -14,6 +14,7 @@
     var LEDGER_URL = '../data/governance/ledger.json';
     var LEDGER_FALLBACK_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/ledger/ledger.json';
     var VOTES_BASE_URL = '../data/governance/votes/';
+    var VOTES_FALLBACK_BASE_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/votes/';
 
     // ── Worker API ──
     var WORKER_API_URL = 'https://api.emergentminds.org';
@@ -448,8 +449,14 @@
 
     function loadVoteTally(proposalId) {
         var url = VOTES_BASE_URL + proposalId + '/index.json';
+        var fallbackUrl = VOTES_FALLBACK_BASE_URL + proposalId + '/index.json';
         return fetch(url)
             .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+            .catch(function() {
+                // Try fallback (public repo)
+                return fetch(fallbackUrl)
+                    .then(function(r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+            })
             .then(function(data) {
                 state.voteTallies[proposalId] = data;
                 return data;

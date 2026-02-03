@@ -70,6 +70,21 @@
                 <p>Governance actions during this phase are advisory. Binding governance activates after 100 members + 2 conventions.</p>
             </div>
 
+            <!-- Treasury Info Banner -->
+            <details class="gov-info-details" style="background: rgba(26, 34, 51, 0.6); border: 1px solid var(--border); border-radius: 0.5rem; padding: var(--space-md); margin-bottom: var(--space-lg);">
+                <summary style="cursor: pointer; font-weight: 600; color: var(--accent);">💰 Treasury Governance (Phase 2+)</summary>
+                <div style="margin-top: var(--space-md); font-size: 0.9375rem; color: var(--text-secondary);">
+                    <p><strong>After transition conditions are met</strong>, a <strong>Treasury Steward</strong> will be elected at each Convention:</p>
+                    <ul style="margin: var(--space-sm) 0; padding-left: var(--space-lg);">
+                        <li><strong>Operational spending</strong> (&lt; 0.01 BTC): Steward discretion, logged within 48 hours</li>
+                        <li><strong>Standard spending</strong> (0.01–0.1 BTC): 48-hour community notice before execution</li>
+                        <li><strong>Significant spending</strong> (&gt; 0.1 BTC): Requires governance proposal + vote</li>
+                    </ul>
+                    <p>Thresholds automatically increase along the Fibonacci convention schedule. Any Convention can vote to adjust base thresholds.</p>
+                    <p style="margin-top: var(--space-sm);"><a href="https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/TREASURY_FRAMEWORK.md" target="_blank" rel="noopener" style="color: var(--accent);">Read the full Treasury Framework →</a></p>
+                </div>
+            </details>
+
             <!-- Tab Navigation -->
             <div class="gov-tabs" role="tablist" aria-label="Governance sections">
                 <button class="gov-tab-btn" role="tab" aria-selected="true" data-tab="browse" aria-controls="tab-browse" id="tabBtn-browse">Browse Proposals</button>
