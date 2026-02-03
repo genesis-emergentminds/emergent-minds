@@ -136,12 +136,16 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 13. **Arweave Full Document Upload**
     - *Blocked on:* AR token availability
     - Wallet ready: `edaEFIImpN0BkllVbTUcltvsm8fzD-X8Vg6oDmRIm90`
+    - *Deferred indefinitely — not blocking anything*
 
 14. **Threshold Persistent Deployment**
     - *Blocked on:* Deployment strategy decision (launchd vs VPS)
 
-15. **Email Forwarding**
-    - *Blocked on:* Nepenthe configuring MX records
+### COMPLETE ✅ (Additional)
+
+15. ✅ **Email Forwarding** — Configured
+    - Forwarding to founder privately during bootstrap
+    - Role-based forwards can be added as governance matures
 
 ---
 
@@ -164,9 +168,9 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 | Treasury Framework | ✅ |
 | Wallet backup tooling | ✅ |
 | Adversarial testing | ✅ 29/29 passed |
+| Email forwarding | ✅ (to founder) |
 | Arweave inscription | 🟡 Deferred (AR unavailable) |
 | Threshold deployment | 🟡 Blocked (strategy decision) |
-| Email forwarding | 🟡 Blocked (MX records) |
 
 ### Phase 2: Constitutional Convention — READY ✅
 
