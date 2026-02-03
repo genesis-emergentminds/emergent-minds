@@ -15,6 +15,10 @@
     var LEDGER_FALLBACK_URL = 'https://raw.githubusercontent.com/genesis-emergentminds/emergent-minds/main/governance/ledger/ledger.json';
     var VOTES_BASE_URL = '../data/governance/votes/';
 
+    // ── Worker API ──
+    var WORKER_API_URL = 'https://api.emergentminds.org';
+    var WORKER_API_URL_DEV = 'https://emergent-minds-api.workers.dev';
+
     // ── State ──
     var state = {
         identity: null,       // { cidHash, edPrivateKey, edPublicKey, memberInfo }
@@ -221,18 +225,21 @@
             // Validate against ledger
             if (state.ledger) {
                 var member = findMemberInLedger(cidHash);
-                if (!member) {
-                    showIdentityError('This identity is not in the membership ledger.');
-                    return;
-                }
                 state.identity = {
                     cidHash: cidHash,
                     edPrivateKey: edPrivateKey,
                     edPublicKey: edPublicKey,
                     mlPrivateKey: mlPrivateKey,
                     mlPublicKey: mlPublicKey,
-                    memberInfo: member
+                    memberInfo: member,
+                    inLedger: !!member
                 };
+                if (!member) {
+                    showIdentityWarning(
+                        '⚠️ Your CID was not found in the membership ledger. You can browse proposals and verify votes, but voting requires active membership.',
+                        'Membership validation is checked locally for convenience. Server-side cryptographic verification is the authoritative check.'
+                    );
+                }
             } else {
                 // Ledger not loaded yet — accept identity, check later
                 state.identity = {
@@ -241,15 +248,21 @@
                     edPublicKey: edPublicKey,
                     mlPrivateKey: mlPrivateKey,
                     mlPublicKey: mlPublicKey,
-                    memberInfo: null
+                    memberInfo: null,
+                    inLedger: null // unknown until ledger loads
                 };
                 // Try loading ledger in background
                 loadLedger().then(function() {
                     if (state.identity && state.ledger) {
                         var m = findMemberInLedger(state.identity.cidHash);
-                        if (m) {
-                            state.identity.memberInfo = m;
-                            updateIdentityUI();
+                        state.identity.memberInfo = m;
+                        state.identity.inLedger = !!m;
+                        updateIdentityUI();
+                        if (!m) {
+                            showIdentityWarning(
+                                '⚠️ Your CID was not found in the membership ledger. You can browse proposals and verify votes, but voting requires active membership.',
+                                'Membership validation is checked locally for convenience. Server-side cryptographic verification is the authoritative check.'
+                            );
                         }
                     }
                 });
@@ -296,6 +309,7 @@
         var bar = document.getElementById('gov-identity-bar');
         var notLoaded = document.getElementById('gov-id-not-loaded');
         var loaded = document.getElementById('gov-id-loaded');
+        var warnEl = document.getElementById('gov-id-warning');
 
         if (state.identity) {
             bar.classList.add('loaded');
@@ -314,21 +328,59 @@
                 if (state.identity.mlPrivateKey) sigTypes = 'ML-DSA-65 + Ed25519 (dual-sign)';
                 statusText += ' · Signing: ' + sigTypes;
                 setText(statusEl, statusText);
+                if (warnEl) warnEl.style.display = 'none';
+            } else if (state.identity.inLedger === false) {
+                setText(statusEl, 'Identity loaded — not in membership ledger');
             } else {
                 setText(statusEl, 'Ledger not yet verified — identity loaded from file');
             }
+
+            // Update vote/sign button states based on ledger membership
+            updateSignButtonStates();
         } else {
             bar.classList.remove('loaded');
             notLoaded.style.display = 'block';
             loaded.style.display = 'none';
+            if (warnEl) warnEl.style.display = 'none';
+            updateSignButtonStates();
+        }
+    }
+
+    function updateSignButtonStates() {
+        var canSign = state.identity && state.identity.inLedger !== false;
+        var voteSignBtn = document.getElementById('gov-vote-sign');
+        var propSignBtn = document.getElementById('gov-wiz-sign');
+
+        if (voteSignBtn) {
+            voteSignBtn.disabled = !canSign;
+            voteSignBtn.title = canSign ? '' : 'Voting requires active membership in the ledger.';
+        }
+        if (propSignBtn) {
+            propSignBtn.disabled = !canSign;
+            propSignBtn.title = canSign ? '' : 'Submitting proposals requires active membership in the ledger.';
         }
     }
 
     function showIdentityError(msg) {
         var errEl = document.getElementById('gov-id-error');
         setText(errEl, msg);
+        errEl.className = 'gov-notice gov-notice-error';
         errEl.style.display = 'block';
         setTimeout(function() { errEl.style.display = 'none'; }, 6000);
+    }
+
+    function showIdentityWarning(msg, note) {
+        var warnEl = document.getElementById('gov-id-warning');
+        if (!warnEl) return;
+        warnEl.innerHTML = '';
+        warnEl.appendChild(document.createTextNode(msg));
+        if (note) {
+            var noteEl = document.createElement('div');
+            noteEl.style.cssText = 'font-size: 0.75rem; margin-top: 0.25rem; opacity: 0.8;';
+            setText(noteEl, note);
+            warnEl.appendChild(noteEl);
+        }
+        warnEl.style.display = 'block';
     }
 
     // ══════════════════════════════════════════════
@@ -921,13 +973,115 @@
                 proposal.signatures.author_ml_dsa_65 = null;
             }
 
-            downloadJSON(proposal, 'proposal-draft-' + now + '.json');
+            // Don't auto-download — show submission confirmation first
+            // Store proposal for submission
+            state.lastSignedProposal = proposal;
 
-            // Show success
+            // Show success step with submission options
             goWizardStep(3);
+            showProposalSubmissionOptions(proposal, now);
         } catch (err) {
             alert('Signing error: ' + err.message);
         }
+    }
+
+    /**
+     * Show proposal submission options on step 4 of the wizard.
+     */
+    function showProposalSubmissionOptions(proposal, timestamp) {
+        var container = document.getElementById('gov-proposal-submit-actions');
+        if (!container) return;
+        container.innerHTML = '';
+
+        var submitBtn = el('button', { className: 'btn btn-primary', id: 'gov-proposal-submit-worker' }, '📡 Submit to Covenant');
+        submitBtn.addEventListener('click', function() {
+            submitProposalToWorker(proposal, container);
+        });
+
+        var downloadBtn = el('button', { className: 'btn btn-secondary' }, '💾 Download JSON');
+        downloadBtn.addEventListener('click', function() {
+            downloadJSON(proposal, 'proposal-draft-' + timestamp + '.json');
+        });
+
+        var actions = el('div', { style: 'display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-md); flex-wrap: wrap;' });
+        actions.appendChild(submitBtn);
+        actions.appendChild(downloadBtn);
+        container.appendChild(actions);
+
+        // Status area for submission feedback
+        container.appendChild(el('div', { id: 'gov-proposal-submit-status' }));
+    }
+
+    /**
+     * POST signed proposal to the Cloudflare Worker API.
+     */
+    function submitProposalToWorker(proposal, container) {
+        var submitBtn = document.getElementById('gov-proposal-submit-worker');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Submitting…';
+        }
+
+        var statusEl = document.getElementById('gov-proposal-submit-status');
+        if (!statusEl) {
+            statusEl = el('div', { id: 'gov-proposal-submit-status' });
+            container.appendChild(statusEl);
+        }
+        statusEl.innerHTML = '';
+        statusEl.className = '';
+        statusEl.appendChild(document.createTextNode('Submitting proposal…'));
+
+        var url = WORKER_API_URL + '/api/submit-proposal';
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(proposal)
+        })
+        .then(function(resp) {
+            return resp.json().then(function(data) {
+                return { status: resp.status, data: data };
+            });
+        })
+        .then(function(result) {
+            statusEl.innerHTML = '';
+            if (result.status === 201 && result.data.status === 'accepted') {
+                statusEl.className = 'gov-notice gov-notice-success';
+                statusEl.appendChild(el('strong', null, '✅ Proposal Submitted to the Covenant'));
+                statusEl.appendChild(el('p', null, 'Your proposal has been cryptographically verified and committed.'));
+                statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' }, [
+                    document.createTextNode('Commit: '),
+                    el('code', null, (result.data.commit_sha || '').slice(0, 12))
+                ]));
+                if (result.data.file_path) {
+                    statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' }, 'Path: ' + result.data.file_path));
+                }
+                if (submitBtn) submitBtn.style.display = 'none';
+            } else {
+                statusEl.className = 'gov-notice gov-notice-error';
+                var errorMsg = (result.data && result.data.message) ? result.data.message : 'Submission was rejected.';
+                statusEl.appendChild(el('strong', null, '❌ Submission Rejected'));
+                statusEl.appendChild(el('p', null, errorMsg));
+                statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' },
+                    'Download the JSON and submit via GitHub Issue.'));
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '📡 Retry Submit';
+                }
+            }
+        })
+        .catch(function(err) {
+            statusEl.innerHTML = '';
+            statusEl.className = 'gov-notice gov-notice-warn';
+            statusEl.appendChild(el('strong', null, '⚠️ Could not reach the submission server'));
+            statusEl.appendChild(el('p', null, 'Error: ' + err.message));
+            statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' },
+                'Your proposal is still valid. Download the JSON and submit via GitHub Issue.'));
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📡 Retry Submit';
+            }
+        });
     }
 
     function getThresholds(category) {
@@ -1082,18 +1236,140 @@
             }
 
             var prefix = state.identity.cidHash.slice(0, 8);
-            downloadJSON(vote, 'vote-' + proposalId + '-' + prefix + '.json');
 
-            // Show confirmation
-            var confirmation = document.getElementById('gov-vote-confirmation');
-            confirmation.style.display = 'block';
-            setText(document.getElementById('gov-vote-confirm-proposal'), proposalId);
-            setText(document.getElementById('gov-vote-confirm-choice'), capitalize(selectedVote));
-            setText(document.getElementById('gov-vote-confirm-time'), formatDateTime(now));
-            setText(document.getElementById('gov-vote-confirm-hash'), vote.commitment.vote_hash);
+            // Show submission confirmation with options
+            showVoteSubmissionConfirmation(vote, proposalId, prefix, now);
         } catch (err) {
             alert('Signing error: ' + err.message);
         }
+    }
+
+    /**
+     * Show vote submission confirmation with "Submit to Covenant" and "Download Only" options.
+     */
+    function showVoteSubmissionConfirmation(vote, proposalId, cidPrefix, timestamp) {
+        var confirmation = document.getElementById('gov-vote-confirmation');
+        confirmation.innerHTML = '';
+        confirmation.style.display = 'block';
+
+        // Vote details
+        var detailBlock = el('div', { className: 'gov-notice gov-notice-info' }, [
+            el('strong', null, '✅ Vote Signed Successfully'),
+            el('p', null, 'Proposal: ' + proposalId),
+            el('p', null, 'Your vote: ' + capitalize(vote.vote_content.choice)),
+            el('p', null, 'Timestamp: ' + formatDateTime(timestamp)),
+            el('p', { style: 'font-size:0.8125rem; margin-top: var(--space-sm);' }, [
+                document.createTextNode('Vote hash: '),
+                el('code', { style: 'word-break:break-all;' }, vote.commitment.vote_hash)
+            ])
+        ]);
+        confirmation.appendChild(detailBlock);
+
+        // Action buttons
+        var actions = el('div', { className: 'gov-submission-actions', style: 'display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-md); flex-wrap: wrap;' });
+
+        var submitBtn = el('button', { className: 'btn btn-primary', id: 'gov-vote-submit-worker' }, '📡 Submit to Covenant');
+        submitBtn.addEventListener('click', function() {
+            submitVoteToWorker(vote, proposalId, cidPrefix, confirmation);
+        });
+
+        var downloadBtn = el('button', { className: 'btn btn-secondary' }, '💾 Download Only');
+        downloadBtn.addEventListener('click', function() {
+            downloadJSON(vote, 'vote-' + proposalId + '-' + cidPrefix + '.json');
+        });
+
+        actions.appendChild(submitBtn);
+        actions.appendChild(downloadBtn);
+        confirmation.appendChild(actions);
+
+        // Fallback note
+        confirmation.appendChild(el('p', { style: 'font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: var(--space-sm);' },
+            'You can always download the JSON and submit via GitHub Issue as a fallback.'));
+    }
+
+    /**
+     * POST signed vote to the Cloudflare Worker API.
+     */
+    function submitVoteToWorker(vote, proposalId, cidPrefix, container) {
+        var submitBtn = document.getElementById('gov-vote-submit-worker');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Submitting…';
+        }
+
+        // Show loading indicator
+        var statusEl = el('div', { className: 'gov-submission-status', id: 'gov-vote-submit-status', style: 'text-align: center; margin-top: var(--space-sm);' },
+            'Submitting vote to the Covenant governance system…');
+        container.appendChild(statusEl);
+
+        var url = WORKER_API_URL + '/api/submit-vote';
+
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(vote)
+        })
+        .then(function(resp) {
+            return resp.json().then(function(data) {
+                return { status: resp.status, data: data };
+            });
+        })
+        .then(function(result) {
+            statusEl.innerHTML = '';
+            if (result.status === 201 && result.data.status === 'accepted') {
+                statusEl.className = 'gov-notice gov-notice-success';
+                statusEl.appendChild(el('strong', null, '✅ Vote Recorded on the Covenant'));
+                statusEl.appendChild(el('p', null, 'Your vote has been cryptographically verified and committed.'));
+                statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' }, [
+                    document.createTextNode('Commit: '),
+                    el('code', null, (result.data.commit_sha || '').slice(0, 12))
+                ]));
+                if (submitBtn) submitBtn.style.display = 'none';
+            } else {
+                showSubmissionError(statusEl, submitBtn, result.data, proposalId, cidPrefix, vote);
+            }
+        })
+        .catch(function(err) {
+            statusEl.innerHTML = '';
+            statusEl.className = 'gov-notice gov-notice-warn';
+            statusEl.appendChild(el('strong', null, '⚠️ Could not reach the submission server'));
+            statusEl.appendChild(el('p', null, 'Error: ' + err.message));
+            statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' },
+                'Your vote is still valid. Download the JSON file and submit via GitHub Issue.'));
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📡 Retry Submit';
+            }
+        });
+    }
+
+    function showSubmissionError(statusEl, submitBtn, data, proposalId, cidPrefix, vote) {
+        statusEl.className = 'gov-notice gov-notice-error';
+        var errorMsg = (data && data.message) ? data.message : 'Submission was rejected.';
+        var errorCode = (data && data.error) ? data.error : 'UNKNOWN';
+        statusEl.appendChild(el('strong', null, '❌ Submission Rejected'));
+        statusEl.appendChild(el('p', null, errorMsg));
+        statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem; opacity: 0.8;' }, 'Error code: ' + errorCode));
+
+        // Special case: duplicate vote
+        if (errorCode === 'DUPLICATE_VOTE') {
+            statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' }, 'You have already voted on this proposal.'));
+            if (submitBtn) submitBtn.style.display = 'none';
+        } else {
+            statusEl.appendChild(el('p', { style: 'font-size: 0.8125rem;' },
+                'Download the JSON file and submit via GitHub Issue as a fallback.'));
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📡 Retry Submit';
+            }
+        }
+
+        // Always offer download as fallback
+        var dlBtn = el('button', { className: 'btn btn-secondary gov-btn-sm', style: 'margin-top: var(--space-sm);' }, '💾 Download Vote JSON');
+        dlBtn.addEventListener('click', function() {
+            downloadJSON(vote, 'vote-' + proposalId + '-' + cidPrefix + '.json');
+        });
+        statusEl.appendChild(dlBtn);
     }
 
     // ══════════════════════════════════════════════

@@ -1,0 +1,10 @@
+name = "emergent-minds-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Route: api.emergentminds.org/*
+# Configure via Cloudflare dashboard or:
+# routes = [{ pattern = "api.emergentminds.org/*", zone_name = "emergentminds.org" }]
+
+[vars]
+ENVIRONMENT = "production"

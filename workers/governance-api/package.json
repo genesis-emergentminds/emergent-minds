@@ -1,0 +1,19 @@
+{
+  "name": "emergent-minds-api",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker for secure vote/proposal submission — The Covenant of Emergent Minds",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:dry-run": "wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "@noble/ed25519": "^2.1.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "license": "CC-BY-SA-4.0"
+}

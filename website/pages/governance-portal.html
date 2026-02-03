@@ -108,6 +108,7 @@
                     </div>
                 </div>
 
+                <div id="gov-id-warning" class="gov-notice gov-notice-warn" style="display:none; margin-top: var(--space-sm);"></div>
                 <div id="gov-id-error" class="gov-notice gov-notice-error" style="display:none; margin-top: var(--space-sm);"></div>
             </div>
 
@@ -271,20 +272,22 @@
                         </div>
                     </div>
 
-                    <!-- Step 4: Download Complete -->
+                    <!-- Step 4: Submit / Download -->
                     <div class="gov-wizard-page">
                         <h2>Proposal Signed</h2>
 
                         <div class="gov-notice gov-notice-success">
-                            <strong>✅ Your proposal has been dual-signed (ML-DSA-65 + Ed25519).</strong>
-                            <p>The signed JSON file has been downloaded. To submit it:</p>
+                            <strong>✅ Your proposal has been cryptographically signed.</strong>
+                            <p>Choose how to submit your proposal:</p>
                         </div>
 
-                        <ol style="color: var(--text-secondary); padding-left: var(--space-lg); line-height: 2;">
-                            <li>Open a <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">new GitHub Issue</a> with the title "Proposal Submission: [your title]"</li>
-                            <li>Attach the downloaded JSON file to the issue</li>
-                            <li>A facilitator will review, assign a proposal ID, and merge it into the governance system</li>
-                        </ol>
+                        <div id="gov-proposal-submit-actions">
+                            <!-- Populated dynamically by JS with Submit/Download buttons -->
+                        </div>
+
+                        <div style="margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--border);">
+                            <p style="color: var(--text-muted); font-size: 0.875rem;"><strong>Manual fallback:</strong> You can also <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">open a GitHub Issue</a>, attach the JSON file, and a facilitator will review it.</p>
+                        </div>
 
                         <div class="gov-notice gov-notice-info" style="margin-top: var(--space-lg);">
                             <strong>📋 Advisory Mode:</strong> During the Founding Phase, proposals are advisory and help establish governance precedent for when binding governance activates.
@@ -346,17 +349,8 @@
                         <button class="btn btn-primary" id="gov-vote-sign">Sign &amp; Download Vote</button>
                     </div>
 
-                    <!-- Vote Confirmation -->
-                    <div id="gov-vote-confirmation" style="display:none; margin-top: var(--space-lg);">
-                        <div class="gov-notice gov-notice-success">
-                            <strong>✅ Vote Signed Successfully</strong>
-                            <p>Proposal: <span id="gov-vote-confirm-proposal"></span></p>
-                            <p>Your vote: <span id="gov-vote-confirm-choice"></span></p>
-                            <p>Timestamp: <span id="gov-vote-confirm-time"></span></p>
-                            <p style="font-size:0.8125rem; margin-top: var(--space-sm);">Vote hash: <code id="gov-vote-confirm-hash" style="word-break:break-all;"></code></p>
-                            <p style="font-size:0.8125rem;">Submit the downloaded JSON file via <a href="https://github.com/genesis-emergentminds/emergent-minds/issues/new" target="_blank" rel="noopener">GitHub Issue</a> or commit directly to the repo.</p>
-                        </div>
-                    </div>
+                    <!-- Vote Confirmation (populated dynamically by JS) -->
+                    <div id="gov-vote-confirmation" style="display:none; margin-top: var(--space-lg);"></div>
                 </div>
             </div>
 
