@@ -615,8 +615,8 @@ p + p {
 
 .footer-grid {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: var(--space-xl);
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-lg);
     margin-bottom: var(--space-xl);
 }
 

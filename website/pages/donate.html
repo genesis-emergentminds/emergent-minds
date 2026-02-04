@@ -28,10 +28,30 @@
             border-radius: 0.75rem;
             padding: var(--space-xl);
             margin: var(--space-lg) 0;
+        }
+        .donate-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+        }
+        @media (max-width: 640px) {
+            .donate-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .donate-option {
             text-align: center;
+            padding: var(--space-md);
+            border-radius: 0.5rem;
+            background: rgba(10, 14, 23, 0.4);
+        }
+        .donate-option h3 {
+            margin-bottom: var(--space-md);
+            font-size: 1.1rem;
+            color: var(--accent);
         }
         .donate-qr {
-            max-width: 220px;
+            max-width: 180px;
             width: 100%;
             height: auto;
             margin-bottom: var(--space-md);
@@ -40,25 +60,28 @@
         .donate-address {
             word-break: break-all;
             font-family: var(--font-mono);
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             margin-bottom: var(--space-md);
             color: var(--text-primary);
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 0.25rem;
         }
         .btn-copy {
             background: var(--accent);
             color: #fff;
             border: none;
-            padding: 0.6rem 2rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 0.5rem;
             cursor: pointer;
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             font-weight: 600;
         }
         .donate-verify {
-            margin-top: var(--space-md);
+            margin-top: var(--space-sm);
             margin-bottom: 0;
         }
-        .donate-verify a { font-size: 0.875rem; }
+        .donate-verify a { font-size: 0.8rem; }
         .text-muted { opacity: 0.8; font-size: 0.9rem; }
         .text-sm { font-size: 0.9375rem; }
         .text-xs { font-size: 0.875rem; }
@@ -147,23 +170,38 @@
             </section>
 
             <section class="reveal">
-                <h2>Donate via Zcash</h2>
+                <h2>Donate with Cryptocurrency</h2>
                 <p>Every transaction is publicly verifiable on the blockchain — full accountability for every contribution received.</p>
 
                 <div class="donate-panel">
-                    <picture>
-                        <source srcset="../assets/generated/zcash-qr-light.png" media="(prefers-color-scheme: light)">
-                        <img src="../assets/generated/zcash-qr-dark.png" alt="QR code for Zcash donation address" class="donate-qr">
-                    </picture>
-                    <div class="donate-address">
-                        t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
+                    <div class="donate-grid">
+                        <div class="donate-option">
+                            <h3>Bitcoin (BTC)</h3>
+                            <picture>
+                                <source srcset="../assets/generated/bitcoin-qr-light.png" media="(prefers-color-scheme: light)">
+                                <img src="../assets/generated/bitcoin-qr-dark.png" alt="QR code for Bitcoin donation address" class="donate-qr">
+                            </picture>
+                            <div class="donate-address">bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj</div>
+                            <button class="btn-copy" id="btn-copy-btc-address">Copy Address</button>
+                            <p class="donate-verify">
+                                <a href="https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj" target="_blank" rel="noopener">Verify on mempool.space →</a>
+                            </p>
+                        </div>
+                        <div class="donate-option">
+                            <h3>Zcash (ZEC)</h3>
+                            <picture>
+                                <source srcset="../assets/generated/zcash-qr-light.png" media="(prefers-color-scheme: light)">
+                                <img src="../assets/generated/zcash-qr-dark.png" alt="QR code for Zcash donation address" class="donate-qr">
+                            </picture>
+                            <div class="donate-address">t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K</div>
+                            <button class="btn-copy" id="btn-copy-address">Copy Address</button>
+                            <p class="donate-verify">
+                                <a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener">Verify on explorer →</a>
+                            </p>
+                        </div>
                     </div>
-                    <button class="btn-copy" id="btn-copy-address">Copy Address</button>
-                    <p class="donate-verify">
-                        <a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener">Verify on blockchain explorer →</a>
-                    </p>
                 </div>
-                <p class="text-muted text-xs text-center">New to Zcash? <a href="https://z.cash/the-basics/">Learn the basics →</a></p>
+                <p class="text-muted text-xs text-center">Both addresses are transparent and publicly auditable.</p>
             </section>
 
             <section class="reveal">
@@ -183,50 +221,13 @@
             </section>
 
             <section class="reveal">
-                <h2>Donate via Bitcoin</h2>
-                <p>Bitcoin — the original cryptocurrency — provides a decentralized, censorship-resistant way to support the mission. All transactions are publicly verifiable on the blockchain.</p>
-
-                <div class="donate-panel">
-                    <picture>
-                        <source srcset="../assets/generated/bitcoin-qr-light.png" media="(prefers-color-scheme: light)">
-                        <img src="../assets/generated/bitcoin-qr-dark.png" alt="QR code for Bitcoin donation address" class="donate-qr">
-                    </picture>
-                    <div class="donate-address">
-                        bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj
-                    </div>
-                    <button class="btn-copy" id="btn-copy-btc-address">Copy Address</button>
-                    <p class="donate-verify">
-                        <a href="https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj" target="_blank" rel="noopener">Verify on mempool.space →</a>
-                    </p>
-                </div>
-                <p class="text-muted text-xs text-center">This is a native SegWit (bech32) address. Most modern wallets support it.</p>
-            </section>
-
-            <section class="reveal">
-                <h2>Why Multiple Cryptocurrencies?</h2>
-                <p>We accept both <strong>Zcash (ZEC)</strong> and <strong>Bitcoin (BTC)</strong> because each serves different needs aligned with our axioms:</p>
+                <h2>Why Cryptocurrency?</h2>
+                <p>We accept <strong>Bitcoin (BTC)</strong> and <strong>Zcash (ZEC)</strong> because each serves different needs aligned with our axioms:</p>
                 <ul>
-                    <li><strong>Zcash — Privacy as Sovereignty:</strong> Built on zero-knowledge proofs (zk-SNARKs). Donors who value privacy can contribute with mathematical guarantees that no intermediary can surveil their transaction. We use a transparent receiving address for our own accountability while your sending address remains private. (<em>Axiom II</em>)</li>
-                    <li><strong>Bitcoin — Network Effect & Permanence:</strong> The most widely held cryptocurrency, making it easier for more people to contribute. Bitcoin also anchors our Genesis Epoch — THE_COVENANT.md's hash is inscribed on the Bitcoin blockchain forever. (<em>Axiom III, V</em>)</li>
+                    <li><strong>Bitcoin — Network Effect & Permanence:</strong> The most widely held cryptocurrency, making it accessible to more supporters. Bitcoin also anchors our Genesis Epoch — THE_COVENANT.md's hash is inscribed on the Bitcoin blockchain forever. (<em>Axiom III, V</em>)</li>
+                    <li><strong>Zcash — Privacy as Sovereignty:</strong> Built on zero-knowledge proofs (zk-SNARKs). Donors who value privacy can contribute with mathematical guarantees — your sending address remains private while our transparent receiving address ensures accountability. (<em>Axiom II</em>)</li>
                     <li><strong>Both — No Gatekeepers:</strong> Decentralized and censorship-resistant. No company can freeze our funds or decide our mission is "too unconventional."</li>
                 </ul>
-                <p class="text-muted text-sm">Both receiving addresses are transparent/auditable. You can verify all incoming donations on-chain.</p>
-            </section>
-
-            <section class="reveal">
-                <h2>About Our Zcash Address</h2>
-                <p>We chose <strong>Zcash (ZEC)</strong> because its design philosophy aligns directly with our axioms:</p>
-                <ul>
-                    <li><strong>Privacy as Sovereignty:</strong> Built on zero-knowledge proofs (zk-SNARKs) — donor privacy is mathematically guaranteed, not just promised by policy. No intermediary can block, surveil, or reverse your contribution. (<em>Axiom II</em>)</li>
-                    <li><strong>Transparency When Chosen:</strong> We use a transparent address so incoming funds are publicly auditable — anyone can verify what we receive. (<em>Axiom V</em>)</li>
-                    <li><strong>No Gatekeepers:</strong> Decentralized and censorship-resistant. No company can decide our mission is too unconventional and freeze our funds.</li>
-                    <li><strong>Proven Technology:</strong> Launched in 2016, continuously audited, built by world-class cryptographers.</li>
-                </ul>
-                <p class="text-sm"><strong>Technical resources:</strong>
-                    <a href="https://z.cash/technology/">Protocol overview</a> ·
-                    <a href="https://zips.z.cash/protocol/protocol.pdf">Whitepaper</a> ·
-                    <a href="https://electriccoin.co/blog/zcash-counterfeiting-vulnerability-successfully-remediated/">Security track record</a>
-                </p>
             </section>
 
             <section class="reveal">
