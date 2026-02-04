@@ -70,7 +70,7 @@ const GOVERNANCE_ASSETS = {
 const API_ENDPOINTS = {
   governanceHealth: 'https://api.emergentminds.org/api/health',
   proposalsIndex: '/data/governance/proposals/index.json',
-  ledger: '/data/governance/ledger/index.json',
+  ledger: '/data/governance/ledger.json',
 };
 
 // Expected UI elements

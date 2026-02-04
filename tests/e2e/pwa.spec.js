@@ -80,9 +80,11 @@ test.describe('Service Worker', () => {
     const swContent = await response.text();
     
     // Service worker should define a cache version for updates
+    // Accepts various naming conventions: CACHE_VERSION, CACHE_NAME, cacheName, or version string
     const hasVersion = swContent.includes('CACHE_VERSION') || 
+                       swContent.includes('CACHE_NAME') ||
                        swContent.includes('cacheName') ||
-                       swContent.includes("'v");
+                       /['"][\w-]+-v\d+['"]/.test(swContent); // e.g., 'app-v1', 'emergent-minds-v16'
     expect(hasVersion, 'Service worker should have versioned cache').toBe(true);
   });
 

@@ -19,6 +19,9 @@ test.describe('Genesis Epoch Page', () => {
 
   test('displays Bitcoin block number', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
+    // Wait for JS to populate blockchain data from API
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000); // Extra buffer for API response processing
     
     const bodyText = await page.locator('body').textContent();
     expect(bodyText).toContain(BLOCKCHAIN.bitcoinBlock.toString());
@@ -26,6 +29,7 @@ test.describe('Genesis Epoch Page', () => {
 
   test('displays Bitcoin transaction hash', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
+    await page.waitForLoadState('networkidle');
     
     const bodyText = await page.locator('body').textContent();
     // Transaction hash should appear (at least partial)
@@ -35,6 +39,7 @@ test.describe('Genesis Epoch Page', () => {
 
   test('displays Covenant document hash', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
+    await page.waitForLoadState('networkidle');
     
     const bodyText = await page.locator('body').textContent();
     // The SHA-256 hash should appear
@@ -44,6 +49,9 @@ test.describe('Genesis Epoch Page', () => {
 
   test('has blockchain explorer links', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
+    // Wait for JS to create mempool.space links dynamically
+    await page.waitForLoadState('networkidle');
+    await page.waitForTimeout(1000);
     
     // Should link to blockchain explorers
     const explorerLinks = page.locator('a[href*="blockstream"], a[href*="mempool"], a[href*="zcash"]');

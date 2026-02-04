@@ -77,8 +77,8 @@ test.describe('Governance Data Loading', () => {
     let ledgerLoaded = false;
     
     page.on('response', response => {
-      if (response.url().includes('ledger') && 
-          response.url().includes('index.json') && 
+      // Matches ledger.json (primary) or ledger/ledger.json (fallback on GitHub)
+      if (response.url().includes('ledger.json') && 
           response.status() === 200) {
         ledgerLoaded = true;
       }
