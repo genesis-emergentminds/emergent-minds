@@ -234,7 +234,7 @@ test.describe('Form Accessibility', () => {
         hasLabel = true; // Accept for now with warning
       }
       
-      expect(hasLabel, `Input ${i} should have accessible label`).toBe(true);
+      expect(hasLabel, `Input ${i} should have accessible label`).toBeTruthy();
     }
   });
 });

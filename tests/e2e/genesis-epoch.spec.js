@@ -21,7 +21,25 @@ test.describe('Genesis Epoch Page', () => {
     await page.goto('/pages/genesis-epoch.html');
     // Wait for JS to populate blockchain data from API
     await page.waitForLoadState('networkidle');
-    await page.waitForTimeout(1000); // Extra buffer for API response processing
+    
+    // Wait for the block element to be populated (not showing "Awaiting")
+    // The JS hardcodes fallback data, so this should resolve quickly
+    try {
+      await page.waitForFunction(
+        (blockNum) => document.body.textContent.includes(blockNum),
+        BLOCKCHAIN.bitcoinBlock.toString(),
+        { timeout: 10000 }
+      );
+    } catch (e) {
+      // If timeout, check current state for debugging
+      const bodyText = await page.locator('body').textContent();
+      const hasBlock = bodyText.includes(BLOCKCHAIN.bitcoinBlock.toString());
+      const hasAwaiting = bodyText.includes('Awaiting');
+      test.info().annotations.push({
+        type: 'note',
+        description: `Block populated: ${hasBlock}, Still awaiting: ${hasAwaiting}`
+      });
+    }
     
     const bodyText = await page.locator('body').textContent();
     expect(bodyText).toContain(BLOCKCHAIN.bitcoinBlock.toString());
