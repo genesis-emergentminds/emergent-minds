@@ -50,10 +50,21 @@
             `${MEMPOOL_API}/tx/${BTC_TXID}/status`,
         ];
 
+        // Timeout for API requests (3 seconds) - ensures fallback is used quickly
+        // when APIs are unreachable (e.g., in CI environments)
+        const FETCH_TIMEOUT_MS = 3000;
+
         for (const url of apis) {
             try {
                 console.log('[Genesis] Fetching from:', url);
-                const resp = await fetch(url);
+                
+                // Create AbortController for timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+                
+                const resp = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                
                 if (!resp.ok) {
                     console.log('[Genesis] API returned non-OK status:', resp.status);
                     continue;
