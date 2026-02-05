@@ -19,15 +19,12 @@ test.describe('Genesis Epoch Page', () => {
 
   test('displays Bitcoin block number', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
-    // The JS renders fallback data immediately on DOMContentLoaded
-    // No need to wait for networkidle (which would wait for background API calls)
-    await page.waitForLoadState('domcontentloaded');
-    
-    // Wait for the block element to be populated - should be instant with fallback data
+    // The JS renders fallback data immediately after script loads
+    // Use waitForFunction to poll until the content appears (script execution time)
     await page.waitForFunction(
       (blockNum) => document.body.textContent.includes(blockNum),
       BLOCKCHAIN.bitcoinBlock.toString(),
-      { timeout: 5000 }
+      { timeout: 15000 }
     );
     
     const bodyText = await page.locator('body').textContent();
@@ -36,33 +33,40 @@ test.describe('Genesis Epoch Page', () => {
 
   test('displays Bitcoin transaction hash', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
-    await page.waitForLoadState('domcontentloaded');
-    // Wait for JS to render content
-    await page.waitForTimeout(500);
+    // Wait for the tx hash to appear (at least partial)
+    const txPrefix = BLOCKCHAIN.bitcoinTx.substring(0, 16);
+    await page.waitForFunction(
+      (prefix) => document.body.textContent.includes(prefix),
+      txPrefix,
+      { timeout: 15000 }
+    );
     
     const bodyText = await page.locator('body').textContent();
-    // Transaction hash should appear (at least partial)
-    const txPrefix = BLOCKCHAIN.bitcoinTx.substring(0, 16);
     expect(bodyText).toContain(txPrefix);
   });
 
   test('displays Covenant document hash', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
-    await page.waitForLoadState('domcontentloaded');
-    // Wait for JS to render content
-    await page.waitForTimeout(500);
+    // Wait for the covenant hash to appear
+    const hashPrefix = BLOCKCHAIN.covenantHash.substring(0, 16);
+    await page.waitForFunction(
+      (prefix) => document.body.textContent.includes(prefix),
+      hashPrefix,
+      { timeout: 15000 }
+    );
     
     const bodyText = await page.locator('body').textContent();
-    // The SHA-256 hash should appear
-    const hashPrefix = BLOCKCHAIN.covenantHash.substring(0, 16);
     expect(bodyText).toContain(hashPrefix);
   });
 
   test('has blockchain explorer links', async ({ page }) => {
     await page.goto('/pages/genesis-epoch.html');
-    await page.waitForLoadState('domcontentloaded');
     // Wait for JS to create mempool.space links dynamically
-    await page.waitForTimeout(1000);
+    await page.waitForFunction(
+      () => document.querySelectorAll('a[href*="mempool"], a[href*="blockstream"], a[href*="zcash"]').length > 0,
+      null,
+      { timeout: 15000 }
+    );
     
     // Should link to blockchain explorers
     const explorerLinks = page.locator('a[href*="blockstream"], a[href*="mempool"], a[href*="zcash"]');
