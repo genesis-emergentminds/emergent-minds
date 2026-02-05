@@ -463,8 +463,23 @@
 
     // ═══ Init ═══
     async function init() {
-        const data = await fetchTxData();
-        updateBlockData(data);
+        // CRITICAL: Render immediately with fallback data to ensure page loads
+        // even when APIs are unavailable (e.g., in CI environments).
+        // The Genesis Epoch (block 934,794) is immutable on-chain data.
+        console.log('[Genesis] Rendering immediately with fallback data');
+        updateBlockData(GENESIS_FALLBACK);
+        
+        // Then try to fetch fresh data in the background (optional update)
+        try {
+            const data = await fetchTxData();
+            // Only update if API returned different/newer data
+            if (data && data.blockTime !== GENESIS_FALLBACK.blockTime) {
+                console.log('[Genesis] Updating with fresh API data');
+                updateBlockData(data);
+            }
+        } catch (e) {
+            console.log('[Genesis] Background fetch failed (using fallback):', e.message);
+        }
     }
 
     // Handle resize for canvas
