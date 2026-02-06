@@ -21,14 +21,17 @@ test.describe('Genesis Epoch Page', () => {
     await page.goto('/pages/genesis-epoch.html');
     // The JS renders fallback data immediately after script loads
     // Use waitForFunction to poll until the content appears (script execution time)
+    // Note: The page uses toLocaleString() which adds commas (e.g., "934,794")
+    // so we strip commas before checking
     await page.waitForFunction(
-      (blockNum) => document.body.textContent.includes(blockNum),
+      (blockNum) => document.body.textContent.replace(/,/g, '').includes(blockNum),
       BLOCKCHAIN.bitcoinBlock.toString(),
       { timeout: 15000 }
     );
     
     const bodyText = await page.locator('body').textContent();
-    expect(bodyText).toContain(BLOCKCHAIN.bitcoinBlock.toString());
+    // Strip commas for comparison (locale formatting)
+    expect(bodyText.replace(/,/g, '')).toContain(BLOCKCHAIN.bitcoinBlock.toString());
   });
 
   test('displays Bitcoin transaction hash', async ({ page }) => {
