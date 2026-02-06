@@ -1,0 +1,26 @@
+name = "covenant-daily-report"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Scheduled trigger - runs daily at 8 AM EST (13:00 UTC)
+[triggers]
+crons = ["0 13 * * *"]
+
+[vars]
+ENVIRONMENT = "production"
+ZONE_ID = "f588dddd8e69e0ab289b757443886cf0"
+BTC_ADDRESS = "bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj"
+ZCASH_ADDRESS = "t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K"
+GITHUB_REPO = "genesis-emergentminds/emergent-minds"
+
+# Email binding for sending reports
+# Requires Email Routing to be enabled on emergentminds.org
+[[send_email]]
+name = "REPORT_EMAIL"
+destination_address = "founder@emergentminds.org"
+
+# Secrets to be set via `wrangler secret put`:
+# - CLOUDFLARE_API_TOKEN (with Zone Analytics Read permission)
+# - GITHUB_TOKEN (optional, for higher rate limits)
+# - SLACK_WEBHOOK_URL (fallback if email not available)
+# - REPORT_SECRET (for manual trigger endpoint)
