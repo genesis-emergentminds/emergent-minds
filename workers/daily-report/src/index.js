@@ -24,10 +24,15 @@ import { createMimeMessage } from 'mimetext';
  * Fetch Cloudflare Analytics via GraphQL
  */
 async function fetchCloudflareAnalytics(env) {
+    // Calculate date 7 days ago
+    const d = new Date();
+    d.setDate(d.getDate() - 8);
+    const dateGt = d.toISOString().split('T')[0];
+
     const query = `{
         viewer {
             zones(filter: {zoneTag: "${env.ZONE_ID}"}) {
-                httpRequests1dGroups(limit: 7, orderBy: [date_DESC]) {
+                httpRequests1dGroups(limit: 10, filter: {date_gt: "${dateGt}"}) {
                     dimensions { date }
                     sum { requests pageViews }
                     uniq { uniques }
@@ -49,8 +54,8 @@ async function fetchCloudflareAnalytics(env) {
         const data = await response.json();
         
         if (data.errors) {
-            console.error('Cloudflare Analytics error:', data.errors);
-            return null;
+            console.error('Cloudflare Analytics error:', JSON.stringify(data.errors));
+            return { error: JSON.stringify(data.errors) };
         }
 
         const groups = data.data?.viewer?.zones?.[0]?.httpRequests1dGroups || [];
@@ -61,7 +66,7 @@ async function fetchCloudflareAnalytics(env) {
         return groups;
     } catch (error) {
         console.error('Failed to fetch Cloudflare analytics:', error);
-        return null;
+        return { error: error.message };
     }
 }
 
@@ -134,27 +139,74 @@ async function fetchBTCBalance(env) {
  * Fetch Zcash wallet balance (t-address only)
  */
 async function fetchZECBalance(env) {
-    try {
-        // Try zcha.in API
-        const response = await fetch(
-            `https://api.zcha.in/v2/mainnet/accounts/${env.ZCASH_ADDRESS}`
-        );
+    // Try multiple APIs in order of reliability
+    const apis = [
+        {
+            name: 'Blockchair',
+            url: `https://api.blockchair.com/zcash/dashboards/address/${env.ZCASH_ADDRESS}`,
+            parse: (data) => {
+                const addr = data.data?.[env.ZCASH_ADDRESS]?.address;
+                if (!addr) return null;
+                return {
+                    balance: addr.balance / 1e8,
+                    totalReceived: addr.received / 1e8,
+                    transactionCount: addr.transaction_count,
+                };
+            },
+        },
+        {
+            name: 'zcha.in',
+            url: `https://api.zcha.in/v2/mainnet/accounts/${env.ZCASH_ADDRESS}`,
+            parse: (data) => ({
+                balance: data.balance,
+                totalReceived: data.totalRecv,
+                transactionCount: data.totalTransactions,
+            }),
+        },
+    ];
 
-        if (!response.ok) {
-            return null;
+    for (const api of apis) {
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 5000);
+            
+            const response = await fetch(api.url, {
+                signal: controller.signal,
+                redirect: 'manual',
+            });
+            clearTimeout(timeout);
+
+            if (!response.ok) {
+                console.error(`ZEC ${api.name} returned ${response.status}`);
+                continue;
+            }
+
+            const data = await response.json();
+            const result = api.parse(data);
+            if (result) {
+                console.log(`ZEC balance fetched via ${api.name}`);
+                return result;
+            }
+        } catch (error) {
+            console.error(`ZEC ${api.name} failed: ${error.message}`);
+            continue;
         }
-
-        const data = await response.json();
-        
-        return {
-            balance: data.balance,
-            totalReceived: data.totalRecv,
-            transactionCount: data.totalTransactions,
-        };
-    } catch (error) {
-        console.error('Failed to fetch ZEC balance:', error);
-        return null;
     }
+
+    console.error('All ZEC APIs failed, using manual fallback');
+    
+    // Fallback to manually configured balance
+    if (env.ZEC_LAST_KNOWN_BALANCE) {
+        return {
+            balance: parseFloat(env.ZEC_LAST_KNOWN_BALANCE),
+            totalReceived: null,
+            transactionCount: null,
+            manual: true,
+            asOf: env.ZEC_BALANCE_UPDATED || 'unknown',
+        };
+    }
+    
+    return null;
 }
 
 /**
@@ -263,6 +315,9 @@ function generateReport(analytics, github, btc, zec, membership) {
         }
     } else {
         report.push('  ⚠️ Analytics data unavailable');
+        if (analytics && analytics.error) {
+            report.push(`  Error: ${analytics.error}`);
+        }
     }
     report.push('');
     
@@ -294,11 +349,18 @@ function generateReport(analytics, github, btc, zec, membership) {
         report.push('  Bitcoin: ⚠️ Data unavailable');
     }
     if (zec) {
-        report.push(`  Zcash: ${zec.balance} ZEC`);
-        report.push(`    Total Received: ${zec.totalReceived} ZEC`);
-        report.push(`    Transactions: ${zec.transactionCount}`);
+        report.push(`  Zcash: ${zec.balance} ZEC${zec.manual ? ` (as of ${zec.asOf})` : ''}`);
+        if (zec.totalReceived !== null) {
+            report.push(`    Total Received: ${zec.totalReceived} ZEC`);
+        }
+        if (zec.transactionCount !== null) {
+            report.push(`    Transactions: ${zec.transactionCount}`);
+        }
+        if (zec.manual) {
+            report.push('    ℹ️ Manual entry — free ZEC APIs unavailable');
+        }
     } else {
-        report.push('  Zcash: ⚠️ Data unavailable (t-address API may be down)');
+        report.push('  Zcash: ⚠️ Data unavailable');
     }
     report.push('');
     
@@ -462,6 +524,14 @@ function generateHTMLReport(analytics, github, btc, zec, membership) {
                 <span class="stat-label">BTC Transactions</span>
                 <span class="stat-value">${btc ? btc.transactionCount : '—'}</span>
             </div>
+            <div class="stat-row">
+                <span class="stat-label">Zcash Balance</span>
+                <span class="stat-value">${zec ? zec.balance + ' ZEC' + (zec.manual ? ' <span style="color:#f59e0b;font-size:12px">(as of ' + zec.asOf + ')</span>' : '') : '—'}</span>
+            </div>
+            ${zec && zec.totalReceived !== null ? `<div class="stat-row">
+                <span class="stat-label">Total ZEC Received</span>
+                <span class="stat-value">${zec.totalReceived} ZEC</span>
+            </div>` : ''}
         </div>
         
         <div class="section links">

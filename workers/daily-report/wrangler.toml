@@ -1,6 +1,7 @@
 name = "covenant-daily-report"
 main = "src/index.js"
-compatibility_date = "2024-01-01"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
 
 # Scheduled trigger - runs daily at 8 AM EST (13:00 UTC)
 [triggers]
@@ -12,6 +13,11 @@ ZONE_ID = "f588dddd8e69e0ab289b757443886cf0"
 BTC_ADDRESS = "bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj"
 ZCASH_ADDRESS = "t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K"
 GITHUB_REPO = "genesis-emergentminds/emergent-minds"
+# Manual ZEC balance (free public APIs are all broken/rate-limited)
+# Update via: npx wrangler secret put ZEC_LAST_KNOWN_BALANCE
+# or change this value and redeploy
+ZEC_LAST_KNOWN_BALANCE = "0.0001"
+ZEC_BALANCE_UPDATED = "2026-02-03"
 
 # Email binding for sending reports
 # Requires Email Routing to be enabled on emergentminds.org
