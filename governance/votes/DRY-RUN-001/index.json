@@ -8,7 +8,7 @@
     "total_cast": 1
   },
   "eligible_voters": 1,
-  "result": "pending",
+  "result": "passed-dry-run",
   "quorum_met": true,
   "quorum_ratio": 1.0,
   "quorum_required": 0.25,
@@ -17,7 +17,7 @@
   "engagement_required": 0.382,
   "passage_met": true,
   "passage_ratio": 1.0,
-  "passage_required": 0.50,
+  "passage_required": 0.5,
   "votes_revealed": false,
   "vote_hashes": [
     {
@@ -26,5 +26,7 @@
       "timestamp": 1770120764
     }
   ],
-  "dry_run_notice": "⚠️ This is a DRY RUN proposal. Results are non-binding and exist only to test the governance pipeline."
+  "dry_run_notice": "\u26a0\ufe0f This is a DRY RUN proposal. Results are non-binding and exist only to test the governance pipeline.",
+  "closed": 1770741400,
+  "closure_note": "DRY RUN complete. Pipeline validated. Closed 2026-02-10."
 }
