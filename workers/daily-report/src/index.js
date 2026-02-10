@@ -210,22 +210,66 @@ async function fetchRecentCommits(env) {
 }
 
 /**
- * Send report to Matrix room
+ * Login to Matrix homeserver with username/password and get access token
+ */
+async function matrixLogin(homeserver, userId, password) {
+    const response = await fetch(`${homeserver}/_matrix/client/v3/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            type: 'm.login.password',
+            identifier: {
+                type: 'm.id.user',
+                user: userId.split(':')[0].substring(1), // @genesis:server → genesis
+            },
+            password: password,
+            device_id: 'CovenantDailyReport',
+            initial_device_display_name: 'Covenant Daily Report Worker',
+        }),
+    });
+
+    if (!response.ok) {
+        const err = await response.text();
+        throw new Error(`Matrix login failed: ${response.status} ${err}`);
+    }
+
+    const data = await response.json();
+    return data.access_token;
+}
+
+/**
+ * Send report to Matrix room (supports password login)
  */
 async function sendMatrixReport(env, textReport) {
-    if (!env.MATRIX_ACCESS_TOKEN || !env.MATRIX_ROOM_ID) {
-        console.log('Matrix credentials not configured, skipping');
+    const homeserver = env.MATRIX_HOMESERVER;
+    const roomId = env.MATRIX_ROOM_ID;
+    
+    if (!homeserver || !roomId) {
+        console.log('Matrix not configured, skipping');
         return;
     }
 
-    const txnId = `report-${Date.now()}`;
-    const url = `https://matrix.org/_matrix/client/v3/rooms/${encodeURIComponent(env.MATRIX_ROOM_ID)}/send/m.room.message/${txnId}`;
-
     try {
+        // Login with password to get a session token
+        let accessToken = env.MATRIX_ACCESS_TOKEN;
+        
+        if (!accessToken && env.MATRIX_USER_ID && env.MATRIX_PASSWORD) {
+            accessToken = await matrixLogin(homeserver, env.MATRIX_USER_ID, env.MATRIX_PASSWORD);
+            console.log('Matrix login successful');
+        }
+        
+        if (!accessToken) {
+            console.error('No Matrix access token or password configured');
+            return;
+        }
+
+        const txnId = `report-${Date.now()}`;
+        const url = `${homeserver}/_matrix/client/v3/rooms/${encodeURIComponent(roomId)}/send/m.room.message/${txnId}`;
+
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
-                'Authorization': `Bearer ${env.MATRIX_ACCESS_TOKEN}`,
+                'Authorization': `Bearer ${accessToken}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
