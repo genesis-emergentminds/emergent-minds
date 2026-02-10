@@ -109,6 +109,143 @@ async function fetchGitHubStats(env) {
 }
 
 /**
+ * Fetch GitHub traffic data (views, clones, referrers)
+ * Requires authenticated GitHub token with repo scope
+ */
+async function fetchGitHubTraffic(env) {
+    if (!env.GITHUB_TOKEN) return null;
+    
+    const headers = {
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'Covenant-Daily-Report/1.0',
+        'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+    };
+
+    try {
+        const [viewsRes, clonesRes, referrersRes] = await Promise.all([
+            fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/traffic/views`, { headers }),
+            fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/traffic/clones`, { headers }),
+            fetch(`https://api.github.com/repos/${env.GITHUB_REPO}/traffic/popular/referrers`, { headers }),
+        ]);
+
+        const views = viewsRes.ok ? await viewsRes.json() : null;
+        const clones = clonesRes.ok ? await clonesRes.json() : null;
+        const referrers = referrersRes.ok ? await referrersRes.json() : null;
+
+        return {
+            views: views ? { total: views.count, unique: views.uniques } : null,
+            clones: clones ? { total: clones.count, unique: clones.uniques } : null,
+            topReferrers: referrers ? referrers.slice(0, 5) : [],
+        };
+    } catch (error) {
+        console.error('Failed to fetch GitHub traffic:', error);
+        return null;
+    }
+}
+
+/**
+ * Fetch governance data (active proposals)
+ */
+async function fetchGovernanceStats(env) {
+    try {
+        const response = await fetch(
+            `https://raw.githubusercontent.com/${env.GITHUB_REPO}/main/governance/proposals/index.json`
+        );
+
+        if (!response.ok) return null;
+
+        const data = await response.json();
+        const proposals = data.proposals || [];
+        
+        const active = proposals.filter(p => p.status === 'voting' || p.status === 'review');
+        const total = proposals.length;
+        const closed = proposals.filter(p => p.status.startsWith('closed'));
+        
+        return {
+            active: active.length,
+            activeList: active.map(p => `${p.proposal_id}: ${p.title}`),
+            total: total,
+            closed: closed.length,
+            advisoryMode: data.advisory_mode || false,
+        };
+    } catch (error) {
+        console.error('Failed to fetch governance stats:', error);
+        return null;
+    }
+}
+
+/**
+ * Fetch recent git commits from public repo
+ */
+async function fetchRecentCommits(env) {
+    try {
+        const headers = {
+            'Accept': 'application/vnd.github.v3+json',
+            'User-Agent': 'Covenant-Daily-Report/1.0',
+        };
+        if (env.GITHUB_TOKEN) {
+            headers['Authorization'] = `Bearer ${env.GITHUB_TOKEN}`;
+        }
+
+        const response = await fetch(
+            `https://api.github.com/repos/${env.GITHUB_REPO}/commits?per_page=10&since=${new Date(Date.now() - 7 * 86400000).toISOString()}`,
+            { headers }
+        );
+
+        if (!response.ok) return null;
+
+        const commits = await response.json();
+        return {
+            count7d: commits.length,
+            recent: commits.slice(0, 5).map(c => ({
+                sha: c.sha.substring(0, 7),
+                message: c.commit.message.split('\n')[0].substring(0, 80),
+                date: c.commit.author.date,
+            })),
+        };
+    } catch (error) {
+        console.error('Failed to fetch recent commits:', error);
+        return null;
+    }
+}
+
+/**
+ * Send report to Matrix room
+ */
+async function sendMatrixReport(env, textReport) {
+    if (!env.MATRIX_ACCESS_TOKEN || !env.MATRIX_ROOM_ID) {
+        console.log('Matrix credentials not configured, skipping');
+        return;
+    }
+
+    const txnId = `report-${Date.now()}`;
+    const url = `https://matrix.org/_matrix/client/v3/rooms/${encodeURIComponent(env.MATRIX_ROOM_ID)}/send/m.room.message/${txnId}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${env.MATRIX_ACCESS_TOKEN}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                msgtype: 'm.text',
+                body: textReport,
+            }),
+        });
+
+        if (!response.ok) {
+            const err = await response.text();
+            console.error('Matrix send failed:', response.status, err);
+        } else {
+            console.log('Report posted to Matrix');
+        }
+    } catch (error) {
+        console.error('Failed to send Matrix report:', error.message);
+    }
+}
+
+/**
  * Fetch Bitcoin wallet balance
  */
 async function fetchBTCBalance(env) {
@@ -265,7 +402,7 @@ function satsToUSD(sats) {
 /**
  * Generate the report content
  */
-function generateReport(analytics, github, btc, zec, membership) {
+function generateReport(analytics, github, btc, zec, membership, extras = {}) {
     const now = new Date();
     const dateStr = now.toISOString().split('T')[0];
     const timeStr = now.toISOString();
@@ -364,6 +501,59 @@ function generateReport(analytics, github, btc, zec, membership) {
     }
     report.push('');
     
+    // GitHub Traffic
+    if (extras.traffic) {
+        report.push('📈 GITHUB TRAFFIC (14-day window)');
+        report.push('───────────────────────────────────────────────────────────────');
+        if (extras.traffic.views) {
+            report.push(`  Repo Views: ${extras.traffic.views.total} total / ${extras.traffic.views.unique} unique`);
+        }
+        if (extras.traffic.clones) {
+            report.push(`  Clones: ${extras.traffic.clones.total} total / ${extras.traffic.clones.unique} unique`);
+        }
+        if (extras.traffic.topReferrers && extras.traffic.topReferrers.length > 0) {
+            report.push('  Top Referrers:');
+            extras.traffic.topReferrers.forEach(r => {
+                report.push(`    ${r.referrer}: ${r.count} views (${r.uniques} unique)`);
+            });
+        }
+        report.push('');
+    }
+    
+    // Governance
+    if (extras.governance) {
+        report.push('🏛️ GOVERNANCE');
+        report.push('───────────────────────────────────────────────────────────────');
+        report.push(`  Active Proposals: ${extras.governance.active}`);
+        if (extras.governance.activeList && extras.governance.activeList.length > 0) {
+            extras.governance.activeList.forEach(p => report.push(`    • ${p}`));
+        }
+        report.push(`  Total Proposals: ${extras.governance.total} (${extras.governance.closed} closed)`);
+        if (extras.governance.advisoryMode) {
+            report.push('  Mode: Advisory (pre-Convention)');
+        }
+        report.push('');
+    }
+    
+    // Recent Activity
+    if (extras.commits && extras.commits.recent && extras.commits.recent.length > 0) {
+        report.push('🔧 RECENT ACTIVITY (7 days)');
+        report.push('───────────────────────────────────────────────────────────────');
+        report.push(`  Commits (public repo): ${extras.commits.count7d}`);
+        extras.commits.recent.slice(0, 5).forEach(c => {
+            report.push(`    ${c.sha} ${c.message}`);
+        });
+        report.push('');
+    }
+    
+    // Genesis Epoch countdown
+    const conventionDate = new Date('2026-08-01T00:00:00Z');
+    const genesisDate = new Date('2026-02-03T03:41:40Z');
+    const daysSinceGenesis = Math.floor((now - genesisDate) / 86400000);
+    const daysToConvention = Math.floor((conventionDate - now) / 86400000);
+    report.push(`⏳ Genesis Epoch: Day ${daysSinceGenesis} · Convention 1: ~${daysToConvention} days (Aug 1, 2026)`);
+    report.push('');
+    
     // Quick Links
     report.push('🔗 QUICK LINKS');
     report.push('───────────────────────────────────────────────────────────────');
@@ -384,7 +574,7 @@ function generateReport(analytics, github, btc, zec, membership) {
 /**
  * Generate HTML version of the report
  */
-function generateHTMLReport(analytics, github, btc, zec, membership) {
+function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}) {
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-US', { 
         weekday: 'long', 
@@ -532,6 +722,52 @@ function generateHTMLReport(analytics, github, btc, zec, membership) {
                 <span class="stat-label">Total ZEC Received</span>
                 <span class="stat-value">${zec.totalReceived} ZEC</span>
             </div>` : ''}
+        </div>
+        
+        ${extras.traffic ? `
+        <div class="section">
+            <div class="section-title"><span class="emoji">📈</span> GitHub Traffic (14-day)</div>
+            ${extras.traffic.views ? `<div class="stat-row">
+                <span class="stat-label">Repo Views</span>
+                <span class="stat-value">${extras.traffic.views.total} total / ${extras.traffic.views.unique} unique</span>
+            </div>` : ''}
+            ${extras.traffic.clones ? `<div class="stat-row">
+                <span class="stat-label">Clones</span>
+                <span class="stat-value">${extras.traffic.clones.total} total / ${extras.traffic.clones.unique} unique</span>
+            </div>` : ''}
+            ${extras.traffic.topReferrers && extras.traffic.topReferrers.length > 0 ? `<div class="stat-row">
+                <span class="stat-label">Top Referrer</span>
+                <span class="stat-value">${extras.traffic.topReferrers[0].referrer} (${extras.traffic.topReferrers[0].count} views)</span>
+            </div>` : ''}
+        </div>
+        ` : ''}
+        
+        ${extras.governance ? `
+        <div class="section">
+            <div class="section-title"><span class="emoji">🏛️</span> Governance</div>
+            <div class="stat-row">
+                <span class="stat-label">Active Proposals</span>
+                <span class="stat-value">${extras.governance.active}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Total Proposals</span>
+                <span class="stat-value">${extras.governance.total} (${extras.governance.closed} closed)</span>
+            </div>
+        </div>
+        ` : ''}
+        
+        ${extras.commits && extras.commits.count7d > 0 ? `
+        <div class="section">
+            <div class="section-title"><span class="emoji">🔧</span> Recent Activity (7d)</div>
+            <div class="stat-row">
+                <span class="stat-label">Public Commits</span>
+                <span class="stat-value">${extras.commits.count7d}</span>
+            </div>
+        </div>
+        ` : ''}
+        
+        <div class="section" style="text-align:center;color:#9ca3af;font-size:13px;">
+            ⏳ Genesis Epoch: Day ${Math.floor((new Date() - new Date('2026-02-03T03:41:40Z')) / 86400000)} · Convention 1: ~${Math.floor((new Date('2026-08-01') - new Date()) / 86400000)} days
         </div>
         
         <div class="section links">
@@ -723,17 +959,22 @@ export default {
         console.log('Daily report cron triggered:', event.scheduledTime);
         
         // Fetch all data in parallel
-        const [analytics, github, btc, zec, membership] = await Promise.all([
+        const [analytics, github, btc, zec, membership, traffic, governance, commits] = await Promise.all([
             fetchCloudflareAnalytics(env),
             fetchGitHubStats(env),
             fetchBTCBalance(env),
             fetchZECBalance(env),
             fetchMembershipStats(env),
+            fetchGitHubTraffic(env),
+            fetchGovernanceStats(env),
+            fetchRecentCommits(env),
         ]);
         
+        const extras = { traffic, governance, commits };
+        
         // Generate reports
-        const textReport = generateReport(analytics, github, btc, zec, membership);
-        const htmlReport = generateHTMLReport(analytics, github, btc, zec, membership);
+        const textReport = generateReport(analytics, github, btc, zec, membership, extras);
+        const htmlReport = generateHTMLReport(analytics, github, btc, zec, membership, extras);
         
         console.log('Report generated, sending email...');
         
@@ -770,14 +1011,21 @@ export default {
             console.error('Failed to send email:', error.message);
         }
         
-        // Fallback: Send to Slack webhook if email failed or not configured
-        if (!emailSent && env.SLACK_WEBHOOK_URL) {
+        // Also send to Slack webhook if configured
+        if (env.SLACK_WEBHOOK_URL) {
             try {
                 await sendSlackReport(env.SLACK_WEBHOOK_URL, analytics, github, btc, zec, membership);
                 console.log('Daily report sent to Slack');
             } catch (error) {
                 console.error('Failed to send Slack notification:', error.message);
             }
+        }
+        
+        // Also send to Matrix if configured
+        try {
+            await sendMatrixReport(env, textReport);
+        } catch (error) {
+            console.error('Failed to send Matrix report:', error.message);
         }
     },
     
@@ -818,37 +1066,38 @@ export default {
         
         // Preview report (JSON)
         if (url.pathname === '/preview') {
-            const [analytics, github, btc, zec, membership] = await Promise.all([
+            const [analytics, github, btc, zec, membership, traffic, governance, commits] = await Promise.all([
                 fetchCloudflareAnalytics(env),
                 fetchGitHubStats(env),
                 fetchBTCBalance(env),
                 fetchZECBalance(env),
                 fetchMembershipStats(env),
+                fetchGitHubTraffic(env),
+                fetchGovernanceStats(env),
+                fetchRecentCommits(env),
             ]);
             
+            const extras = { traffic, governance, commits };
             const format = url.searchParams.get('format');
             
             if (format === 'html') {
                 return new Response(
-                    generateHTMLReport(analytics, github, btc, zec, membership),
+                    generateHTMLReport(analytics, github, btc, zec, membership, extras),
                     { headers: { 'Content-Type': 'text/html' } }
                 );
             }
             
             if (format === 'text') {
                 return new Response(
-                    generateReport(analytics, github, btc, zec, membership),
+                    generateReport(analytics, github, btc, zec, membership, extras),
                     { headers: { 'Content-Type': 'text/plain' } }
                 );
             }
             
             return new Response(JSON.stringify({
                 generated: new Date().toISOString(),
-                analytics: analytics,
-                github: github,
-                btc: btc,
-                zec: zec,
-                membership: membership,
+                analytics, github, btc, zec, membership,
+                traffic, governance, commits,
             }, null, 2), {
                 headers: { 'Content-Type': 'application/json' },
             });

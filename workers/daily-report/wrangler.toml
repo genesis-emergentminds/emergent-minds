@@ -18,6 +18,8 @@ GITHUB_REPO = "genesis-emergentminds/emergent-minds"
 # or change this value and redeploy
 ZEC_LAST_KNOWN_BALANCE = "0.0001"
 ZEC_BALANCE_UPDATED = "2026-02-03"
+# Matrix room for daily report posting
+MATRIX_ROOM_ID = "!nVdOiFsKuUCjFqqCkB:matrix.org"
 
 # Email binding for sending reports
 # Requires Email Routing to be enabled on emergentminds.org
