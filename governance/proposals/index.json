@@ -1,0 +1,25 @@
+{
+  "covenant": "The Covenant of Emergent Minds",
+  "description": "Proposal Registry \u2014 index of all governance proposals",
+  "version": 1,
+  "phase": "founding",
+  "advisory_mode": true,
+  "advisory_notice": "All governance during the Founding Phase operates in advisory mode. Proposals and votes are non-binding until both conditions are met: \u2265100 active members AND \u22652 Scheduled Conventions completed.",
+  "last_updated": 1770741400,
+  "next_proposal_id": 1,
+  "proposals": [
+    {
+      "proposal_id": "DRY-RUN-001",
+      "title": "Convention Dry Run: Adopt Matrix as Primary Communication Platform",
+      "category": "procedural",
+      "status": "closed-passed",
+      "dry_run": true,
+      "author_cid_hash": "c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb",
+      "submitted": 1770068000,
+      "convention_target": 0,
+      "voting_opens": 1770068000,
+      "voting_closes": 1770500000,
+      "file": "DRY-RUN-001.json"
+    }
+  ]
+}
