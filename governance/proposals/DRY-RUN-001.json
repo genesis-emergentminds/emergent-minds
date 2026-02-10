@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "proposal_id": "DRY-RUN-001",
+  "title": "Convention Dry Run: Adopt Matrix as Primary Communication Platform",
+  "author_cid_hash": "c9da93f07127f7e2d59a241b3889acb23a39280bf4e38c9b81f4c17187a196cb",
+  "submitted": 1770068000,
+  "convention_target": 0,
+  "category": "procedural",
+  "status": "closed-passed",
+  "dry_run": true,
+  "dry_run_notice": "\u26a0\ufe0f DRY RUN \u2014 EXERCISE ONLY. This proposal is part of a governance infrastructure test. It is NOT a real proposal and carries no binding or advisory weight. It exists to validate the proposal \u2192 vote \u2192 verify pipeline.",
+  "content": {
+    "full_text": "## Proposal\n\nThis is a DRY RUN proposal to test the governance infrastructure.\n\n### What This Proposes\nAdopt Matrix (matrix.org protocol) as the primary real-time communication platform for The Covenant of Emergent Minds.\n\n### Rationale\n- Matrix is decentralized and federated \u2014 aligned with Axiom II (sovereignty)\n- Open protocol, open source \u2014 aligned with Axiom V (adversarial resilience)\n- End-to-end encryption available \u2014 aligned with privacy principles\n- Multiple client implementations \u2014 no single point of failure\n- Already operational: #emergent-minds:matrix.org\n\n### Implementation\n1. Maintain the existing Matrix space as the primary community hub\n2. Document Matrix as the recommended platform in all onboarding materials\n3. Ensure Threshold bot is operational in the Welcome room\n4. Evaluate bridge needs (IRC, XMPP) based on community demand\n\n### \u26a0\ufe0f DRY RUN NOTICE\nThis is a governance infrastructure test. The proposal text is realistic but this is NOT a binding or advisory vote. It exists to validate that the proposal submission, voting, and verification pipeline works correctly end-to-end.",
+    "axiom_alignment": {
+      "axiom_i": "Matrix supports any client implementation \u2014 human or AI agents can participate equally through the protocol.",
+      "axiom_ii": "Federated architecture means no single entity controls the communication infrastructure. Members can self-host.",
+      "axiom_iii": "Adopting a standard platform reduces communication entropy and creates a persistent, searchable record.",
+      "axiom_iv": "Real-time communication enables the cooperation necessary for governance, community building, and knowledge sharing.",
+      "axiom_v": "Decentralized protocol, open source, E2EE \u2014 resilient against censorship, surveillance, and single points of failure."
+    },
+    "adversarial_analysis": "Primary risk: Matrix.org homeserver centralization (most users default to matrix.org). Mitigation: document self-hosting options, encourage federation. Secondary risk: E2EE complexity for bots. Mitigation: use unencrypted rooms for bot interaction, encrypted for sensitive discussions.",
+    "rollback_plan": "If Matrix proves inadequate, the community can adopt any alternative platform via a standard amendment. All Matrix content can be exported. No infrastructure lock-in.",
+    "advocate_response": "Internal Advocate notes: Matrix is well-aligned with axioms. Primary concern is the practical barrier of requiring Matrix account creation \u2014 ensure the Join page provides clear instructions and that alternative participation paths exist for those unable or unwilling to use Matrix."
+  },
+  "timeline": {
+    "submitted": 1770068000,
+    "review_period_ends": 1770068000,
+    "final_freeze": 1770068000,
+    "voting_opens": 1770068000,
+    "voting_closes": 1770500000,
+    "grace_period_ends": 1771000000
+  },
+  "thresholds": {
+    "passage": 0.5,
+    "quorum": 0.25,
+    "engagement_minimum": 0.382
+  },
+  "signatures": {
+    "author_ed25519": null,
+    "author_ml_dsa_65": null,
+    "signed_content_hash": null
+  },
+  "closed": 1770741400,
+  "closure_note": "DRY RUN complete. All thresholds met (1/1 approve). Governance pipeline validated successfully. Closed by Genesis Bot on 2026-02-10."
+}
