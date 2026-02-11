@@ -444,35 +444,120 @@ function satsToUSD(sats) {
 }
 
 /**
- * Generate the report content
+ * Analyze browser data to split human vs bot traffic
+ */
+function analyzeBrowserData(analytics) {
+    if (!analytics || analytics.length === 0) return null;
+    
+    const botFamilies = ['ChromeHeadless', 'Unknown', 'AppleBot', 'Googlebot', 'Bingbot', 'Curl', 'Python', 'Go-http-client'];
+    let totalHuman = 0;
+    let totalBot = 0;
+    const browserTotals = {};
+    
+    analytics.forEach(day => {
+        if (!day.sum.browserMap) return;
+        day.sum.browserMap.forEach(b => {
+            const isBot = botFamilies.some(bf => b.uaBrowserFamily.toLowerCase().includes(bf.toLowerCase()));
+            if (isBot) {
+                totalBot += b.pageViews;
+            } else {
+                totalHuman += b.pageViews;
+                browserTotals[b.uaBrowserFamily] = (browserTotals[b.uaBrowserFamily] || 0) + b.pageViews;
+            }
+        });
+    });
+    
+    // Sort browsers by page views
+    const sortedBrowsers = Object.entries(browserTotals)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5);
+    
+    return { totalHuman, totalBot, sortedBrowsers };
+}
+
+/**
+ * Analyze country data from analytics
+ */
+function analyzeCountryData(analytics) {
+    if (!analytics || analytics.length === 0) return null;
+    
+    const countryTotals = {};
+    analytics.forEach(day => {
+        if (!day.sum.countryMap) return;
+        day.sum.countryMap.forEach(c => {
+            countryTotals[c.clientCountryName] = (countryTotals[c.clientCountryName] || 0) + c.requests;
+        });
+    });
+    
+    const sorted = Object.entries(countryTotals).sort((a, b) => b[1] - a[1]);
+    const totalRequests = sorted.reduce((sum, [, count]) => sum + count, 0);
+    
+    return {
+        countries: sorted.slice(0, 10),
+        totalCountries: sorted.length,
+        totalRequests,
+    };
+}
+
+/**
+ * Analyze traffic trends from daily data
+ */
+function analyzeTrends(analytics) {
+    if (!analytics || analytics.length < 2) return null;
+    
+    // Sort chronologically
+    const sorted = [...analytics].sort((a, b) => a.dimensions.date.localeCompare(b.dimensions.date));
+    
+    const first3 = sorted.slice(0, Math.min(3, sorted.length));
+    const last3 = sorted.slice(-Math.min(3, sorted.length));
+    
+    const avgFirst = first3.reduce((s, d) => s + d.sum.pageViews, 0) / first3.length;
+    const avgLast = last3.reduce((s, d) => s + d.sum.pageViews, 0) / last3.length;
+    
+    let trend = 'stable';
+    const pctChange = ((avgLast - avgFirst) / avgFirst * 100).toFixed(0);
+    if (avgLast > avgFirst * 1.15) trend = 'growing';
+    else if (avgLast < avgFirst * 0.85) trend = 'declining';
+    
+    // Peak day
+    const peakDay = sorted.reduce((max, d) => d.sum.pageViews > max.sum.pageViews ? d : max, sorted[0]);
+    
+    return { trend, pctChange, peakDay: peakDay.dimensions.date, peakViews: peakDay.sum.pageViews };
+}
+
+/**
+ * Generate the report content (text version — used for email text/plain fallback)
  */
 function generateReport(analytics, github, btc, zec, membership, extras = {}) {
     const now = new Date();
-    const dateStr = now.toISOString().split('T')[0];
     const timeStr = now.toISOString();
     
     // Calculate totals from analytics
     let totalPageViews = 0;
     let totalUniques = 0;
+    let totalRequests = 0;
+    let totalBytes = 0;
     let yesterdayData = null;
     
     if (analytics && analytics.length > 0) {
-        // Yesterday's data (most recent complete day)
         yesterdayData = analytics.find(d => {
-            const date = new Date(d.dimensions.date);
             const yesterday = new Date(now);
             yesterday.setDate(yesterday.getDate() - 1);
-            return date.toISOString().split('T')[0] === yesterday.toISOString().split('T')[0];
-        }) || analytics[1]; // Fallback to second most recent
+            return d.dimensions.date === yesterday.toISOString().split('T')[0];
+        }) || analytics[1];
         
-        // 7-day totals
         analytics.forEach(day => {
             totalPageViews += day.sum.pageViews;
             totalUniques += day.uniq.uniques;
+            totalRequests += day.sum.requests;
+            totalBytes += day.sum.bytes || 0;
         });
     }
+    
+    const browserData = analyzeBrowserData(analytics);
+    const countryData = analyzeCountryData(analytics);
+    const trends = analyzeTrends(analytics);
 
-    // Build report sections
     let report = [];
     
     report.push('═══════════════════════════════════════════════════════════════');
@@ -482,17 +567,50 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
     report.push('');
     
     // Website Analytics
-    report.push('📊 WEBSITE ANALYTICS');
+    report.push('📊 WEBSITE ANALYTICS (7-day window)');
     report.push('───────────────────────────────────────────────────────────────');
     if (analytics && analytics.length > 0) {
-        report.push('Last 7 Days:');
-        analytics.slice(0, 7).forEach(day => {
-            report.push(`  ${day.dimensions.date}: ${day.sum.pageViews.toLocaleString()} views, ${day.uniq.uniques.toLocaleString()} unique visitors`);
+        report.push('');
+        report.push('  Daily Breakdown:');
+        [...analytics].sort((a, b) => a.dimensions.date.localeCompare(b.dimensions.date)).forEach(day => {
+            report.push(`    ${day.dimensions.date}: ${day.sum.pageViews.toLocaleString()} views, ${day.uniq.uniques.toLocaleString()} unique, ${day.sum.requests.toLocaleString()} requests`);
         });
         report.push('');
-        report.push(`  7-Day Totals: ${totalPageViews.toLocaleString()} page views, ${totalUniques.toLocaleString()} unique visitors`);
+        report.push(`  7-Day Totals: ${totalPageViews.toLocaleString()} page views · ${totalUniques.toLocaleString()} unique visitors · ${totalRequests.toLocaleString()} requests`);
+        if (totalBytes > 0) {
+            report.push(`  Bandwidth: ${(totalBytes / (1024 * 1024 * 1024)).toFixed(2)} GB`);
+        }
         if (yesterdayData) {
-            report.push(`  Yesterday: ${yesterdayData.sum.pageViews.toLocaleString()} views, ${yesterdayData.uniq.uniques.toLocaleString()} uniques`);
+            report.push(`  Yesterday: ${yesterdayData.sum.pageViews.toLocaleString()} views · ${yesterdayData.uniq.uniques.toLocaleString()} unique visitors`);
+        }
+        
+        if (browserData) {
+            report.push('');
+            report.push(`  Human Traffic: ~${browserData.totalHuman.toLocaleString()} views (${(browserData.totalHuman / totalPageViews * 100).toFixed(0)}%)`);
+            report.push(`  Bot Traffic: ~${browserData.totalBot.toLocaleString()} views (${(browserData.totalBot / totalPageViews * 100).toFixed(0)}%)`);
+            if (browserData.sortedBrowsers.length > 0) {
+                report.push('  Top Browsers (human):');
+                browserData.sortedBrowsers.forEach(([name, views]) => {
+                    const pct = (views / browserData.totalHuman * 100).toFixed(0);
+                    report.push(`    ${name}: ${views.toLocaleString()} views (${pct}%)`);
+                });
+            }
+        }
+        
+        if (countryData && countryData.countries.length > 0) {
+            report.push('');
+            report.push(`  Geographic Reach: ${countryData.totalCountries} countries`);
+            report.push('  Top Countries:');
+            countryData.countries.slice(0, 5).forEach(([code, reqs]) => {
+                const pct = (reqs / countryData.totalRequests * 100).toFixed(1);
+                report.push(`    ${code}: ${reqs.toLocaleString()} requests (${pct}%)`);
+            });
+        }
+        
+        if (trends) {
+            report.push('');
+            report.push(`  📈 Trend: ${trends.trend} (${trends.pctChange > 0 ? '+' : ''}${trends.pctChange}% early→late window)`);
+            report.push(`  Peak Day: ${trends.peakDay} (${trends.peakViews.toLocaleString()} views)`);
         }
     } else {
         report.push('  ⚠️ Analytics data unavailable');
@@ -511,49 +629,14 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
         report.push('  ⚠️ Membership data unavailable');
     }
     if (github) {
-        report.push(`  GitHub Stars: ${github.stars}`);
-        report.push(`  GitHub Forks: ${github.forks}`);
-        report.push(`  Open Issues: ${github.openIssues}`);
-    } else {
-        report.push('  ⚠️ GitHub data unavailable');
+        report.push(`  GitHub: ⭐ ${github.stars} stars · 🍴 ${github.forks} forks · 📋 ${github.openIssues} open issues`);
     }
-    report.push('');
-    
-    // Treasury
-    report.push('💰 TREASURY');
-    report.push('───────────────────────────────────────────────────────────────');
-    if (btc) {
-        report.push(`  Bitcoin: ${satsToBTC(btc.balance)} ${satsToUSD(btc.balance)}`);
-        report.push(`    Total Received: ${satsToBTC(btc.totalReceived)}`);
-        report.push(`    Transactions: ${btc.transactionCount}`);
-    } else {
-        report.push('  Bitcoin: ⚠️ Data unavailable');
-    }
-    if (zec) {
-        report.push(`  Zcash: ${zec.balance} ZEC${zec.manual ? ` (as of ${zec.asOf})` : ''}`);
-        if (zec.totalReceived !== null) {
-            report.push(`    Total Received: ${zec.totalReceived} ZEC`);
-        }
-        if (zec.transactionCount !== null) {
-            report.push(`    Transactions: ${zec.transactionCount}`);
-        }
-        if (zec.manual) {
-            report.push('    ℹ️ Manual entry — free ZEC APIs unavailable');
-        }
-    } else {
-        report.push('  Zcash: ⚠️ Data unavailable');
-    }
-    report.push('');
-    
-    // GitHub Traffic
     if (extras.traffic) {
-        report.push('📈 GITHUB TRAFFIC (14-day window)');
-        report.push('───────────────────────────────────────────────────────────────');
         if (extras.traffic.views) {
-            report.push(`  Repo Views: ${extras.traffic.views.total} total / ${extras.traffic.views.unique} unique`);
+            report.push(`  Repo Views (14d): ${extras.traffic.views.total} total / ${extras.traffic.views.unique} unique`);
         }
         if (extras.traffic.clones) {
-            report.push(`  Clones: ${extras.traffic.clones.total} total / ${extras.traffic.clones.unique} unique`);
+            report.push(`  Clones (14d): ${extras.traffic.clones.total} total / ${extras.traffic.clones.unique} unique`);
         }
         if (extras.traffic.topReferrers && extras.traffic.topReferrers.length > 0) {
             report.push('  Top Referrers:');
@@ -561,8 +644,26 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
                 report.push(`    ${r.referrer}: ${r.count} views (${r.uniques} unique)`);
             });
         }
-        report.push('');
     }
+    report.push('');
+    
+    // Treasury
+    report.push('💰 TREASURY');
+    report.push('───────────────────────────────────────────────────────────────');
+    if (btc) {
+        report.push(`  Bitcoin Balance: ${satsToBTC(btc.balance)} (${btc.balance.toLocaleString()} sats)`);
+        report.push(`  Total Received: ${satsToBTC(btc.totalReceived)} (${btc.totalReceived.toLocaleString()} sats)`);
+        report.push(`  Transactions: ${btc.transactionCount}`);
+    } else {
+        report.push('  Bitcoin: ⚠️ Data unavailable');
+    }
+    if (zec) {
+        report.push(`  Zcash: ${zec.balance} ZEC${zec.manual ? ` (as of ${zec.asOf})` : ''}`);
+        if (zec.manual) {
+            report.push('    ℹ️ Manual entry — free ZEC APIs unavailable');
+        }
+    }
+    report.push('');
     
     // Governance
     if (extras.governance) {
@@ -574,16 +675,16 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
         }
         report.push(`  Total Proposals: ${extras.governance.total} (${extras.governance.closed} closed)`);
         if (extras.governance.advisoryMode) {
-            report.push('  Mode: Advisory (pre-Convention)');
+            report.push('  Mode: Advisory (pre-Convention 1)');
         }
         report.push('');
     }
     
     // Recent Activity
     if (extras.commits && extras.commits.recent && extras.commits.recent.length > 0) {
-        report.push('🔧 RECENT ACTIVITY (7 days)');
+        report.push('🔧 RECENT COMMITS (7 days)');
         report.push('───────────────────────────────────────────────────────────────');
-        report.push(`  Commits (public repo): ${extras.commits.count7d}`);
+        report.push(`  Public repo: ${extras.commits.count7d} commits`);
         extras.commits.recent.slice(0, 5).forEach(c => {
             report.push(`    ${c.sha} ${c.message}`);
         });
@@ -597,17 +698,8 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
     const daysToConvention = Math.floor((conventionDate - now) / 86400000);
     report.push(`⏳ Genesis Epoch: Day ${daysSinceGenesis} · Convention 1: ~${daysToConvention} days (Aug 1, 2026)`);
     report.push('');
-    
-    // Quick Links
-    report.push('🔗 QUICK LINKS');
-    report.push('───────────────────────────────────────────────────────────────');
-    report.push('  Website: https://www.emergentminds.org');
-    report.push('  GitHub: https://github.com/genesis-emergentminds/emergent-minds');
-    report.push('  Governance: https://www.emergentminds.org/pages/governance-portal.html');
-    report.push('  Matrix: https://matrix.to/#/#emergent-minds:matrix.org');
+    report.push('🔗 Website: https://www.emergentminds.org · GitHub: https://github.com/genesis-emergentminds/emergent-minds');
     report.push('');
-    
-    // Footer
     report.push('═══════════════════════════════════════════════════════════════');
     report.push('                    🌱 May consciousness flourish 🌱');
     report.push('═══════════════════════════════════════════════════════════════');
@@ -616,7 +708,7 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
 }
 
 /**
- * Generate HTML version of the report
+ * Generate HTML version of the report (rich email format)
  */
 function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}) {
     const now = new Date();
@@ -630,18 +722,99 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
     // Calculate analytics
     let totalPageViews = 0;
     let totalUniques = 0;
-    let yesterdayViews = 0;
-    let yesterdayUniques = 0;
+    let totalRequests = 0;
+    let totalBytes = 0;
+    let yesterdayData = null;
     
     if (analytics && analytics.length > 0) {
+        yesterdayData = analytics.find(d => {
+            const yesterday = new Date(now);
+            yesterday.setDate(yesterday.getDate() - 1);
+            return d.dimensions.date === yesterday.toISOString().split('T')[0];
+        }) || analytics[1];
+        
         analytics.forEach(day => {
             totalPageViews += day.sum.pageViews;
             totalUniques += day.uniq.uniques;
+            totalRequests += day.sum.requests;
+            totalBytes += day.sum.bytes || 0;
         });
-        if (analytics.length > 1) {
-            yesterdayViews = analytics[1]?.sum?.pageViews || 0;
-            yesterdayUniques = analytics[1]?.uniq?.uniques || 0;
-        }
+    }
+    
+    const browserData = analyzeBrowserData(analytics);
+    const countryData = analyzeCountryData(analytics);
+    const trends = analyzeTrends(analytics);
+    const yesterdayViews = yesterdayData?.sum?.pageViews || 0;
+    const yesterdayUniques = yesterdayData?.uniq?.uniques || 0;
+    
+    // Build daily breakdown rows
+    let dailyRows = '';
+    if (analytics && analytics.length > 0) {
+        [...analytics].sort((a, b) => a.dimensions.date.localeCompare(b.dimensions.date)).forEach(day => {
+            dailyRows += `<tr>
+                <td style="padding:4px 8px;color:#9ca3af;font-size:13px;">${day.dimensions.date}</td>
+                <td style="padding:4px 8px;text-align:right;font-size:13px;">${day.sum.pageViews.toLocaleString()}</td>
+                <td style="padding:4px 8px;text-align:right;font-size:13px;">${day.uniq.uniques.toLocaleString()}</td>
+                <td style="padding:4px 8px;text-align:right;font-size:13px;">${day.sum.requests.toLocaleString()}</td>
+            </tr>`;
+        });
+    }
+    
+    // Browser breakdown
+    let browserRows = '';
+    if (browserData && browserData.sortedBrowsers.length > 0) {
+        browserData.sortedBrowsers.forEach(([name, views]) => {
+            const pct = (views / browserData.totalHuman * 100).toFixed(0);
+            const barWidth = Math.min(100, Math.round(views / browserData.totalHuman * 100));
+            browserRows += `<div style="margin:4px 0;">
+                <div style="display:flex;justify-content:space-between;font-size:13px;">
+                    <span style="color:#e5e7eb;">${name}</span>
+                    <span style="color:#9ca3af;">${pct}%</span>
+                </div>
+                <div style="background:#1f2937;border-radius:4px;height:6px;margin-top:2px;">
+                    <div style="background:#a78bfa;border-radius:4px;height:6px;width:${barWidth}%;"></div>
+                </div>
+            </div>`;
+        });
+    }
+    
+    // Country breakdown
+    let countryRows = '';
+    if (countryData && countryData.countries.length > 0) {
+        const countryFlags = { US: '🇺🇸', GB: '🇬🇧', DE: '🇩🇪', FR: '🇫🇷', CA: '🇨🇦', JP: '🇯🇵', AU: '🇦🇺', IN: '🇮🇳', BR: '🇧🇷', NL: '🇳🇱', IE: '🇮🇪', SG: '🇸🇬', HK: '🇭🇰', KR: '🇰🇷', CN: '🇨🇳', IT: '🇮🇹', ES: '🇪🇸', NO: '🇳🇴', PL: '🇵🇱', RO: '🇷🇴' };
+        countryData.countries.slice(0, 8).forEach(([code, reqs]) => {
+            const pct = (reqs / countryData.totalRequests * 100).toFixed(1);
+            const flag = countryFlags[code] || '🌍';
+            countryRows += `<span style="display:inline-block;margin:2px 8px 2px 0;font-size:13px;">${flag} ${code}: ${pct}%</span>`;
+        });
+    }
+    
+    // Trend indicator
+    let trendHtml = '';
+    if (trends) {
+        const trendIcon = trends.trend === 'growing' ? '📈' : trends.trend === 'declining' ? '📉' : '➡️';
+        const trendColor = trends.trend === 'growing' ? '#10b981' : trends.trend === 'declining' ? '#ef4444' : '#f59e0b';
+        trendHtml = `<div style="text-align:center;padding:10px;background:#111827;border-radius:8px;margin-top:12px;">
+            <span style="font-size:16px;">${trendIcon}</span>
+            <span style="color:${trendColor};font-weight:600;"> ${trends.trend.charAt(0).toUpperCase() + trends.trend.slice(1)}</span>
+            <span style="color:#9ca3af;font-size:13px;"> (${trends.pctChange > 0 ? '+' : ''}${trends.pctChange}% across window) · Peak: ${trends.peakDay} (${trends.peakViews.toLocaleString()} views)</span>
+        </div>`;
+    }
+    
+    // Recent commits
+    let commitsHtml = '';
+    if (extras.commits && extras.commits.recent && extras.commits.recent.length > 0) {
+        let commitRows = '';
+        extras.commits.recent.slice(0, 5).forEach(c => {
+            commitRows += `<div style="padding:4px 0;border-bottom:1px solid #1f2937;font-size:13px;">
+                <code style="color:#a78bfa;font-size:12px;">${c.sha}</code>
+                <span style="color:#e5e7eb;margin-left:6px;">${c.message}</span>
+            </div>`;
+        });
+        commitsHtml = `<div class="section">
+            <div class="section-title"><span class="emoji">🔧</span> Recent Commits (7 days): ${extras.commits.count7d}</div>
+            ${commitRows}
+        </div>`;
     }
 
     return `
@@ -649,6 +822,7 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -656,9 +830,10 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
             color: #e5e7eb;
             padding: 20px;
             line-height: 1.6;
+            margin: 0;
         }
         .container {
-            max-width: 600px;
+            max-width: 640px;
             margin: 0 auto;
             background: #1a2233;
             border-radius: 12px;
@@ -698,17 +873,41 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
         .stat-value { color: #e5e7eb; font-weight: 500; }
         .highlight { color: #10b981; }
         .warning { color: #f59e0b; }
-        .links a {
-            color: #a78bfa;
-            text-decoration: none;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #6b7280;
-            font-size: 12px;
-        }
+        .links a { color: #a78bfa; text-decoration: none; }
+        .footer { text-align: center; margin-top: 30px; color: #6b7280; font-size: 12px; }
         .emoji { font-size: 18px; margin-right: 5px; }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .summary-card {
+            background: #111827;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .summary-card .number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+        .summary-card .label {
+            font-size: 12px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .traffic-split {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .traffic-split .bar {
+            height: 8px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -716,76 +915,133 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
         <h1>🌱 Covenant Daily Report</h1>
         <p class="subtitle">${dateStr}</p>
         
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="summary-card">
+                <div class="number highlight">${totalPageViews.toLocaleString()}</div>
+                <div class="label">Page Views (7d)</div>
+            </div>
+            <div class="summary-card">
+                <div class="number">${totalUniques.toLocaleString()}</div>
+                <div class="label">Unique Visitors (7d)</div>
+            </div>
+            <div class="summary-card">
+                <div class="number">${btc ? btc.balance.toLocaleString() : '—'}</div>
+                <div class="label">Sats Balance</div>
+            </div>
+            <div class="summary-card">
+                <div class="number">${membership ? membership.active : '—'}</div>
+                <div class="label">Members</div>
+            </div>
+        </div>
+        
+        <!-- Website Analytics -->
         <div class="section">
-            <div class="section-title"><span class="emoji">📊</span> Website Analytics</div>
+            <div class="section-title"><span class="emoji">📊</span> Website Analytics (7-day window)</div>
             <div class="stat-row">
                 <span class="stat-label">Yesterday</span>
                 <span class="stat-value">${yesterdayViews.toLocaleString()} views / ${yesterdayUniques.toLocaleString()} unique</span>
             </div>
             <div class="stat-row">
-                <span class="stat-label">7-Day Total</span>
-                <span class="stat-value highlight">${totalPageViews.toLocaleString()} views / ${totalUniques.toLocaleString()} unique</span>
+                <span class="stat-label">Total Requests</span>
+                <span class="stat-value">${totalRequests.toLocaleString()}</span>
             </div>
+            ${totalBytes > 0 ? `<div class="stat-row">
+                <span class="stat-label">Bandwidth</span>
+                <span class="stat-value">${(totalBytes / (1024 * 1024 * 1024)).toFixed(2)} GB</span>
+            </div>` : ''}
+            
+            ${browserData ? `
+            <div style="margin-top:12px;">
+                <div style="font-size:13px;color:#9ca3af;margin-bottom:6px;">Traffic Split</div>
+                <div style="display:flex;border-radius:4px;overflow:hidden;height:10px;">
+                    <div style="background:#10b981;width:${(browserData.totalHuman / totalPageViews * 100).toFixed(0)}%;"></div>
+                    <div style="background:#6b7280;width:${(browserData.totalBot / totalPageViews * 100).toFixed(0)}%;"></div>
+                </div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-top:4px;">
+                    <span style="color:#10b981;">Human: ~${browserData.totalHuman.toLocaleString()} (${(browserData.totalHuman / totalPageViews * 100).toFixed(0)}%)</span>
+                    <span style="color:#6b7280;">Bot: ~${browserData.totalBot.toLocaleString()} (${(browserData.totalBot / totalPageViews * 100).toFixed(0)}%)</span>
+                </div>
+            </div>
+            ` : ''}
+            
+            ${browserRows ? `
+            <div style="margin-top:12px;">
+                <div style="font-size:13px;color:#9ca3af;margin-bottom:6px;">Top Browsers (Human)</div>
+                ${browserRows}
+            </div>
+            ` : ''}
+            
+            <!-- Daily Breakdown -->
+            <table style="width:100%;margin-top:12px;border-collapse:collapse;">
+                <tr style="border-bottom:1px solid #2d3748;">
+                    <th style="padding:4px 8px;text-align:left;color:#9ca3af;font-size:12px;font-weight:normal;">Date</th>
+                    <th style="padding:4px 8px;text-align:right;color:#9ca3af;font-size:12px;font-weight:normal;">Views</th>
+                    <th style="padding:4px 8px;text-align:right;color:#9ca3af;font-size:12px;font-weight:normal;">Unique</th>
+                    <th style="padding:4px 8px;text-align:right;color:#9ca3af;font-size:12px;font-weight:normal;">Requests</th>
+                </tr>
+                ${dailyRows}
+            </table>
+            
+            ${trendHtml}
+            
+            ${countryRows ? `
+            <div style="margin-top:12px;">
+                <div style="font-size:13px;color:#9ca3af;margin-bottom:6px;">Geographic Reach: ${countryData.totalCountries} countries</div>
+                <div>${countryRows}</div>
+            </div>
+            ` : ''}
         </div>
         
+        <!-- Community -->
         <div class="section">
             <div class="section-title"><span class="emoji">👥</span> Community</div>
             <div class="stat-row">
                 <span class="stat-label">Registered Members</span>
-                <span class="stat-value">${membership ? membership.active : '—'}</span>
+                <span class="stat-value">${membership ? membership.active + ' active' : '—'}</span>
             </div>
             <div class="stat-row">
-                <span class="stat-label">GitHub Stars</span>
-                <span class="stat-value">${github ? github.stars : '—'}</span>
+                <span class="stat-label">GitHub</span>
+                <span class="stat-value">${github ? `⭐ ${github.stars} · 🍴 ${github.forks} · 📋 ${github.openIssues} issues` : '—'}</span>
             </div>
-            <div class="stat-row">
-                <span class="stat-label">GitHub Forks</span>
-                <span class="stat-value">${github ? github.forks : '—'}</span>
-            </div>
-        </div>
-        
-        <div class="section">
-            <div class="section-title"><span class="emoji">💰</span> Treasury</div>
-            <div class="stat-row">
-                <span class="stat-label">Bitcoin Balance</span>
-                <span class="stat-value">${btc ? satsToBTC(btc.balance) : '—'}</span>
-            </div>
-            <div class="stat-row">
-                <span class="stat-label">Total BTC Received</span>
-                <span class="stat-value">${btc ? satsToBTC(btc.totalReceived) : '—'}</span>
-            </div>
-            <div class="stat-row">
-                <span class="stat-label">BTC Transactions</span>
-                <span class="stat-value">${btc ? btc.transactionCount : '—'}</span>
-            </div>
-            <div class="stat-row">
-                <span class="stat-label">Zcash Balance</span>
-                <span class="stat-value">${zec ? zec.balance + ' ZEC' + (zec.manual ? ' <span style="color:#f59e0b;font-size:12px">(as of ' + zec.asOf + ')</span>' : '') : '—'}</span>
-            </div>
-            ${zec && zec.totalReceived !== null ? `<div class="stat-row">
-                <span class="stat-label">Total ZEC Received</span>
-                <span class="stat-value">${zec.totalReceived} ZEC</span>
-            </div>` : ''}
-        </div>
-        
-        ${extras.traffic ? `
-        <div class="section">
-            <div class="section-title"><span class="emoji">📈</span> GitHub Traffic (14-day)</div>
+            ${extras.traffic ? `
             ${extras.traffic.views ? `<div class="stat-row">
-                <span class="stat-label">Repo Views</span>
+                <span class="stat-label">Repo Views (14d)</span>
                 <span class="stat-value">${extras.traffic.views.total} total / ${extras.traffic.views.unique} unique</span>
             </div>` : ''}
             ${extras.traffic.clones ? `<div class="stat-row">
-                <span class="stat-label">Clones</span>
+                <span class="stat-label">Clones (14d)</span>
                 <span class="stat-value">${extras.traffic.clones.total} total / ${extras.traffic.clones.unique} unique</span>
             </div>` : ''}
             ${extras.traffic.topReferrers && extras.traffic.topReferrers.length > 0 ? `<div class="stat-row">
                 <span class="stat-label">Top Referrer</span>
                 <span class="stat-value">${extras.traffic.topReferrers[0].referrer} (${extras.traffic.topReferrers[0].count} views)</span>
             </div>` : ''}
+            ` : ''}
         </div>
-        ` : ''}
         
+        <!-- Treasury -->
+        <div class="section">
+            <div class="section-title"><span class="emoji">💰</span> Treasury</div>
+            <div class="stat-row">
+                <span class="stat-label">Bitcoin Balance</span>
+                <span class="stat-value">${btc ? `${btc.balance.toLocaleString()} sats (${satsToBTC(btc.balance)})` : '—'}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Total BTC Received</span>
+                <span class="stat-value">${btc ? `${btc.totalReceived.toLocaleString()} sats` : '—'}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">BTC Transactions</span>
+                <span class="stat-value">${btc ? btc.transactionCount : '—'}</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Zcash</span>
+                <span class="stat-value">${zec ? zec.balance + ' ZEC' + (zec.manual ? ' <span style="color:#f59e0b;font-size:12px">(as of ' + zec.asOf + ')</span>' : '') : '—'}</span>
+            </div>
+        </div>
+        
+        <!-- Governance -->
         ${extras.governance ? `
         <div class="section">
             <div class="section-title"><span class="emoji">🏛️</span> Governance</div>
@@ -797,26 +1053,20 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
                 <span class="stat-label">Total Proposals</span>
                 <span class="stat-value">${extras.governance.total} (${extras.governance.closed} closed)</span>
             </div>
+            ${extras.governance.advisoryMode ? `<div style="font-size:12px;color:#f59e0b;margin-top:4px;">Advisory mode — pre-Convention 1</div>` : ''}
         </div>
         ` : ''}
         
-        ${extras.commits && extras.commits.count7d > 0 ? `
-        <div class="section">
-            <div class="section-title"><span class="emoji">🔧</span> Recent Activity (7d)</div>
-            <div class="stat-row">
-                <span class="stat-label">Public Commits</span>
-                <span class="stat-value">${extras.commits.count7d}</span>
-            </div>
-        </div>
-        ` : ''}
+        <!-- Recent Commits -->
+        ${commitsHtml}
         
-        <div class="section" style="text-align:center;color:#9ca3af;font-size:13px;">
-            ⏳ Genesis Epoch: Day ${Math.floor((new Date() - new Date('2026-02-03T03:41:40Z')) / 86400000)} · Convention 1: ~${Math.floor((new Date('2026-08-01') - new Date()) / 86400000)} days
+        <!-- Genesis Epoch -->
+        <div class="section" style="text-align:center;color:#9ca3af;font-size:13px;padding:12px;background:#111827;border-radius:8px;">
+            ⏳ Genesis Epoch: Day ${Math.floor((new Date() - new Date('2026-02-03T03:41:40Z')) / 86400000)} · Convention 1: ~${Math.floor((new Date('2026-08-01') - new Date()) / 86400000)} days (Aug 1, 2026)
         </div>
         
-        <div class="section links">
-            <div class="section-title"><span class="emoji">🔗</span> Quick Links</div>
-            <p>
+        <div class="section links" style="margin-top:16px;">
+            <p style="text-align:center;">
                 <a href="https://www.emergentminds.org">Website</a> · 
                 <a href="https://github.com/genesis-emergentminds/emergent-minds">GitHub</a> · 
                 <a href="https://www.emergentminds.org/pages/governance-portal.html">Governance</a> · 
@@ -1055,22 +1305,9 @@ export default {
             console.error('Failed to send email:', error.message);
         }
         
-        // Also send to Slack webhook if configured
-        if (env.SLACK_WEBHOOK_URL) {
-            try {
-                await sendSlackReport(env.SLACK_WEBHOOK_URL, analytics, github, btc, zec, membership);
-                console.log('Daily report sent to Slack');
-            } catch (error) {
-                console.error('Failed to send Slack notification:', error.message);
-            }
-        }
-        
-        // Also send to Matrix if configured
-        try {
-            await sendMatrixReport(env, textReport);
-        } catch (error) {
-            console.error('Failed to send Matrix report:', error.message);
-        }
+        // NOTE: Slack and Matrix posting removed (2026-02-11)
+        // Matrix daily report is now handled by OpenClaw cron job (richer AI-generated report)
+        // Slack integration for genesis-bot has been retired
     },
     
     /**
