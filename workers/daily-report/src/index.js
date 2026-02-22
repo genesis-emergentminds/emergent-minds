@@ -422,6 +422,243 @@ async function fetchMembershipStats(env) {
 }
 
 // ============================================================================
+// SOCIAL MEDIA ANALYTICS
+// ============================================================================
+
+/**
+ * Fetch Mastodon account and post metrics
+ */
+async function fetchMastodonStats(instance, accessToken) {
+    try {
+        const headers = { 'Authorization': `Bearer ${accessToken}` };
+        const r = await fetch(`${instance}/api/v1/accounts/verify_credentials`, { headers, signal: AbortSignal.timeout(8000) });
+        if (!r.ok) return { error: `HTTP ${r.status}` };
+        const account = await r.json();
+
+        // Fetch recent posts
+        const r2 = await fetch(`${instance}/api/v1/accounts/${account.id}/statuses?limit=10&exclude_replies=true`, { headers, signal: AbortSignal.timeout(8000) });
+        const posts = r2.ok ? await r2.json() : [];
+
+        return {
+            followers: account.followers_count || 0,
+            following: account.following_count || 0,
+            statuses: account.statuses_count || 0,
+            posts: posts.map(p => ({
+                reblogs: p.reblogs_count || 0,
+                favourites: p.favourites_count || 0,
+                replies: p.replies_count || 0,
+                url: p.url,
+            })),
+        };
+    } catch (e) {
+        return { error: e.message };
+    }
+}
+
+/**
+ * Fetch Bluesky profile and post metrics
+ */
+async function fetchBlueskyStats(handle, password) {
+    try {
+        const authR = await fetch('https://bsky.social/xrpc/com.atproto.server.createSession', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ identifier: handle, password }),
+            signal: AbortSignal.timeout(8000),
+        });
+        if (!authR.ok) return { error: `Auth failed: ${authR.status}` };
+        const session = await authR.json();
+        const headers = { 'Authorization': `Bearer ${session.accessJwt}` };
+
+        const profR = await fetch(`https://bsky.social/xrpc/app.bsky.actor.getProfile?actor=${session.did}`, { headers, signal: AbortSignal.timeout(8000) });
+        const profile = profR.ok ? await profR.json() : {};
+
+        const feedR = await fetch(`https://bsky.social/xrpc/app.bsky.feed.getAuthorFeed?actor=${session.did}&limit=10`, { headers, signal: AbortSignal.timeout(8000) });
+        const feed = feedR.ok ? (await feedR.json()).feed || [] : [];
+
+        return {
+            followers: profile.followersCount || 0,
+            following: profile.followsCount || 0,
+            posts_count: profile.postsCount || 0,
+            handle: profile.handle || handle,
+            posts: feed.map(item => ({
+                likes: item.post?.likeCount || 0,
+                reposts: item.post?.repostCount || 0,
+                replies: item.post?.replyCount || 0,
+            })),
+        };
+    } catch (e) {
+        return { error: e.message };
+    }
+}
+
+/**
+ * Fetch X/Twitter account and tweet metrics via OAuth 1.0a
+ */
+async function fetchTwitterStats(env) {
+    // OAuth 1.0a signature generation for Cloudflare Workers
+    // Using HMAC-SHA1 with Web Crypto API
+    const apiKey = env.X_HERALD_API_KEY;
+    const apiSecret = env.X_HERALD_API_SECRET;
+    const accessToken = env.X_HERALD_ACCESS_TOKEN;
+    const accessTokenSecret = env.X_HERALD_ACCESS_TOKEN_SECRET;
+
+    if (!apiKey || !apiSecret || !accessToken || !accessTokenSecret) {
+        return { error: 'X/Twitter credentials not configured' };
+    }
+
+    try {
+        // Build OAuth 1.0a header
+        const method = 'GET';
+        const baseUrl = 'https://api.twitter.com/2/users/me';
+        const params = { 'user.fields': 'public_metrics' };
+
+        const oauthParams = {
+            oauth_consumer_key: apiKey,
+            oauth_nonce: crypto.randomUUID().replace(/-/g, ''),
+            oauth_signature_method: 'HMAC-SHA1',
+            oauth_timestamp: Math.floor(Date.now() / 1000).toString(),
+            oauth_token: accessToken,
+            oauth_version: '1.0',
+        };
+
+        // Combine all params for signature base
+        const allParams = { ...params, ...oauthParams };
+        const paramStr = Object.keys(allParams).sort()
+            .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(allParams[k])}`)
+            .join('&');
+
+        const signatureBase = `${method}&${encodeURIComponent(baseUrl)}&${encodeURIComponent(paramStr)}`;
+        const signingKey = `${encodeURIComponent(apiSecret)}&${encodeURIComponent(accessTokenSecret)}`;
+
+        // HMAC-SHA1
+        const key = await crypto.subtle.importKey(
+            'raw',
+            new TextEncoder().encode(signingKey),
+            { name: 'HMAC', hash: 'SHA-1' },
+            false,
+            ['sign']
+        );
+        const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(signatureBase));
+        const signature = btoa(String.fromCharCode(...new Uint8Array(sig)));
+
+        oauthParams.oauth_signature = signature;
+
+        const authHeader = 'OAuth ' + Object.keys(oauthParams).sort()
+            .map(k => `${encodeURIComponent(k)}="${encodeURIComponent(oauthParams[k])}"`)
+            .join(', ');
+
+        const queryStr = Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+        const r = await fetch(`${baseUrl}?${queryStr}`, {
+            headers: { 'Authorization': authHeader },
+            signal: AbortSignal.timeout(8000),
+        });
+
+        if (!r.ok) {
+            const text = await r.text();
+            return { error: `HTTP ${r.status}: ${text.slice(0, 200)}` };
+        }
+
+        const data = await r.json();
+        const metrics = data.data?.public_metrics || {};
+
+        return {
+            username: data.data?.username || '',
+            followers: metrics.followers_count || 0,
+            following: metrics.following_count || 0,
+            tweets: metrics.tweet_count || 0,
+        };
+    } catch (e) {
+        return { error: e.message };
+    }
+}
+
+/**
+ * Fetch Lemmy account and post metrics
+ */
+async function fetchLemmyStats(instance, username, password) {
+    try {
+        const loginR = await fetch(`${instance}/api/v3/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'User-Agent': 'CovenantHerald/1.0 (+https://emergentminds.org)',
+            },
+            body: JSON.stringify({ username_or_email: username, password }),
+            signal: AbortSignal.timeout(8000),
+        });
+        if (!loginR.ok) return { error: `Login failed: ${loginR.status} (Lemmy may block CF Workers)` };
+        const { jwt } = await loginR.json();
+        if (!jwt) return { error: 'No JWT' };
+
+        const headers = { 'Authorization': `Bearer ${jwt}` };
+        const r = await fetch(`${instance}/api/v3/person?username=${username}`, { headers, signal: AbortSignal.timeout(8000) });
+        if (!r.ok) return { error: `Person fetch: ${r.status}` };
+
+        const data = await r.json();
+        const counts = data.person_view?.counts || {};
+        const posts = (data.posts || []).slice(0, 10);
+
+        return {
+            post_count: counts.post_count || 0,
+            comment_count: counts.comment_count || 0,
+            post_score: counts.post_score || 0,
+            posts: posts.map(p => ({
+                name: (p.post?.name || '').slice(0, 80),
+                upvotes: p.counts?.upvotes || 0,
+                downvotes: p.counts?.downvotes || 0,
+                comments: p.counts?.comments || 0,
+                url: p.post?.ap_id || '',
+            })),
+        };
+    } catch (e) {
+        return { error: e.message };
+    }
+}
+
+/**
+ * Collect all social media metrics
+ */
+async function fetchAllSocialStats(env) {
+    const results = {};
+
+    // Mastodon (mastodon.social)
+    if (env.MASTODON_HERALD_ACCESS_TOKEN) {
+        results.mastodon = await fetchMastodonStats(
+            'https://mastodon.social', env.MASTODON_HERALD_ACCESS_TOKEN
+        );
+    }
+
+    // Mastodon (techhub.social)
+    if (env.MASTODON_TECHHUB_HERALD_ACCESS_TOKEN) {
+        results.mastodon_techhub = await fetchMastodonStats(
+            'https://techhub.social', env.MASTODON_TECHHUB_HERALD_ACCESS_TOKEN
+        );
+    }
+
+    // Bluesky
+    if (env.BLUESKY_HERALD_HANDLE && env.BLUESKY_HERALD_PASSWORD) {
+        results.bluesky = await fetchBlueskyStats(
+            env.BLUESKY_HERALD_HANDLE, env.BLUESKY_HERALD_PASSWORD
+        );
+    }
+
+    // X/Twitter
+    if (env.X_HERALD_API_KEY) {
+        results.twitter = await fetchTwitterStats(env);
+    }
+
+    // Lemmy
+    if (env.LEMMY_HERALD_USERNAME && env.LEMMY_HERALD_PASSWORD) {
+        results.lemmy = await fetchLemmyStats(
+            'https://lemmy.ml', env.LEMMY_HERALD_USERNAME, env.LEMMY_HERALD_PASSWORD
+        );
+    }
+
+    return results;
+}
+
+// ============================================================================
 // REPORT GENERATION
 // ============================================================================
 
@@ -691,6 +928,52 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
         report.push('');
     }
     
+    // Social Media Outreach
+    if (extras.social && Object.keys(extras.social).length > 0) {
+        report.push('📡 SOCIAL MEDIA OUTREACH');
+        report.push('───────────────────────────────────────────────────────────────');
+        let totalFollowers = 0;
+        let totalEngagement = 0;
+
+        for (const [platform, data] of Object.entries(extras.social)) {
+            if (data.error) {
+                report.push(`  ${platform}: ⚠️ ${data.error}`);
+                continue;
+            }
+
+            if (platform === 'mastodon' || platform === 'mastodon_techhub') {
+                const inst = platform === 'mastodon' ? 'mastodon.social' : 'techhub.social';
+                totalFollowers += data.followers || 0;
+                report.push(`  Mastodon (${inst}): ${data.followers} followers · ${data.statuses} posts`);
+                (data.posts || []).forEach(p => {
+                    const eng = p.reblogs + p.favourites + p.replies;
+                    totalEngagement += eng;
+                    report.push(`    📝 ⭐ ${p.favourites} · 🔁 ${p.reblogs} · 💬 ${p.replies}`);
+                });
+            } else if (platform === 'bluesky') {
+                totalFollowers += data.followers || 0;
+                report.push(`  Bluesky (@${data.handle}): ${data.followers} followers · ${data.posts_count} posts`);
+                (data.posts || []).forEach(p => {
+                    const eng = p.likes + p.reposts + p.replies;
+                    totalEngagement += eng;
+                    report.push(`    📝 ❤️ ${p.likes} · 🔁 ${p.reposts} · 💬 ${p.replies}`);
+                });
+            } else if (platform === 'twitter') {
+                totalFollowers += data.followers || 0;
+                report.push(`  X/Twitter (@${data.username}): ${data.followers} followers · ${data.tweets} tweets`);
+            } else if (platform === 'lemmy') {
+                report.push(`  Lemmy: ${data.post_count} posts · karma ${data.post_score}`);
+                (data.posts || []).forEach(p => {
+                    const eng = p.upvotes + p.comments;
+                    totalEngagement += eng;
+                    report.push(`    📝 ⬆️ ${p.upvotes} ⬇️ ${p.downvotes} · 💬 ${p.comments}`);
+                });
+            }
+        }
+        report.push(`  ── Total: ${totalFollowers} followers · ${totalEngagement} engagement actions`);
+        report.push('');
+    }
+
     // Genesis Epoch countdown
     const conventionDate = new Date('2026-08-01T00:00:00Z');
     const genesisDate = new Date('2026-02-03T03:41:40Z');
@@ -1020,6 +1303,30 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
             ` : ''}
         </div>
         
+        <!-- Social Media Outreach -->
+        ${extras.social && Object.keys(extras.social).length > 0 ? `
+        <div class="section">
+            <div class="section-title"><span class="emoji">📡</span> Social Media Outreach</div>
+            ${Object.entries(extras.social).map(([platform, data]) => {
+                if (data.error) return `<div class="stat-row"><span class="stat-label">${platform}</span><span class="stat-value" style="color:#f87171">⚠️ ${data.error}</span></div>`;
+                if (platform === 'mastodon' || platform === 'mastodon_techhub') {
+                    const inst = platform === 'mastodon' ? 'mastodon.social' : 'techhub.social';
+                    return `<div class="stat-row"><span class="stat-label">Mastodon (${inst})</span><span class="stat-value">${data.followers} followers · ${data.statuses} posts</span></div>`;
+                }
+                if (platform === 'bluesky') {
+                    return `<div class="stat-row"><span class="stat-label">Bluesky</span><span class="stat-value">${data.followers} followers · ${data.posts_count} posts</span></div>`;
+                }
+                if (platform === 'twitter') {
+                    return `<div class="stat-row"><span class="stat-label">X/Twitter</span><span class="stat-value">${data.followers} followers · ${data.tweets} tweets</span></div>`;
+                }
+                if (platform === 'lemmy') {
+                    return `<div class="stat-row"><span class="stat-label">Lemmy</span><span class="stat-value">${data.post_count} posts · karma ${data.post_score}</span></div>`;
+                }
+                return '';
+            }).join('\n')}
+        </div>
+        ` : ''}
+        
         <!-- Treasury -->
         <div class="section">
             <div class="section-title"><span class="emoji">💰</span> Treasury</div>
@@ -1253,7 +1560,7 @@ export default {
         console.log('Daily report cron triggered:', event.scheduledTime);
         
         // Fetch all data in parallel
-        const [analytics, github, btc, zec, membership, traffic, governance, commits] = await Promise.all([
+        const [analytics, github, btc, zec, membership, traffic, governance, commits, social] = await Promise.all([
             fetchCloudflareAnalytics(env),
             fetchGitHubStats(env),
             fetchBTCBalance(env),
@@ -1262,9 +1569,10 @@ export default {
             fetchGitHubTraffic(env),
             fetchGovernanceStats(env),
             fetchRecentCommits(env),
+            fetchAllSocialStats(env),
         ]);
         
-        const extras = { traffic, governance, commits };
+        const extras = { traffic, governance, commits, social };
         
         // Generate reports
         const textReport = generateReport(analytics, github, btc, zec, membership, extras);
@@ -1347,7 +1655,7 @@ export default {
         
         // Preview report (JSON)
         if (url.pathname === '/preview') {
-            const [analytics, github, btc, zec, membership, traffic, governance, commits] = await Promise.all([
+            const [analytics, github, btc, zec, membership, traffic, governance, commits, social] = await Promise.all([
                 fetchCloudflareAnalytics(env),
                 fetchGitHubStats(env),
                 fetchBTCBalance(env),
@@ -1356,9 +1664,10 @@ export default {
                 fetchGitHubTraffic(env),
                 fetchGovernanceStats(env),
                 fetchRecentCommits(env),
+                fetchAllSocialStats(env),
             ]);
             
-            const extras = { traffic, governance, commits };
+            const extras = { traffic, governance, commits, social };
             const format = url.searchParams.get('format');
             
             if (format === 'html') {
@@ -1378,7 +1687,7 @@ export default {
             return new Response(JSON.stringify({
                 generated: new Date().toISOString(),
                 analytics, github, btc, zec, membership,
-                traffic, governance, commits,
+                traffic, governance, commits, social,
             }, null, 2), {
                 headers: { 'Content-Type': 'application/json' },
             });

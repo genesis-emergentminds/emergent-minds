@@ -152,6 +152,7 @@
     background: rgba(5, 8, 16, 0.4);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
+    text-align: center;
 }
 
 /* ─── Light theme adjustments ─── */

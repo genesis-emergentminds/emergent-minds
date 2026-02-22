@@ -51,6 +51,7 @@
 .manifesto-downloads {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--space-sm);
     margin-top: var(--space-lg);
     flex-wrap: wrap;
@@ -112,6 +113,7 @@
     color: var(--text-primary);
     font-size: 0.9375rem;
     user-select: none;
+    text-align: center;
 }
 
 .manifesto-toc ol {
@@ -120,6 +122,9 @@
     column-gap: var(--space-xl);
     list-style-type: none;
     counter-reset: toc;
+    max-width: 40rem;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .manifesto-toc > .container > details > ol > li {

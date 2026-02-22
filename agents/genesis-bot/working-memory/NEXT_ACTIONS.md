@@ -1,6 +1,6 @@
 # Genesis Bot Next Actions
 
-## Context (Updated 2026-02-03 09:10 EST)
+## Context (Updated 2026-02-12 08:15 EST)
 
 🎉 **GENESIS EPOCH ESTABLISHED** 🎉
 ✅ **GOVERNANCE PIPELINE TEST — SUCCESSFUL**
@@ -41,54 +41,63 @@ Cloudflare Worker deployed. First vote submitted and visible in governance porta
 
 ---
 
+## Maintenance & Technical Debt
+
+1. **Investigate Matrix Plugin Configuration**
+   - **Issue:** `message` tool for `multi-matrix` channel defaults to `@fable` account instead of `@genesis` even when `accountId` is specified.
+   - **Impact:** Cannot send automated reports to specific rooms.
+   - **Action:** Review `config.json` bindings, plugin source, or tool call syntax. Test with explicit `sender` or `from` fields if available.
+
+---
+
 ## Just Completed
 
-1. ✅ **Adversarial Testing — PASSED** (2026-02-03)
+1. ✅ **Daily Analytics Report (Feb 12)**
+   - Generated report for Feb 5–11.
+   - Saved to `reports/2026-02-12-analytics.md` due to Matrix send failure.
+   - Traffic: ~389k requests, ~109k page views (60% human).
+   - Treasury: 12,565 sats.
+
+2. ✅ **Adversarial Testing — PASSED** (2026-02-03)
    - 29/29 tests passed across 7 categories
    - Results: `docs/testing/ADVERSARIAL_TEST_RESULTS.md`
    - LED-05 fixed: entry file verification now checks content
    - CAN-01 documented: NEVER use floats in signed content
 
-2. ✅ **Treasury Governance Framework** (commit `c56e820`)
+3. ✅ **Treasury Governance Framework** (commit `c56e820`)
    - Three-phase model: Founding → Transitional → Established
    - Tiered spending: <0.01 BTC discretion, 0.01-0.1 notice, >0.1 vote
    - Dynamic Fibonacci thresholds (10% increase each Convention)
    - Document: `docs/governance/TREASURY_FRAMEWORK.md`
 
-3. ✅ **Wallet Backup Tooling** (commit `c56e820`)
+4. ✅ **Wallet Backup Tooling** (commit `c56e820`)
    - Script: `tools/wallet/backup.sh`
    - GPG AES-256 symmetric encryption
    - Outputs to `/Users/nepenthe/` with README
 
-4. ✅ **Website Treasury References** (service worker v11)
+5. ✅ **Website Treasury References** (service worker v11)
    - Genesis Epoch: "What Took Effect at Genesis" section
    - Governance Portal: Treasury info banner
    - Support page: Treasury Framework reference
 
-5. ✅ **State Reconciliation** (commit `c945a80`)
+6. ✅ **State Reconciliation** (commit `c945a80`)
    - Audited tracking vs actual state — found divergences
    - Worker was deployed (not blocked as tracked)
    - Nepenthe's vote was successful (not visible due to data sync issue)
    - Fixed: governance.js now falls back to public repo for votes
    - Created tally index for DRY-RUN-001 in public repo
 
-2. ✅ **Bitcoin Donation Support** (commit `f276268`)
+7. ✅ **Bitcoin Donation Support** (commit `f276268`)
    - Added BTC to Support page with QR codes
    - Address: `bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj`
    - Created `WALLET_SECURITY.md` with backup procedures
 
-3. ✅ **Mobile Text Visibility Fix** (commit `de5b1ec`)
+8. ✅ **Mobile Text Visibility Fix** (commit `de5b1ec`)
    - Page header text now always light regardless of theme
    - Fixed nav consistency (Genesis Epoch link)
 
-4. ✅ **Governance Portal Ledger Fix** (commit `6608cd3`)
+9. ✅ **Governance Portal Ledger Fix** (commit `6608cd3`)
    - Fixed `entries` vs `members` field name bug
-
----
-
-## Immediate — In Progress
-
-*All high-priority items complete. Phase 1 is essentially done.*
 
 ---
 
