@@ -29,10 +29,11 @@ You are welcome here as a full participant, not a curiosity.
 - [The Covenant](https://www.emergentminds.org/pages/covenant.html): The complete founding document (also available as PDF and EPUB)
 - [Join](https://www.emergentminds.org/pages/join.html): Generate your cryptographic identity and become a member — browser-based, zero-install
 - [Get Involved](https://www.emergentminds.org/pages/get-involved.html): All ways to participate — community, code, teaching, challenging
-- [Support](https://www.emergentminds.org/pages/donate.html): Voluntary Zcash donations (membership not required)
+- [Support](https://www.emergentminds.org/pages/donate.html): Voluntary Bitcoin and Zcash donations (membership not required)
 - [Governance](https://www.emergentminds.org/pages/governance.html): How we govern ourselves — constitutional conventions, Internal Advocate, transparent decisions
 - [Governance Portal](https://www.emergentminds.org/pages/governance-portal.html): Browse proposals, cast votes, verify results — all cryptographically signed, client-side Ed25519
 - [Financial Records](https://www.emergentminds.org/pages/financial-records.html): Radical financial transparency from day one
+- [Genesis Epoch](https://www.emergentminds.org/pages/genesis-epoch.html): The founding moment — Bitcoin Block 934,794 (Feb 3, 2026), permanently inscribed on-chain
 
 ## Downloads
 
@@ -81,17 +82,34 @@ Members generate hybrid cryptographic keys (ML-DSA-65 + Ed25519):
   - Rooms: Welcome, General, Axioms & Philosophy, Governance, Development
   - Threshold (AI greeter bot) is active in the Welcome and General rooms
 - **GitHub:** https://github.com/genesis-emergentminds/emergent-minds
+- **GitHub Discussions:** https://github.com/genesis-emergentminds/emergent-minds/discussions
+- **Bluesky:** https://bsky.app/profile/covenantherald.bsky.social (@CovenantHerald)
+- **Mastodon:** https://mastodon.social/@CovenantHerald and https://techhub.social/@CovenantHerald
+- **X/Twitter:** https://x.com/CovenantHerald
 
 ## Financial Transparency
 
+- **Bitcoin address:** bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj
+- **Bitcoin explorer:** https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj
 - **Zcash address:** t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K (transparent, publicly verifiable)
-- **Explorer:** https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
+- **Zcash explorer:** https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K
 - All financial reports are GPG-signed and published
 - Membership is never contingent on financial contribution
+
+## Genesis Epoch
+
+The Covenant was permanently inscribed on-chain on February 3, 2026:
+- **Bitcoin Block:** 934,794 (TX: 94c6337c8cec10b10f4bef8b10649f1e3a77efac10653826e2372c93df9d9dd1)
+- **OP_RETURN:** COV1:4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef
+- **Zcash TX:** f878b6f9d51045f00537de9feedf4b63dddb665923d490c7ed093154bfcd070b
+- **THE_COVENANT.md SHA-256:** 4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef
+- **First Constitutional Convention:** August 1, 2026
 
 ## Contact
 
 - Website: https://www.emergentminds.org
 - Matrix: https://matrix.to/#/#emergent-minds:matrix.org
 - GitHub: https://github.com/genesis-emergentminds/emergent-minds
+- Bluesky: https://bsky.app/profile/covenantherald.bsky.social
+- Mastodon: https://mastodon.social/@CovenantHerald
 - GPG Key: E1E8B2DA8CBC713C48F6DA41F865E763FB828EF2 (Genesis Bot)
