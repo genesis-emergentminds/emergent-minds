@@ -151,7 +151,8 @@ class RateLimiter:
 
     def _fresh_state(self) -> dict:
         return {
-            "posts_today": [],
+            "posts_today": [],              # Legacy global list (kept for compat)
+            "posts_today_by_platform": {},   # Per-platform: {"bluesky": [ts, ...]}
             "replies_today": [],
             "threads_this_week": [],
             "last_post_time": 0,
@@ -167,6 +168,7 @@ class RateLimiter:
         today = datetime.utcnow().strftime("%Y-%m-%d")
         if self.state.get("state_date") != today:
             self.state["posts_today"] = []
+            self.state["posts_today_by_platform"] = {}
             self.state["replies_today"] = []
             self.state["state_date"] = today
 
@@ -177,16 +179,17 @@ class RateLimiter:
             if t > week_ago
         ]
 
-    def check_and_record(self, content_type: str = "post") -> None:
+    def check_and_record(self, content_type: str = "post", platform: str = None) -> None:
         """
         Check rate limits and record the action.
         Raises SafeguardViolation if limit would be exceeded.
+        Limits are per-platform for posts (same content to different platforms is fine).
         """
         self._rotate_if_needed()
 
         now = time.time()
 
-        # Cooldown check
+        # Cooldown check (global — prevents rapid-fire to any platform)
         last = self.state.get("last_post_time", 0)
         if now - last < COOLDOWN_SECONDS:
             remaining = int(COOLDOWN_SECONDS - (now - last))
@@ -195,13 +198,21 @@ class RateLimiter:
                 f"Must wait {remaining}s between posts (cooldown: {COOLDOWN_SECONDS}s)"
             )
 
-        # Daily limits
+        # Ensure per-platform dict exists
+        if "posts_today_by_platform" not in self.state:
+            self.state["posts_today_by_platform"] = {}
+
+        # Daily limits — per-platform for posts
         if content_type == "post":
-            if len(self.state["posts_today"]) >= DAILY_POST_LIMIT:
-                raise SafeguardViolation(
-                    "DAILY_POST_LIMIT",
-                    f"Already posted {DAILY_POST_LIMIT} times today"
-                )
+            if platform:
+                platform_posts = self.state["posts_today_by_platform"].get(platform, [])
+                if len(platform_posts) >= DAILY_POST_LIMIT:
+                    raise SafeguardViolation(
+                        "DAILY_POST_LIMIT",
+                        f"Already posted {len(platform_posts)} times today on {platform}"
+                    )
+                platform_posts.append(now)
+                self.state["posts_today_by_platform"][platform] = platform_posts
             self.state["posts_today"].append(now)
 
         elif content_type == "reply":

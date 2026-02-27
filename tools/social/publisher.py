@@ -209,22 +209,26 @@ class Publisher:
                 )
                 return result
 
-        # === PHASE 2: RATE LIMITING ===
-        try:
-            if not dry_run:
-                self.rate_limiter.check_and_record(content_type)
-        except SafeguardViolation as e:
-            result.blocked = True
-            result.block_reason = str(e)
-            self.audit.log(
-                action=content_type,
-                platform="all",
-                content=content,
-                result="rate_limited",
-                error=str(e),
-                dry_run=dry_run,
-            )
-            return result
+        # === PHASE 2: RATE LIMITING (per-platform, checked in Phase 5) ===
+        # Cooldown is still global (prevents rapid-fire API calls)
+        if not dry_run:
+            import time as _time
+            last = self.rate_limiter.state.get("last_post_time", 0)
+            now = _time.time()
+            cooldown = 300  # 5 min
+            if now - last < cooldown:
+                remaining = int(cooldown - (now - last))
+                result.blocked = True
+                result.block_reason = f"[BLOCK] COOLDOWN: Must wait {remaining}s between posts (cooldown: {cooldown}s)"
+                self.audit.log(
+                    action=content_type,
+                    platform="all",
+                    content=content,
+                    result="rate_limited",
+                    error=result.block_reason,
+                    dry_run=dry_run,
+                )
+                return result
 
         # === PHASE 3: APPROVAL CHECK ===
         if not approval_ref and not dry_run:
@@ -270,6 +274,18 @@ class Publisher:
                 continue
 
             try:
+                # Per-platform rate limit check
+                if not dry_run:
+                    try:
+                        self.rate_limiter.check_and_record(content_type, platform=platform)
+                    except SafeguardViolation as rate_err:
+                        result.add_platform_result(
+                            platform=platform,
+                            success=False,
+                            error=f"Rate limited: {rate_err}",
+                        )
+                        continue
+
                 # Platform-specific posting
                 if isinstance(client, MastodonClient):
                     reply_id = reply_to.get(platform) if reply_to else None
