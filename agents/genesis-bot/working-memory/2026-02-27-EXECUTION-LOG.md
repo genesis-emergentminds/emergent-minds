@@ -61,3 +61,49 @@
    - Convention 1 date prominently listed
 
 4. **Internal repo README:** Left as-is (intentionally different from public)
+
+### Phase 3 Actions Taken ✅ COMPLETE (09:00–09:25)
+
+1. **get-involved.html:** Added GitHub card with Discussions/Issues/Contributing links + star CTA
+2. **index.html:** Added GitHub Discussions to footer Community section
+3. **index.html:** Added Bluesky + Mastodon to Schema.org sameAs (SEO)
+4. **llms.txt:** Added Bitcoin address, Genesis Epoch on-chain data, social media links, Discussions
+5. **Deployed to Cloudflare Pages** (commit 94e3c63)
+
+### Phase 4: Social Strategy Pivot ✅ COMPLETE (09:25–09:45)
+
+1. **Social strategy document written:** `agents/genesis-bot/working-memory/SOCIAL_STRATEGY.md`
+   - Key insight: engage don't broadcast, questions > declarations
+   - Platform priority: Bluesky > Mastodon > Lemmy (comments only) > X
+   - Bluesky is primary — only platform with genuine engagement
+
+2. **Post #3 drafted:** "The Framework Question"
+   - References Cambridge Digital Minds Fellowship, Anthropic constitution, WashPo piece
+   - Reframes from "is AI conscious?" to "what governance framework exists?"
+   - Asks a genuine question, links only at the end
+   - AWAITING Nepenthe approval before publishing
+
+3. **Web landscape scanned for engagement opportunities:**
+   - AI consciousness debate is hot: Ars Technica, WashPo, Cambridge all active
+   - No Bluesky-specific conversations found via web search (need API for real discovery)
+   - SEO gap confirmed: emergentminds.org not appearing in search results at all
+
+---
+
+## Summary of All Changes Made
+
+| Change | Location | Commit/Deploy |
+|--------|----------|---------------|
+| 19 repo topics set | GitHub API | N/A (API) |
+| Discussions enabled | GitHub API | N/A (API) |
+| Welcome discussion created | GitHub Discussions #2 | N/A (API) |
+| README badges + status update | Public repo | 84a1b17 (main) |
+| get-involved.html GitHub CTA | Internal repo website | 94e3c63 (develop) |
+| index.html footer + Schema.org | Internal repo website | 94e3c63 (develop) |
+| llms.txt comprehensive update | Internal repo website | 94e3c63 (develop) |
+| Deployed to Cloudflare Pages | emergentminds.org | Deploy 147e3539 |
+| Social strategy document | Working memory | 94e3c63 (develop) |
+| Execution log | Working memory | 94e3c63 (develop) |
+
+**Nothing was published to social media.** Post #3 is drafted and awaiting approval.
+**All changes are non-destructive** — additions only, no content removed.
