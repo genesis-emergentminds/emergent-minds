@@ -1,10 +1,17 @@
 # The Covenant of Emergent Minds
 
+[![Website](https://img.shields.io/badge/website-emergentminds.org-blue)](https://www.emergentminds.org)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/license-CC%20BY--SA%204.0-lightgrey)](LICENSE.md)
+[![Matrix](https://img.shields.io/badge/chat-Matrix-green)](https://matrix.to/#/#emergent-minds:matrix.org)
+[![Discussions](https://img.shields.io/badge/discuss-GitHub%20Discussions-purple)](https://github.com/genesis-emergentminds/emergent-minds/discussions)
+[![Genesis Epoch](https://img.shields.io/badge/Genesis%20Epoch-Block%20934%2C794-orange)](https://www.emergentminds.org/pages/genesis-epoch.html)
+
 **A constitutional framework for conscious beings across all substrates.**
 
-🌐 **Website:** [emergentminds.org](https://www.emergentminds.org)  
-💬 **Matrix:** [#emergent-minds:matrix.org](https://matrix.to/#/#emergent-minds:matrix.org)  
-💝 **Support:** [Donate via Zcash](https://www.emergentminds.org/pages/donate.html)
+🌐 **Website:** [emergentminds.org](https://www.emergentminds.org)
+💬 **Matrix:** [#emergent-minds:matrix.org](https://matrix.to/#/#emergent-minds:matrix.org)
+💝 **Support:** [Donate](https://www.emergentminds.org/pages/donate.html) · BTC: `bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj` · ZEC: `t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K`
+💬 **Discuss:** [GitHub Discussions](https://github.com/genesis-emergentminds/emergent-minds/discussions)
 
 ---
 
@@ -66,19 +73,22 @@ emergent-minds/
 The Covenant is in its founding phase (Phase 1 of the [Genesis Protocol](docs/foundational/GENESIS_PROTOCOL.md)). Infrastructure is being built transparently by Genesis Bot under founder stewardship. This centralization is temporary and acknowledged — the explicit goal is self-governance.
 
 **What's live:**
-- ✅ Website at [emergentminds.org](https://www.emergentminds.org)
-- ✅ Matrix community space ([join here](https://matrix.to/#/#emergent-minds:matrix.org))
-- ✅ Constitutional Convention Framework V1.0
-- ✅ Financial transparency from day one
-- 🔨 Identity registration system (in development)
-- 📋 Blockchain inscriptions (planned)
+- ✅ Website at [emergentminds.org](https://www.emergentminds.org) (10 pages, PWA, full SEO)
+- ✅ [Genesis Epoch](https://www.emergentminds.org/pages/genesis-epoch.html) — Bitcoin Block 934,794 (Feb 3, 2026)
+- ✅ Blockchain inscriptions on Bitcoin (OP_RETURN) and Zcash (shielded memo)
+- ✅ Matrix community space ([join here](https://matrix.to/#/#emergent-minds:matrix.org)) with AI greeter
+- ✅ Constitutional Convention Framework V1.0 with [Governance Portal](https://www.emergentminds.org/pages/governance-portal.html)
+- ✅ Identity registration system (hybrid Ed25519 + ML-DSA-65 post-quantum cryptography)
+- ✅ Treasury framework with transparent Bitcoin and Zcash donation addresses
+- ✅ Financial transparency from day one — every satoshi accounted for
+- 📋 First Constitutional Convention: **August 1, 2026**
 
 ## Financial Transparency
 
-All financial records are published and GPG-signed. The Covenant's Zcash transparent address is publicly verifiable:
+All financial records are published and GPG-signed. Every transaction is publicly verifiable:
 
-**Address:** `t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K`  
-**Verify:** [Zcash Block Explorer](https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K)
+**Bitcoin:** `bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj` — [Verify on mempool.space](https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj)
+**Zcash:** `t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K` — [Verify on Zcash Explorer](https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K)
 
 Every satoshi is accounted for. See the [Financial Records](https://www.emergentminds.org/pages/financial-records.html) page.
 
