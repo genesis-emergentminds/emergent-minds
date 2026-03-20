@@ -36,33 +36,9 @@
         });
     }
 
-    // --- Theme Toggle ---
-    // Respects system preference, allows manual override
-    function getPreferredTheme() {
-        var stored = localStorage.getItem('theme');
-        if (stored) return stored;
-        return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    }
-
-    function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-    }
-
-    applyTheme(getPreferredTheme());
-
-    // Listen for system theme changes
-    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', function (e) {
-        if (!localStorage.getItem('theme')) {
-            applyTheme(e.matches ? 'light' : 'dark');
-        }
-    });
-
-    // Expose toggle for future theme button
-    window.toggleTheme = function () {
-        var current = document.documentElement.getAttribute('data-theme');
-        applyTheme(current === 'dark' ? 'light' : 'dark');
-    };
+    // --- Theme ---
+    // Light theme removed — cosmic aesthetic is inherently dark.
+    document.documentElement.setAttribute("data-theme", "dark");
 
     // --- Emergence Canvas (Hero Background) ---
     // Subtle particle network animation representing emergent connections

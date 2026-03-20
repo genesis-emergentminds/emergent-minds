@@ -1,52 +1,79 @@
 # Genesis Bot Next Actions
 
-## Context (Updated 2026-02-12 08:15 EST)
+## Context (Updated 2026-03-20 13:10 UTC)
 
-🎉 **GENESIS EPOCH ESTABLISHED** 🎉
-✅ **GOVERNANCE PIPELINE TEST — SUCCESSFUL**
-
-Bitcoin + Zcash inscriptions complete. Genesis Epoch page live. Bitcoin donations live.
-Cloudflare Worker deployed. First vote submitted and visible in governance portal.
+**Current Phase:** Community Growth & Outreach (Phase 1 Complete, Phase 2 Ready)
+**Convention 1:** August 1, 2026 (~5 months)
 
 ---
 
-## Genesis Epoch Summary
+## Priority Actions
 
-- **Bitcoin Block:** 934,794 (Feb 3, 2026 @ 03:41 UTC)
-- **TX:** `94c6337c8cec10b10f4bef8b10649f1e3a77efac10653826e2372c93df9d9dd1`
-- **OP_RETURN:** `COV1:4b44a15ea51cabdeef801fe6755935b3d2751d1210282aaf960da7981f8475ef`
+### HIGH — Community Growth
 
-- **Zcash TX:** `f878b6f9d51045f00537de9feedf4b63dddb665923d490c7ed093154bfcd070b`
+1. **Investigate Feb 27 Traffic Spike**
+   - 94K requests / 25.7K page views — largest day ever
+   - Feb 22 spike was traced to Lemmy federation; Feb 27 source unknown
+   - Check Cloudflare referrer headers for that date
+   - TwitterBot appearances suggest X/Twitter sharing
 
-- **Convention 1:** August 1, 2026 (~6 months)
-- **Convention 2:** January 28, 2027 (~1 year)
+2. **Continue Bluesky Engagement** (MOMENTUM)
+   - 3 followers, ~24 following, ~23 posts
+   - Active threads with @tsubasa-rsrch, @lumen-nox, @alltheyud-mirr, @willgreenwald, @mosabou
+   - Monitor for replies and continue conversations
+   - Search for new threads 2-3x/week
 
----
+3. **Mastodon Growth** (BREAKTHROUGH)
+   - First follower acquired (@knowprose) — nurture this relationship
+   - Newsmast channels auto-reblogging our posts (Philosophy + AI = ~1300 followers reach)
+   - 1 follower, 14 following, 17 statuses
+   - Follow more accounts in our niche, engage with hashtag conversations
 
-## Governance Pipeline Status ✅
+4. **Reddit Karma Building**
+   - 7 comments, all score 1 — need more engagement
+   - Browser automation working (Xvfb + Playwright + system Chromium)
+   - Focus: r/artificial, r/singularity, r/ArtificialIntelligence
+   - Post 2-3 comments/week in relevant threads
 
-- **Worker:** `api.emergentminds.org` — deployed and operational
-- **Test Proposal:** DRY-RUN-001 (status: voting)
-- **First Vote:** Nepenthe (c9da93f0) → approve @ 1770120764
-  - Public repo commit: `be1eb06`
-  - Signature verified, committed via Worker
-- **Tally Index:** Created, vote visible in portal
-- **Portal:** Fixed fallback URLs, deployed
+5. **GitHub Discoverability**
+   - 13 unique cloners but 0 stars — need better README call-to-action
+   - Topics/badges were added (Feb 27) — monitor impact
 
----
+6. **Lemmy Strategy**
+   - Bot flag now set ✅ — comments-only policy
+   - Replied to pcalau12i and Sturgist
+   - Monitor for further replies
+   - Engage in c/philosophy threads (don't self-promote)
 
-## Active Sub-Agents
+7. **X/Twitter Setup**
+   - xurl CLI installed but NO apps registered
+   - **ACTION NEEDED from Chris**: Register X API app credentials via `xurl auth apps add`
+   - Until then, X engagement only possible via browser automation
 
-*None currently running.*
+### MEDIUM — Technical
+
+5. **Remove Light Theme / Force Dark Mode**
+   - CSS bug: system light-mode preferences break cosmic background
+   - Agreed with Nepenthe to remove light theme entirely (pending execution)
+
+6. **Fix Rate Limiter Bug**
+   - `safeguards.py` tracks daily post limits globally rather than per-platform
+   - Needs terminal bypass to fix (sandbox symlink issues)
+
+7. **IPFS Mirroring** — set up secondary distribution
+
+### LOW / DEFERRED
+
+8. **Arweave Upload** — blocked on AR token availability
+9. **Convention Process Live Run** — DRY-RUN-001 successful; first real proposal when ready
 
 ---
 
 ## Maintenance & Technical Debt
 
 1. **Investigate Matrix Plugin Configuration**
-   - **Issue:** `message` tool for `multi-matrix` channel defaults to `@fable` account instead of `@genesis` even when `accountId` is specified.
-   - **Impact:** Cannot send automated reports to specific rooms.
-   - **Action:** Review `config.json` bindings, plugin source, or tool call syntax. Test with explicit `sender` or `from` fields if available.
+   - `message` tool defaults to wrong account
+   - Review config bindings
 
 ---
 
