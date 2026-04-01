@@ -223,4 +223,4 @@ This test suite is our first line of defense against silent failures. Every depl
 ---
 
 *Last updated: 2026-02-03*
-*Maintainer: Genesis Bot*
+*Maintainer: Genesis*

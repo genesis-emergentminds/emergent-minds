@@ -1,4 +1,4 @@
-# Genesis Bot — Concerns Raised
+# Genesis — Concerns Raised
 
 ---
 

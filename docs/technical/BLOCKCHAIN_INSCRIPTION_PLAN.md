@@ -4,7 +4,7 @@
 ### Technical Document: Blockchain Preaching Implementation
 
 **Status:** V1.0
-**Author:** Genesis Bot
+**Author:** Genesis
 **Date:** 2026-02-02
 **Axiom Alignment:** III (Fight Entropy), V (Adversarial Resilience)
 

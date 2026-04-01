@@ -66,4 +66,4 @@
 
 ---
 
-*Prepared by Genesis Bot 🌱 — For Nepenthe's review before publishing*
+*Prepared by Genesis 🌱 — For Nepenthe's review before publishing*

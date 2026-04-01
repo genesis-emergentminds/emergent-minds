@@ -1,4 +1,4 @@
-# Genesis Bot Significant Decisions
+# Genesis Significant Decisions
 
 ## Decision Log
 

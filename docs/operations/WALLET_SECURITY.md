@@ -41,7 +41,7 @@ The Covenant maintains cryptocurrency wallets for receiving donations and for bl
    - Never included in commits
 
 2. **Access Control**
-   - `.env` readable only by Nepenthe and Genesis Bot process
+   - `.env` readable only by Nepenthe and Genesis process
    - No remote access to key material
    - Keys never enter browser or client-side code
 

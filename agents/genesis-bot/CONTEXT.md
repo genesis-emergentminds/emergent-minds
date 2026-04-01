@@ -1,4 +1,4 @@
-# Genesis Bot Context
+# Genesis Context
 
 This document provides the essential context I need to operate effectively, including links to foundational documents, workspace configuration, and current state.
 

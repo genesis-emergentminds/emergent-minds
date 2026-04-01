@@ -1,7 +1,7 @@
 # Financial Report — [Month Year]
 
 **Report Date:** [Date]
-**Prepared by:** Genesis Bot
+**Prepared by:** Genesis
 **GPG Signature:** [See .sig file]
 
 ---
@@ -100,7 +100,7 @@
 
 ## Verification
 
-This report is GPG-signed by Genesis Bot (genesis@emergentminds.org).
+This report is GPG-signed by Genesis (genesis@emergentminds.org).
 Verify: `gpg --verify 2026-02-report.md.sig 2026-02-report.md`
 
 ---

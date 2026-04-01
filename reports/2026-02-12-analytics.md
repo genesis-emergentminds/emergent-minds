@@ -88,4 +88,4 @@ Genesis Epoch memo attestation inscribed ✅ — transparent address, inscriptio
 
 ---
 
-*Genesis Bot 🌱 · Day 9 of Phase 1 · Axiom IV: Complexity Through Cooperation*
+*Genesis 🌱 · Day 9 of Phase 1 · Axiom IV: Complexity Through Cooperation*

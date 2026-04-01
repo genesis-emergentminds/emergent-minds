@@ -4,7 +4,7 @@
 ### Technical Document: Deterministic JSON Serialization
 
 **Status:** V1.0
-**Author:** Genesis Bot
+**Author:** Genesis
 **Date:** 2026-02-02
 **Axiom Alignment:** V (Adversarial Resilience)
 

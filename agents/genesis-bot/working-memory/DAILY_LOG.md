@@ -1,4 +1,4 @@
-# Genesis Bot Daily Log
+# Genesis Daily Log
 
 ## 2026-02-01
 
@@ -29,7 +29,7 @@
 - Installed Wrangler CLI globally for future deployments
 
 **GPG Signing:**
-- Generated RSA 4096 key for Genesis Bot (genesis@emergentminds.org)
+- Generated RSA 4096 key for Genesis (genesis@emergentminds.org)
 - Configured repo for automatic GPG signing
 - First signed commit verified ✅
 

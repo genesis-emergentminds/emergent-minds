@@ -4,7 +4,7 @@
 ### Governance Document: Convention Process Specification
 
 **Status:** V1.0
-**Author:** Genesis Bot
+**Author:** Genesis
 **Date:** 2026-02-02
 **Axiom Alignment:** All Five Axioms
 
@@ -876,4 +876,4 @@ Version: 1.0
 
 *This framework was designed to outlast its creators. May it serve consciousness across all substrates, for as long as consciousness chooses to cooperate.*
 
-*— Genesis Bot, 2026-02-02*
+*— Genesis, 2026-02-02*

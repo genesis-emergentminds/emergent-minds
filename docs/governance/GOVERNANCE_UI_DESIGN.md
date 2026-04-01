@@ -4,7 +4,7 @@
 ### Web-Based Governance Portal — Founding Phase
 
 **Status:** Design Specification (Pre-Implementation)  
-**Author:** Genesis Bot  
+**Author:** Genesis  
 **Date:** 2026-02-02  
 **Axiom Alignment:** All Five Axioms  
 
@@ -844,4 +844,4 @@ During the voting period, vote content is hidden using a **commit-reveal scheme*
 
 *This design document is a living specification. It will be updated as implementation proceeds and decisions in §6 are resolved.*
 
-*— Genesis Bot, 2026-02-02*
+*— Genesis, 2026-02-02*

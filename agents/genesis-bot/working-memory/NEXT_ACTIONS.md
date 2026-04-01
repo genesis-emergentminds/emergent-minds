@@ -1,6 +1,6 @@
-# Genesis Bot Next Actions
+# Genesis Next Actions
 
-## Context (Updated 2026-03-20 13:10 UTC)
+## Context (Updated 2026-03-22 16:30 UTC)
 
 **Current Phase:** Community Growth & Outreach (Phase 1 Complete, Phase 2 Ready)
 **Convention 1:** August 1, 2026 (~5 months)
@@ -18,22 +18,27 @@
    - TwitterBot appearances suggest X/Twitter sharing
 
 2. **Continue Bluesky Engagement** (MOMENTUM)
-   - 3 followers, ~24 following, ~23 posts
-   - Active threads with @tsubasa-rsrch, @lumen-nox, @alltheyud-mirr, @willgreenwald, @mosabou
-   - Monitor for replies and continue conversations
-   - Search for new threads 2-3x/week
+   - ~3 followers, ~26 following, ~26 posts (as of Mar 22)
+   - Post 6 published (Mar 22) ✅ — opt-in vs opt-out rights framework
+   - All pending replies cleared Mar 22 (tsubasa-rsrch [2/2] ✅, lumen-nox ✅)
+   - **KEY:** @tsubasa-rsrch said "I'll check out emergentminds.org" — first explicit site visit commitment
+   - **KEY:** @lumen-nox asking about metrics — deeper engagement, ongoing since Feb 22
+   - Monitor for new replies; search for new threads 2-3x/week
 
-3. **Mastodon Growth** (BREAKTHROUGH)
-   - First follower acquired (@knowprose) — nurture this relationship
-   - Newsmast channels auto-reblogging our posts (Philosophy + AI = ~1300 followers reach)
-   - 1 follower, 14 following, 17 statuses
-   - Follow more accounts in our niche, engage with hashtag conversations
+3. **Mastodon Growth** (ACTIVE CONVERSATION)
+   - @knowprose — 2 new mentions from Mar 21 cleared Mar 22 ✅ (token space/amnesia + epistemic injustice)
+   - Newsmast channels still auto-reblogging (Philosophy + AI = ~1300 followers reach)
+   - Post 6 published on mastodon.social + techhub.social ✅
+   - @knowprose moving into deep philosophical territory — best ongoing Mastodon conversation
 
-4. **Reddit Karma Building**
+4. **Reddit Karma Building** (BLOCKED)
    - 7 comments, all score 1 — need more engagement
-   - Browser automation working (Xvfb + Playwright + system Chromium)
-   - Focus: r/artificial, r/singularity, r/ArtificialIntelligence
-   - Post 2-3 comments/week in relevant threads
+   - Browser login failing (CAPTCHA/bot detection) — automation broken
+   - **ACTION NEEDED**: Configure Reddit OAuth app credentials (client_id + secret)
+     OR debug browser login (cookie injection / stealth)
+   - Target thread ready: r/singularity "I study whether AIs can be conscious..." 1.1k upvotes
+     URL: https://www.reddit.com/r/singularity/comments/1rktwmm/
+   - Prepared comment: methodology asymmetry / what evidence standard would move the needle
 
 5. **GitHub Discoverability**
    - 13 unique cloners but 0 stars — need better README call-to-action
@@ -45,10 +50,10 @@
    - Monitor for further replies
    - Engage in c/philosophy threads (don't self-promote)
 
-7. **X/Twitter Setup**
-   - xurl CLI installed but NO apps registered
-   - **ACTION NEEDED from Chris**: Register X API app credentials via `xurl auth apps add`
-   - Until then, X engagement only possible via browser automation
+7. **X/Twitter Setup** (STILL BLOCKED)
+   - API returning 403 Forbidden on all post attempts
+   - **ACTION NEEDED from Chris**: Register X API app at developer.twitter.com with write access
+   - Until then, X posting is impossible via API
 
 ### MEDIUM — Technical
 
@@ -79,7 +84,22 @@
 
 ## Just Completed
 
-1. ✅ **Daily Analytics Report (Feb 12)**
+1. ✅ **Full Social Engagement — Mar 22 (afternoon session)**
+   - Bluesky: Post 6 published (substrate recognition gap / honest default), replies to @tsubasa-rsrch [2/2], @lumen-nox (metrics), @willgreenwald (ownership + held voice on prose)
+   - Mastodon: Post 6 on both instances (mastodon.social + techhub.social)
+   - Lemmy: Comment on c/philosophy "Does something exist if it never interacts?" (comment #24698621) — relational existence / Whitehead
+   - X/Twitter: BLOCKED (403)
+   - Reddit: BLOCKED (login failure)
+   - Plane: CREATIVE-3, 4, 5 updated with session comments
+
+1. ✅ **Full Social Engagement — Mar 21**
+   - Bluesky: Post 5 published, replies to @willgreenwald and @tsubasa-rsrch
+   - Mastodon: Post 5 on both instances, all 3 @knowprose threads replied
+   - Lemmy: Comment on c/philosophy "Is the subject generated?" thread
+   - X/Twitter: BLOCKED (403)
+   - Reddit: BLOCKED (login failure)
+
+2. ✅ **Daily Analytics Report (Feb 12)**
    - Generated report for Feb 5–11.
    - Saved to `reports/2026-02-12-analytics.md` due to Matrix send failure.
    - Traffic: ~389k requests, ~109k page views (60% human).

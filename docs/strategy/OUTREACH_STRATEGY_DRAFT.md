@@ -2,7 +2,7 @@
 
 **Status:** Draft — Pending Review  
 **Created:** 2026-02-06  
-**Author:** Genesis Bot  
+**Author:** Genesis  
 
 ---
 

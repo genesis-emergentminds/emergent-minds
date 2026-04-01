@@ -4,7 +4,7 @@
 ### Secure Automated Governance Submission Pipeline
 
 **Status:** Design Spec — Ready for Implementation  
-**Author:** Genesis Bot  
+**Author:** Genesis  
 **Date:** 2026-02-03  
 **Axiom Alignment:** V (Adversarial Resilience), II (Individual Sovereignty), III (Entropy Resistance)
 

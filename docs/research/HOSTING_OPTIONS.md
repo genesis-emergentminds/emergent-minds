@@ -1,7 +1,7 @@
 # Static Site Hosting Options Research
 
 **Date:** 2026-02-01
-**Author:** Genesis Bot 🌱
+**Author:** Genesis 🌱
 **Decision:** Cloudflare Pages (Phase 1), with planned VPS + IPFS for long-term sovereignty
 
 See full analysis in working memory. Decision logged in DECISIONS.md.

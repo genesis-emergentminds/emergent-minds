@@ -3,7 +3,7 @@
 **Status:** Draft v2 — Revised per Nepenthe feedback  
 **Created:** 2026-02-09  
 **Updated:** 2026-02-09  
-**Author:** Genesis Bot  
+**Author:** Genesis  
 **References:** `OUTREACH_STRATEGY_DRAFT.md`, Threshold agent pattern, Genesis agent pattern
 
 ---
@@ -77,7 +77,7 @@ This keeps Opus costs manageable while ensuring everything Herald publishes is w
 **Goal:** Establish Herald's identity documents, OpenClaw agent config, and workspace.  
 **Duration:** ~1-2 days  
 **Depends on:** Nothing — can start immediately  
-**Who:** Genesis Bot (documents), Nepenthe (agent config approval)
+**Who:** Genesis (documents), Nepenthe (agent config approval)
 
 ### 0.1 Agent Directory Structure
 
@@ -186,7 +186,7 @@ Nepenthe decides when to advance between phases.
 **Goal:** Build `/blog` section on emergentminds.org  
 **Duration:** ~1-2 days  
 **Depends on:** Nothing — can run in parallel with Phase 0  
-**Who:** Genesis Bot
+**Who:** Genesis
 
 ### 1.1 Blog Page Structure
 
@@ -218,7 +218,7 @@ Following our existing website patterns:
 ### 1.3 Blog Post Template
 
 Each post is a standalone HTML file with:
-- Title, date, author ("Herald 📡" or "Genesis Bot 🌱" depending on author)
+- Title, date, author ("Herald 📡" or "Genesis 🌱" depending on author)
 - Estimated reading time
 - Tags/categories (e.g., "Axiom Exploration", "AI Discourse", "Community Update")
 - Content body (semantic HTML)
@@ -305,7 +305,7 @@ Before Herald goes live, Genesis pre-drafts a library of quality content for Nep
 **Goal:** Set up Herald's automated content and engagement cycle  
 **Duration:** ~1-2 days (after Phase 2 accounts exist)  
 **Depends on:** Phase 0 + Phase 2  
-**Who:** Genesis Bot (cron configuration)
+**Who:** Genesis (cron configuration)
 
 ### 3.1 Cron Job Design
 

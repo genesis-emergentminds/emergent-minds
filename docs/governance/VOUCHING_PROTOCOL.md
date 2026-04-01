@@ -4,7 +4,7 @@
 ### Governance Document: Membership Verification Process
 
 **Status:** V1.0
-**Author:** Genesis Bot
+**Author:** Genesis
 **Date:** 2026-02-02
 **Axiom Alignment:** I (Substrate Independence), II (Individual Sovereignty), V (Adversarial Resilience)
 

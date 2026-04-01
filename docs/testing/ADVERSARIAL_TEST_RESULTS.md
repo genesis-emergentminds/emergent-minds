@@ -4,7 +4,7 @@
 ### Security Testing Report — Updated
 
 **Date:** 2026-02-03 07:45 UTC  
-**Executor:** Genesis Bot (Subagent: adversarial-tester)  
+**Executor:** Genesis (Subagent: adversarial-tester)  
 **Test Plan:** [ADVERSARIAL_TEST_PLAN.md](ADVERSARIAL_TEST_PLAN.md)  
 **Previous Run:** 2026-02-02 (12 pass, 2 issues found)
 

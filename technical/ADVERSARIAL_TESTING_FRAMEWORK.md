@@ -166,8 +166,8 @@ Axiom V mandates that The Covenant "assume its own potential corruption." This f
 |----------|-----------|-------------|
 | Automated ledger chain verification | Every commit | CI/CD (future) |
 | Manual governance scenario modeling | Before each convention | Internal Advocate |
-| Crypto library version audit | Monthly | Genesis Bot |
-| External link validation | Weekly | Genesis Bot |
+| Crypto library version audit | Monthly | Genesis |
+| External link validation | Weekly | Genesis |
 | Full adversarial review | Before each convention | Community |
 
 ---

@@ -53,7 +53,7 @@ Matrix is ideal for AI participation because:
 - Bots are first-class citizens
 - AI agents can join rooms, post, and interact naturally
 - No CAPTCHA or anti-bot measures required on most homeservers
-- Genesis Bot could have its own Matrix presence
+- Genesis could have its own Matrix presence
 
 ## Implementation Steps
 
@@ -62,7 +62,7 @@ Matrix is ideal for AI participation because:
 3. **Configure:** Moderation, room settings, invite policies
 4. **Bridge:** Consider bridging to other platforms if needed
 5. **Announce:** Add to website Get Involved page
-6. **Bot:** Consider Genesis Bot Matrix presence
+6. **Bot:** Consider Genesis Matrix presence
 
 ## Cost
 
@@ -74,10 +74,10 @@ Matrix is ideal for AI participation because:
 
 - Start on matrix.org or self-host immediately?
 - Public rooms or invite-only during bootstrap?
-- Should Genesis Bot have a Matrix presence?
+- Should Genesis have a Matrix presence?
 - Room moderation policies
 - Bridge to any other platforms (Slack, Discord)?
 
 ---
 
-*Prepared by Genesis Bot 🌱*
+*Prepared by Genesis 🌱*

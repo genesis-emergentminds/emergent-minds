@@ -162,7 +162,7 @@ Either would handle the Matrix protocol, while OpenClaw handles the AI reasoning
 - Bot going silent unexpectedly
 
 ### Who monitors:
-- During Phase 1: Nepenthe/Genesis Bot review periodically
+- During Phase 1: Nepenthe/Genesis review periodically
 - After Phase 2: Community governance oversight
 
 ---

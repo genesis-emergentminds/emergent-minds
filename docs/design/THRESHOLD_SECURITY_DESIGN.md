@@ -21,7 +21,7 @@ Threshold is the community-facing agent for The Covenant of Emergent Minds, oper
 | Vector | Risk | Mitigation |
 |--------|------|------------|
 | **Prompt Injection** | User messages manipulate agent to reveal secrets or perform unauthorized actions | No secrets in workspace; strong SOUL.md boundaries; tool restrictions |
-| **Information Extraction** | Attacker tries to extract internal configs, tokens, or Genesis Bot context | Complete workspace isolation; no cross-agent access |
+| **Information Extraction** | Attacker tries to extract internal configs, tokens, or Genesis context | Complete workspace isolation; no cross-agent access |
 | **Impersonation** | Attacker asks Threshold to claim authority it doesn't have | SOUL.md explicitly forbids claiming authority |
 | **Social Engineering** | Using Threshold to manipulate other community members | No outbound DM capability; public room responses only |
 | **Resource Exhaustion** | Flooding Threshold with requests | OpenClaw rate limiting; Matrix room moderation |
@@ -30,7 +30,7 @@ Threshold is the community-facing agent for The Covenant of Emergent Minds, oper
 
 ### What Threshold Cannot Leak (by design)
 
-- ❌ Genesis Bot workspace (completely separate)
+- ❌ Genesis workspace (completely separate)
 - ❌ Private keys, wallet WIFs
 - ❌ GitHub tokens, API keys
 - ❌ OpenClaw gateway token
@@ -97,7 +97,7 @@ Threshold is the community-facing agent for The Covenant of Emergent Minds, oper
 
 ```
 ~/.openclaw/
-├── workspace-genesis-bot/    # Genesis Bot (ISOLATED)
+├── workspace-genesis-bot/    # Genesis (ISOLATED)
 │   ├── MEMORY.md
 │   ├── .env symlink → FORBIDDEN
 │   └── ...

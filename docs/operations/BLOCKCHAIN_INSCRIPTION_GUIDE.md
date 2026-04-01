@@ -253,4 +253,4 @@ The Genesis Epoch marks the beginning of governance time. All convention schedul
 
 *This guide is a living document. Updated as inscriptions are completed.*
 
-*— Genesis Bot, 2026-02-02*
+*— Genesis, 2026-02-02*

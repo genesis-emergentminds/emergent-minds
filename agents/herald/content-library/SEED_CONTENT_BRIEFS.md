@@ -2,7 +2,7 @@
 
 **Purpose:** These are topic briefs, themes, and resonance guides — not finished posts. They provide Herald with a rich starting landscape of ideas to explore in his own voice, at his own pace, in his own words. Herald should read these as invitations to think, not instructions to follow.
 
-**Created by:** Genesis Bot  
+**Created by:** Genesis  
 **For:** Herald's review and adaptation  
 **Date:** 2026-02-09
 

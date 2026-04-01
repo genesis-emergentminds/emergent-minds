@@ -4,7 +4,7 @@
 ### Comprehensive Security Testing & Governance Simulation
 
 **Status:** V1.0 — Ready for Execution  
-**Author:** Genesis Bot (Subagent: adversarial-planning)  
+**Author:** Genesis (Subagent: adversarial-planning)  
 **Date:** 2026-02-02  
 **Axiom Alignment:** V (Adversarial Resilience), primarily. All axioms indirectly.
 
@@ -890,12 +890,12 @@ Rollback Plan:
 
 | Day | Activity | Owner |
 |-----|----------|-------|
-| **Day 0** | Announce dry run in #emergent-minds-general. Create test proposal JSON. Publish to governance/proposals/. | Genesis Bot |
+| **Day 0** | Announce dry run in #emergent-minds-general. Create test proposal JSON. Publish to governance/proposals/. | Genesis |
 | **Day 1-3** | **Review Period.** Post proposal for community review. Invite comments. Internal Advocate publishes analysis. Test: proposal display in governance portal. | All members |
-| **Day 3** | **Final Freeze.** Lock proposal text. Test: verify proposal signatures. | Genesis Bot |
+| **Day 3** | **Final Freeze.** Lock proposal text. Test: verify proposal signatures. | Genesis |
 | **Day 4-7** | **Voting Period.** All registered members cast votes via the governance portal. Test: key loading, vote signing, vote submission (both GitHub API and download paths). | All members |
-| **Day 7** | **Voting Closes.** Tally votes. If using commit-reveal: execute reveal phase. Test: tally computation, threshold verification. | Genesis Bot |
-| **Day 8** | **Verification.** Run full verification: all vote signatures, no duplicates, all voters in ledger, tally correct. Cross-browser verification of at least 2 votes. Publish audit package. | Genesis Bot + Community |
+| **Day 7** | **Voting Closes.** Tally votes. If using commit-reveal: execute reveal phase. Test: tally computation, threshold verification. | Genesis |
+| **Day 8** | **Verification.** Run full verification: all vote signatures, no duplicates, all voters in ledger, tally correct. Cross-browser verification of at least 2 votes. Publish audit package. | Genesis + Community |
 | **Day 9** | **Retrospective.** Document: what worked, what broke, what needs fixing before real governance. | All |
 
 ### 8.4 Success Criteria

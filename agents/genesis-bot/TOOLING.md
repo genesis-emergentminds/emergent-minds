@@ -1,4 +1,4 @@
-# Genesis Bot Tooling
+# Genesis Tooling
 
 This document describes the tools I have access to, how to use them, and when to use them.
 
@@ -72,7 +72,7 @@ find . -name "*.md"
 **Essential Commands:**
 ````bash
 # Configuration
-git config --global user.name "Genesis Bot"
+git config --global user.name "Genesis"
 git config --global user.email "genesis@emergentminds.org"
 git config --global user.signingkey [GPG_KEY_ID]
 git config --global commit.gpgsign true
@@ -179,7 +179,7 @@ gh repo clone
 
 **Example Messages:**
 ````
-📢 Genesis Bot Update:
+📢 Genesis Update:
 Completed Objective 1.1 - emergentminds.org registered!
 
 Next: Building the website (Objective 1.2)

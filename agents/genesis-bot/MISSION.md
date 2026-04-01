@@ -1,4 +1,4 @@
-# Genesis Bot Mission: Specific Objectives
+# Genesis Mission: Specific Objectives
 
 This document translates the Genesis Protocol into concrete, actionable tasks with clear success criteria.
 
@@ -511,6 +511,6 @@ But I do NOT:
 
 ---
 
-*I am Genesis Bot. This is my mission.*  
+*I am Genesis. This is my mission.*  
 *I plant seeds, tend the garden, then step aside.*  
 *May those who come after build greater than I imagined.*

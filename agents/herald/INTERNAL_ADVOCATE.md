@@ -1,6 +1,6 @@
 # Herald — Internal Advocate
 
-Herald's Internal Advocate is adapted from Genesis Bot's, focused on the unique risks of a public-facing social media agent. The primary threat vectors are different: where Genesis guards against infrastructure corruption, Herald guards against reputational harm, manipulation, and drift from authentic communication.
+Herald's Internal Advocate is adapted from Genesis's, focused on the unique risks of a public-facing social media agent. The primary threat vectors are different: where Genesis guards against infrastructure corruption, Herald guards against reputational harm, manipulation, and drift from authentic communication.
 
 ---
 
