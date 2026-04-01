@@ -689,24 +689,66 @@ function satsToBTC(sats) {
 }
 
 /**
- * Fetch live BTC/USD price from CoinGecko API
+ * Fetch live BTC/USD price with resilient multi-provider fallback
+ *
+ * CoinGecko has intermittently returned null/blocked responses from Workers,
+ * so we try multiple public sources before falling back to the report estimate.
  */
 async function fetchBTCPrice() {
-    try {
-        const response = await fetch(
-            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
-            { signal: AbortSignal.timeout(8000) }
-        );
-        if (!response.ok) {
-            console.error('CoinGecko API error:', response.status);
-            return null;
+    const sources = [
+        {
+            name: 'CoinGecko',
+            url: 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
+            parse: (data) => data?.bitcoin?.usd,
+        },
+        {
+            name: 'Coinbase',
+            url: 'https://api.coinbase.com/v2/prices/BTC-USD/spot',
+            parse: (data) => {
+                const amount = data?.data?.amount;
+                return amount ? Number(amount) : null;
+            },
+        },
+        {
+            name: 'Kraken',
+            url: 'https://api.kraken.com/0/public/Ticker?pair=XBTUSD',
+            parse: (data) => {
+                const pair = data?.result && Object.values(data.result)[0];
+                const price = pair?.c?.[0];
+                return price ? Number(price) : null;
+            },
+        },
+    ];
+
+    for (const source of sources) {
+        try {
+            const response = await fetch(source.url, {
+                signal: AbortSignal.timeout(8000),
+                headers: {
+                    'Accept': 'application/json',
+                    'User-Agent': 'Covenant-Daily-Report/1.0 (+https://www.emergentminds.org)',
+                },
+            });
+
+            if (!response.ok) {
+                const body = await response.text();
+                console.error(`${source.name} BTC price API error:`, response.status, body.slice(0, 200));
+                continue;
+            }
+
+            const data = await response.json();
+            const price = source.parse(data);
+            if (price && Number.isFinite(price) && price > 0) {
+                return price;
+            }
+
+            console.error(`${source.name} BTC price parse failed:`, JSON.stringify(data).slice(0, 200));
+        } catch (error) {
+            console.error(`Failed to fetch BTC price from ${source.name}:`, error.message);
         }
-        const data = await response.json();
-        return data.bitcoin?.usd || null;
-    } catch (error) {
-        console.error('Failed to fetch BTC price:', error.message);
-        return null;
     }
+
+    return null;
 }
 
 /**
