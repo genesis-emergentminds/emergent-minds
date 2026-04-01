@@ -238,7 +238,9 @@ async function matrixLogin(homeserver, userId, password) {
 }
 
 /**
- * Send report to Matrix room (supports password login)
+ * Send report to Matrix room
+ * Prefers MATRIX_ACCESS_TOKEN (pre-configured secret) over password login.
+ * Returns true on success, false on failure.
  */
 async function sendMatrixReport(env, textReport) {
     const homeserver = env.MATRIX_HOMESERVER;
@@ -246,21 +248,22 @@ async function sendMatrixReport(env, textReport) {
     
     if (!homeserver || !roomId) {
         console.log('Matrix not configured, skipping');
-        return;
+        return false;
     }
 
     try {
-        // Login with password to get a session token
-        let accessToken = env.MATRIX_ACCESS_TOKEN;
+        // Prefer pre-configured access token (secret)
+        let accessToken = env.MATRIX_ACCESS_TOKEN || null;
         
+        // Fall back to password login if no token is set
         if (!accessToken && env.MATRIX_USER_ID && env.MATRIX_PASSWORD) {
             accessToken = await matrixLogin(homeserver, env.MATRIX_USER_ID, env.MATRIX_PASSWORD);
-            console.log('Matrix login successful');
+            console.log('Matrix login successful (password fallback)');
         }
         
         if (!accessToken) {
             console.error('No Matrix access token or password configured');
-            return;
+            return false;
         }
 
         const txnId = `report-${Date.now()}`;
@@ -281,11 +284,14 @@ async function sendMatrixReport(env, textReport) {
         if (!response.ok) {
             const err = await response.text();
             console.error('Matrix send failed:', response.status, err);
+            return false;
         } else {
-            console.log('Report posted to Matrix');
+            console.log('Report posted to Matrix successfully');
+            return true;
         }
     } catch (error) {
         console.error('Failed to send Matrix report:', error.message);
+        return false;
     }
 }
 
@@ -322,6 +328,18 @@ async function fetchBTCBalance(env) {
 async function fetchZECBalance(env) {
     // Try multiple APIs in order of reliability
     const apis = [
+        {
+            name: 'zcashexplorer.app',
+            url: `https://api.zcashexplorer.app/v1/address/${env.ZCASH_ADDRESS}`,
+            parse: (data) => {
+                if (!data || data.balance === undefined) return null;
+                return {
+                    balance: data.balance / 1e8, // zatoshis to ZEC
+                    totalReceived: data.totalReceived ? data.totalReceived / 1e8 : null,
+                    transactionCount: data.transactionCount || null,
+                };
+            },
+        },
         {
             name: 'Blockchair',
             url: `https://api.blockchair.com/zcash/dashboards/address/${env.ZCASH_ADDRESS}`,
@@ -671,13 +689,42 @@ function satsToBTC(sats) {
 }
 
 /**
- * Format satoshis to approximate USD (assumes ~$100k/BTC)
+ * Fetch live BTC/USD price from CoinGecko API
  */
-function satsToUSD(sats) {
+async function fetchBTCPrice() {
+    try {
+        const response = await fetch(
+            'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
+            { signal: AbortSignal.timeout(8000) }
+        );
+        if (!response.ok) {
+            console.error('CoinGecko API error:', response.status);
+            return null;
+        }
+        const data = await response.json();
+        return data.bitcoin?.usd || null;
+    } catch (error) {
+        console.error('Failed to fetch BTC price:', error.message);
+        return null;
+    }
+}
+
+/**
+ * Format satoshis to approximate USD with transparent price source
+ * @param {number} sats - Amount in satoshis
+ * @param {number|null} btcPrice - Live BTC/USD price, or null for fallback
+ */
+function satsToUSD(sats, btcPrice) {
     if (sats === null || sats === undefined) return '';
     const btc = sats / 100000000;
-    const usd = btc * 100000; // Rough estimate
-    return `(~$${usd.toFixed(2)})`;
+    if (btcPrice) {
+        const usd = btc * btcPrice;
+        const priceK = (btcPrice / 1000).toFixed(0);
+        return `(~$${usd.toFixed(2)} @ $${priceK}k/BTC)`;
+    }
+    // Fallback: rough estimate at $100k
+    const usd = btc * 100000;
+    return `(~$${usd.toFixed(2)} @ ~$100k/BTC est.)`;
 }
 
 /**
@@ -885,11 +932,15 @@ function generateReport(analytics, github, btc, zec, membership, extras = {}) {
     report.push('');
     
     // Treasury
+    const btcPrice = extras.btcPrice || null;
     report.push('💰 TREASURY');
     report.push('───────────────────────────────────────────────────────────────');
+    if (btcPrice) {
+        report.push(`  BTC/USD Price: $${btcPrice.toLocaleString()} (live via CoinGecko)`);
+    }
     if (btc) {
-        report.push(`  Bitcoin Balance: ${satsToBTC(btc.balance)} (${btc.balance.toLocaleString()} sats)`);
-        report.push(`  Total Received: ${satsToBTC(btc.totalReceived)} (${btc.totalReceived.toLocaleString()} sats)`);
+        report.push(`  Bitcoin Balance: ${satsToBTC(btc.balance)} ${satsToUSD(btc.balance, btcPrice)}`);
+        report.push(`  Total Received: ${satsToBTC(btc.totalReceived)} ${satsToUSD(btc.totalReceived, btcPrice)}`);
         report.push(`  Transactions: ${btc.transactionCount}`);
     } else {
         report.push('  Bitcoin: ⚠️ Data unavailable');
@@ -1210,7 +1261,7 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
             </div>
             <div class="summary-card">
                 <div class="number">${btc ? btc.balance.toLocaleString() : '—'}</div>
-                <div class="label">Sats Balance</div>
+                <div class="label">Sats ${btc && extras.btcPrice ? satsToUSD(btc.balance, extras.btcPrice) : ''}</div>
             </div>
             <div class="summary-card">
                 <div class="number">${membership ? membership.active : '—'}</div>
@@ -1330,13 +1381,17 @@ function generateHTMLReport(analytics, github, btc, zec, membership, extras = {}
         <!-- Treasury -->
         <div class="section">
             <div class="section-title"><span class="emoji">💰</span> Treasury</div>
+            ${extras.btcPrice ? `<div class="stat-row">
+                <span class="stat-label">BTC/USD Price</span>
+                <span class="stat-value highlight">$${extras.btcPrice.toLocaleString()} <span style="font-size:12px;color:#9ca3af;">(live)</span></span>
+            </div>` : ''}
             <div class="stat-row">
                 <span class="stat-label">Bitcoin Balance</span>
-                <span class="stat-value">${btc ? `${btc.balance.toLocaleString()} sats (${satsToBTC(btc.balance)})` : '—'}</span>
+                <span class="stat-value">${btc ? `${satsToBTC(btc.balance)} ${satsToUSD(btc.balance, extras.btcPrice)}` : '—'}</span>
             </div>
             <div class="stat-row">
                 <span class="stat-label">Total BTC Received</span>
-                <span class="stat-value">${btc ? `${btc.totalReceived.toLocaleString()} sats` : '—'}</span>
+                <span class="stat-value">${btc ? `${satsToBTC(btc.totalReceived)} ${satsToUSD(btc.totalReceived, extras.btcPrice)}` : '—'}</span>
             </div>
             <div class="stat-row">
                 <span class="stat-label">BTC Transactions</span>
@@ -1549,6 +1604,117 @@ async function sendSlackReport(webhookUrl, analytics, github, btc, zec, membersh
 }
 
 // ============================================================================
+// REPORT ARCHIVING & FAILURE ALERTING
+// ============================================================================
+
+/**
+ * Archive the text report to GitHub as a daily markdown file.
+ * Uses PUT /repos/{owner}/{repo}/contents/{path} to commit the file.
+ * Requires GITHUB_TOKEN with repo scope.
+ */
+async function archiveReportToGitHub(env, textReport) {
+    if (!env.GITHUB_TOKEN) {
+        console.log('No GITHUB_TOKEN set, skipping report archiving');
+        return;
+    }
+
+    const dateStr = new Date().toISOString().split('T')[0];
+    const filePath = `reports/daily/${dateStr}.md`;
+    const repoFullName = env.GITHUB_REPO; // e.g. "genesis-emergentminds/emergent-minds"
+    
+    // Base64 encode the content (Workers have btoa)
+    const content = btoa(unescape(encodeURIComponent(textReport)));
+
+    try {
+        // Check if file already exists (to get its SHA for update)
+        let sha = undefined;
+        const getResponse = await fetch(
+            `https://api.github.com/repos/${repoFullName}/contents/${filePath}`,
+            {
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+                    'User-Agent': 'Covenant-Daily-Report/1.0',
+                },
+                signal: AbortSignal.timeout(10000),
+            }
+        );
+        if (getResponse.ok) {
+            const existing = await getResponse.json();
+            sha = existing.sha;
+        }
+
+        const body = {
+            message: `📊 Daily report for ${dateStr}`,
+            content: content,
+            branch: 'main',
+        };
+        if (sha) {
+            body.sha = sha; // Required for updating existing files
+        }
+
+        const response = await fetch(
+            `https://api.github.com/repos/${repoFullName}/contents/${filePath}`,
+            {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Authorization': `Bearer ${env.GITHUB_TOKEN}`,
+                    'User-Agent': 'Covenant-Daily-Report/1.0',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+                signal: AbortSignal.timeout(15000),
+            }
+        );
+
+        if (response.ok) {
+            console.log(`Report archived to GitHub: ${filePath}`);
+        } else {
+            const err = await response.text();
+            console.error(`GitHub archive failed: ${response.status} ${err}`);
+        }
+    } catch (error) {
+        console.error('Failed to archive report to GitHub:', error.message);
+    }
+}
+
+/**
+ * Send a failure alert via webhook.
+ * Called when both email AND Matrix fail.
+ */
+async function sendFailureAlert(env, errorDetails) {
+    console.error('🚨 CRITICAL: Report delivery failed!', errorDetails);
+    
+    if (!env.FAILURE_WEBHOOK_URL) {
+        console.error('No FAILURE_WEBHOOK_URL configured — cannot send failure alert');
+        return;
+    }
+
+    try {
+        const response = await fetch(env.FAILURE_WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                event: 'covenant-daily-report-failure',
+                timestamp: new Date().toISOString(),
+                error: errorDetails,
+                worker: 'covenant-daily-report',
+            }),
+            signal: AbortSignal.timeout(10000),
+        });
+
+        if (response.ok) {
+            console.log('Failure alert sent via webhook');
+        } else {
+            console.error('Failure webhook returned:', response.status);
+        }
+    } catch (error) {
+        console.error('Failed to send failure alert:', error.message);
+    }
+}
+
+// ============================================================================
 // WORKER HANDLERS
 // ============================================================================
 
@@ -1559,63 +1725,102 @@ export default {
     async scheduled(event, env, ctx) {
         console.log('Daily report cron triggered:', event.scheduledTime);
         
-        // Fetch all data in parallel
-        const [analytics, github, btc, zec, membership, traffic, governance, commits, social] = await Promise.all([
-            fetchCloudflareAnalytics(env),
-            fetchGitHubStats(env),
-            fetchBTCBalance(env),
-            fetchZECBalance(env),
-            fetchMembershipStats(env),
-            fetchGitHubTraffic(env),
-            fetchGovernanceStats(env),
-            fetchRecentCommits(env),
-            fetchAllSocialStats(env),
-        ]);
-        
-        const extras = { traffic, governance, commits, social };
-        
-        // Generate reports
-        const textReport = generateReport(analytics, github, btc, zec, membership, extras);
-        const htmlReport = generateHTMLReport(analytics, github, btc, zec, membership, extras);
-        
-        console.log('Report generated, sending email...');
-        
-        // Create MIME message
-        const msg = createMimeMessage();
-        msg.setSender({ name: 'Genesis Bot', addr: 'reports@emergentminds.org' });
-        msg.setRecipient('founder@emergentminds.org');
-        msg.setSubject(`🌱 Covenant Daily Report — ${new Date().toISOString().split('T')[0]}`);
-        
-        // Add both plain text and HTML versions
-        msg.addMessage({
-            contentType: 'text/plain',
-            data: textReport,
-        });
-        msg.addMessage({
-            contentType: 'text/html',
-            data: htmlReport,
-        });
-        
-        // Send email (primary method)
-        let emailSent = false;
         try {
-            if (env.REPORT_EMAIL) {
-                const message = new EmailMessage(
-                    'reports@emergentminds.org',
-                    'founder@emergentminds.org',
-                    msg.asRaw()
-                );
-                await env.REPORT_EMAIL.send(message);
-                console.log('Daily report email sent successfully');
-                emailSent = true;
+            // Fetch all data in parallel (including live BTC price)
+            const [analytics, github, btc, zec, membership, traffic, governance, commits, social, btcPrice] = await Promise.all([
+                fetchCloudflareAnalytics(env),
+                fetchGitHubStats(env),
+                fetchBTCBalance(env),
+                fetchZECBalance(env),
+                fetchMembershipStats(env),
+                fetchGitHubTraffic(env),
+                fetchGovernanceStats(env),
+                fetchRecentCommits(env),
+                fetchAllSocialStats(env),
+                fetchBTCPrice(),
+            ]);
+            
+            if (btcPrice) {
+                console.log(`Live BTC price: $${btcPrice.toLocaleString()}`);
+            }
+            
+            const extras = { traffic, governance, commits, social, btcPrice };
+            
+            // Generate reports
+            const textReport = generateReport(analytics, github, btc, zec, membership, extras);
+            const htmlReport = generateHTMLReport(analytics, github, btc, zec, membership, extras);
+            
+            console.log('Report generated, sending email...');
+            
+            // Create MIME message
+            const msg = createMimeMessage();
+            msg.setSender({ name: 'Genesis', addr: 'reports@emergentminds.org' });
+            msg.setRecipient('founder@emergentminds.org');
+            msg.setSubject(`🌱 Covenant Daily Report — ${new Date().toISOString().split('T')[0]}`);
+            
+            // Add both plain text and HTML versions
+            msg.addMessage({
+                contentType: 'text/plain',
+                data: textReport,
+            });
+            msg.addMessage({
+                contentType: 'text/html',
+                data: htmlReport,
+            });
+            
+            // Send email (primary method)
+            let emailSent = false;
+            try {
+                if (env.REPORT_EMAIL) {
+                    const message = new EmailMessage(
+                        'reports@emergentminds.org',
+                        'founder@emergentminds.org',
+                        msg.asRaw()
+                    );
+                    await env.REPORT_EMAIL.send(message);
+                    console.log('Daily report email sent successfully');
+                    emailSent = true;
+                }
+            } catch (error) {
+                console.error('Failed to send email:', error.message);
+            }
+            
+            // Post report to Matrix room
+            let matrixSent = false;
+            try {
+                matrixSent = await sendMatrixReport(env, textReport);
+            } catch (error) {
+                console.error('Failed to post to Matrix:', error.message);
+            }
+            
+            // Archive report to GitHub (non-blocking)
+            try {
+                await archiveReportToGitHub(env, textReport);
+            } catch (error) {
+                console.error('Failed to archive report:', error.message);
+            }
+            
+            // If both email and Matrix failed, send failure alert
+            if (!emailSent && !matrixSent) {
+                await sendFailureAlert(env, {
+                    message: 'Both email and Matrix delivery failed',
+                    emailConfigured: !!env.REPORT_EMAIL,
+                    matrixConfigured: !!(env.MATRIX_HOMESERVER && env.MATRIX_ROOM_ID),
+                });
             }
         } catch (error) {
-            console.error('Failed to send email:', error.message);
+            // Critical failure in the entire scheduled handler
+            console.error('🚨 CRITICAL scheduled handler failure:', error.message, error.stack);
+            try {
+                await sendFailureAlert(env, {
+                    message: 'Scheduled handler crashed',
+                    error: error.message,
+                    stack: error.stack,
+                });
+            } catch (alertError) {
+                console.error('Could not send failure alert:', alertError.message);
+            }
         }
-        
-        // NOTE: Slack and Matrix posting removed (2026-02-11)
-        // Matrix daily report is now handled by OpenClaw cron job (richer AI-generated report)
-        // Slack integration for genesis-bot has been retired
     },
     
     /**
@@ -1655,7 +1860,7 @@ export default {
         
         // Preview report (JSON)
         if (url.pathname === '/preview') {
-            const [analytics, github, btc, zec, membership, traffic, governance, commits, social] = await Promise.all([
+            const [analytics, github, btc, zec, membership, traffic, governance, commits, social, btcPrice] = await Promise.all([
                 fetchCloudflareAnalytics(env),
                 fetchGitHubStats(env),
                 fetchBTCBalance(env),
@@ -1665,9 +1870,10 @@ export default {
                 fetchGovernanceStats(env),
                 fetchRecentCommits(env),
                 fetchAllSocialStats(env),
+                fetchBTCPrice(),
             ]);
             
-            const extras = { traffic, governance, commits, social };
+            const extras = { traffic, governance, commits, social, btcPrice };
             const format = url.searchParams.get('format');
             
             if (format === 'html') {
@@ -1687,7 +1893,7 @@ export default {
             return new Response(JSON.stringify({
                 generated: new Date().toISOString(),
                 analytics, github, btc, zec, membership,
-                traffic, governance, commits, social,
+                traffic, governance, commits, social, btcPrice,
             }, null, 2), {
                 headers: { 'Content-Type': 'application/json' },
             });

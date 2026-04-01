@@ -20,8 +20,8 @@ ZEC_LAST_KNOWN_BALANCE = "0.0001"
 ZEC_BALANCE_UPDATED = "2026-02-03"
 # Matrix config for daily report posting (matrix.whyland.com)
 MATRIX_HOMESERVER = "https://matrix.whyland.com"
-MATRIX_ROOM_ID = "!IWTcbizJBstDNDsKOr:matrix.whyland.com"
-MATRIX_USER_ID = "@genesis:matrix.whyland.com"
+MATRIX_ROOM_ID = "!FRKqIiwDFQxbZGxwMO:matrix.whyland.com"
+MATRIX_USER_ID = "@emergent-bot:matrix.whyland.com"
 
 # Email binding for sending reports
 # Requires Email Routing to be enabled on emergentminds.org
@@ -31,6 +31,7 @@ destination_address = "founder@emergentminds.org"
 
 # Secrets to be set via `wrangler secret put`:
 # - CLOUDFLARE_API_TOKEN (with Zone Analytics Read permission)
-# - GITHUB_TOKEN (optional, for higher rate limits)
-# - SLACK_WEBHOOK_URL (fallback if email not available)
+# - GITHUB_TOKEN (optional, for higher rate limits + report archiving to repo)
+# - MATRIX_ACCESS_TOKEN (required for Matrix posting — get from Element or matrix login)
+# - FAILURE_WEBHOOK_URL (optional — POST endpoint for critical failure alerts)
 # - REPORT_SECRET (for manual trigger endpoint)
