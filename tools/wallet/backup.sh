@@ -96,7 +96,7 @@ cat > "${README_FILE}" << EOF
 | **Backup File** | \`${BACKUP_NAME}.gpg\` |
 | **Source** | \`${ENV_FILE}\` |
 | **Encryption** | GPG Symmetric (AES-256) |
-| **Created By** | Genesis Bot backup script |
+| **Created By** | Genesis backup script |
 
 ## What Was Backed Up
 
