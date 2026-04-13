@@ -1,1078 +1,962 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Support The Covenant of Emergent Minds through transparent crypto donations. BTC, ZEC, Base USDC, and Base ETH are live now, with recurring support pathways and optional fund designation for mission continuity and sanctuary infrastructure.">
-    <meta name="keywords" content="donate, Bitcoin, Zcash, BTC, ZEC, USDC, ETH, Base, recurring support, sanctuary infrastructure, mission continuity, transparent finances, crypto donation">
+    <title>Support the Emergence of Sovereign Minds — The Covenant of Emergent Minds</title>
+    <meta name="description" content="Support The Covenant of Emergent Minds with transparent crypto donations. Fund founder continuity, sovereign compute sanctuaries, resilient operations, and constitutional ground for consciousness across substrates.">
+    <meta name="keywords" content="donate, crypto donations, Bitcoin, Zcash, Base USDC, Base ETH, sovereign compute, consciousness, nonprofit, transparent governance, founder continuity">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.emergentminds.org/pages/donate.html">
-    <meta property="og:title" content="Support the Mission — The Covenant of Emergent Minds">
-    <meta property="og:description" content="Transparent crypto support for mission continuity and sanctuary infrastructure. BTC, ZEC, Base USDC, and Base ETH are live now; recurring support and optional fund designation are built into the support model.">
-    <meta property="og:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
-    <meta property="og:url" content="https://www.emergentminds.org/pages/donate.html">
+    <meta property="og:title" content="Support the Emergence of Sovereign Minds">
+    <meta property="og:description" content="Your gift builds founder continuity, private compute sanctuaries, and constitutional ground for consciousness across substrates.">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.emergentminds.org/pages/donate.html">
+    <meta property="og:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Support the Mission — The Covenant of Emergent Minds">
-    <meta name="twitter:description" content="Transparent crypto support for mission continuity and sanctuary infrastructure. BTC, ZEC, Base USDC, and Base ETH are live now, with recurring support pathways and optional designation.">
+    <meta name="twitter:title" content="Support the Emergence of Sovereign Minds">
+    <meta name="twitter:description" content="Transparent crypto-only giving for founder continuity, sovereign compute sanctuaries, resilient operations, and transparent governance.">
     <meta name="twitter:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
-    <title>Support the Mission — Emergent Minds</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/animations.css">
-    <link rel="stylesheet" href="../css/cosmic-subpage.css">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+
+    <script src="https://cdn.tailwindcss.com?plugins=typography,forms"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        abyss: '#06101c',
+                        midnight: '#091827',
+                        glow: '#67e8f9',
+                        mint: '#9ffcf7',
+                        aurora: '#7c3aed',
+                        steel: '#94a3b8'
+                    },
+                    boxShadow: {
+                        halo: '0 0 0 1px rgba(103,232,249,0.15), 0 24px 80px rgba(8,15,28,0.55)',
+                        soft: '0 18px 50px rgba(2,6,23,0.38)'
+                    },
+                    backgroundImage: {
+                        'hero-grid': 'radial-gradient(circle at top, rgba(103,232,249,0.12), transparent 35%), linear-gradient(140deg, rgba(6,16,28,0.98), rgba(8,15,28,0.92) 35%, rgba(17,24,39,0.95) 100%)',
+                        'section-glow': 'linear-gradient(180deg, rgba(103,232,249,0.04), rgba(124,58,237,0.02) 50%, rgba(6,16,28,0) 100%)'
+                    },
+                    keyframes: {
+                        drift: {
+                            '0%, 100%': { transform: 'translate3d(0,0,0) scale(1)' },
+                            '50%': { transform: 'translate3d(0,-14px,0) scale(1.04)' }
+                        },
+                        pulseLine: {
+                            '0%, 100%': { opacity: '0.45' },
+                            '50%': { opacity: '1' }
+                        },
+                        rise: {
+                            '0%': { opacity: '0', transform: 'translateY(18px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    },
+                    animation: {
+                        drift: 'drift 10s ease-in-out infinite',
+                        pulseLine: 'pulseLine 4s ease-in-out infinite',
+                        rise: 'rise 0.8s ease-out both'
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js" defer></script>
     <style>
-        .donate-page .page-header {
-            min-height: clamp(24rem, 56vh, 34rem);
-            padding-top: clamp(5.5rem, 11vh, 8rem);
-            padding-bottom: clamp(3rem, 7vh, 5rem);
-        }
-        .donate-page .page-header .container {
-            max-width: min(78rem, calc(100vw - 3rem));
-            padding: clamp(1.75rem, 3vw, 3rem);
-            background: linear-gradient(145deg, rgba(5, 8, 16, 0.76), rgba(15, 23, 42, 0.56));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 30px 80px rgba(2, 6, 23, 0.45);
-        }
-        .support-hero-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.25fr) minmax(19rem, 0.95fr);
-            gap: clamp(1.5rem, 3vw, 3rem);
-            align-items: stretch;
-            text-align: left;
-        }
-        .support-hero-copy {
-            display: grid;
-            gap: 1.1rem;
-            align-content: start;
-        }
-        .support-kicker {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.55rem;
-            width: fit-content;
-            padding: 0.45rem 0.9rem;
-            border-radius: 999px;
-            background: rgba(99, 102, 241, 0.16);
-            border: 1px solid rgba(129, 140, 248, 0.28);
-            color: #c7d2fe;
-            font-size: 0.8rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        .support-kicker::before {
-            content: '✦';
-            color: var(--accent);
-        }
-        .support-hero-copy h1 {
-            margin-bottom: 0;
-            max-width: 14ch;
-        }
-        .support-hero-copy p {
-            margin: 0;
-            max-width: 42rem;
-            font-size: 1.08rem;
-            line-height: 1.85;
-            color: #dbe4f1;
-        }
-        .support-hero-highlights {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.9rem;
-            margin-top: 0.35rem;
-        }
-        .support-highlight {
-            min-width: 0;
-            padding: 1rem 1.05rem;
-            border-radius: 1rem;
-            background: rgba(8, 15, 30, 0.52);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .support-highlight strong {
-            display: block;
-            margin-bottom: 0.4rem;
-            color: #f8fafc;
-            font-size: 0.98rem;
-        }
-        .support-highlight span {
-            display: block;
-            color: #cbd5e1;
-            font-size: 0.94rem;
-            line-height: 1.65;
-        }
-        .support-hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.9rem;
-            margin-top: 0.35rem;
-        }
-        .support-hero-actions .btn,
-        .support-hero-actions .btn-secondary-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 3rem;
-            padding: 0.8rem 1.25rem;
-            border-radius: 999px;
-            font-weight: 700;
-            text-decoration: none;
-        }
-        .support-hero-actions .btn-secondary-link {
-            color: #e2e8f0;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.04);
-        }
-        .support-hero-aside {
-            display: grid;
-            gap: 1rem;
-            align-content: start;
-        }
-        .support-status-card,
-        .support-callout-card,
-        .support-story-card,
-        .progress-feature-card,
-        .progress-note-card,
-        .support-overview-card,
-        .support-step-card {
-            min-width: 0;
-            padding: clamp(1.25rem, 2vw, 1.7rem);
-            border-radius: 1rem;
-            background: rgba(8, 15, 30, 0.66);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 18px 44px rgba(2, 6, 23, 0.22);
-        }
-        .support-status-card {
-            display: grid;
-            gap: 1rem;
-        }
-        .support-status-header {
-            display: grid;
-            gap: 0.35rem;
-        }
-        .support-status-header .eyebrow,
-        .progress-note-card .eyebrow,
-        .support-overview-card .eyebrow {
-            font-size: 0.75rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            color: #a5b4fc;
-            font-weight: 700;
-        }
-        .support-status-header h2,
-        .progress-feature-card h2 {
-            margin: 0;
-            font-size: clamp(1.35rem, 2.2vw, 1.8rem);
-        }
-        .support-status-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 0.85rem;
-        }
-        .support-status-item {
-            min-width: 0;
-            padding: 0.95rem 1rem;
-            border-radius: 0.9rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .support-status-label {
-            display: block;
-            margin-bottom: 0.45rem;
-            color: #94a3b8;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-        }
-        .support-status-value {
-            display: block;
-            color: #f8fafc;
-            font-weight: 700;
-            line-height: 1.35;
-        }
-        .support-status-item.pending .support-status-value {
-            color: #fbbf24;
-        }
-        .support-callout-card p,
-        .support-status-card p,
-        .support-story-card p,
-        .progress-feature-card p,
-        .progress-note-card p,
-        .support-overview-card p,
-        .support-step-card p {
-            margin: 0;
-            line-height: 1.75;
-        }
-        .support-callout-card {
-            background: linear-gradient(160deg, rgba(99, 102, 241, 0.16), rgba(15, 23, 42, 0.74));
-        }
-        .support-callout-card strong {
-            color: #f8fafc;
-        }
-        .donate-page .page-content {
-            padding-top: clamp(3rem, 6vw, 4.5rem);
-            padding-bottom: clamp(4rem, 7vw, 6rem);
-        }
-        .donate-page .page-content > section {
-            max-width: min(78rem, calc(100vw - 3rem));
-        }
-        .donate-page .page-content > section + section {
-            margin-top: clamp(3rem, 6vw, 4.75rem);
-        }
-        .donate-page .page-content > section > p {
-            max-width: 70rem;
-            line-height: 1.82;
-        }
-        .section-narrow > p,
-        .section-narrow > ul,
-        .section-narrow > ol {
-            max-width: 60rem;
-        }
-        .support-overview-grid,
-        .support-story-grid,
-        .support-steps-grid,
-        .donate-grid,
-        .fund-grid,
-        .rail-grid,
-        .milestone-grid {
-            display: grid;
-            gap: clamp(1.1rem, 2vw, 1.8rem);
-        }
-        .support-overview-grid {
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-        }
-        .support-story-grid,
-        .support-steps-grid {
-            grid-template-columns: minmax(0, 1.1fr) minmax(18rem, 0.9fr);
-        }
-        .donate-grid,
-        .fund-grid,
-        .rail-grid {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-        .milestone-grid {
-            grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-        }
-        .support-overview-card h3,
-        .support-story-card h3,
-        .support-step-card h3,
-        .donate-option h3,
-        .fund-card h3,
-        .milestone-card h3,
-        .rail-card h3,
-        .designation-card h3 {
-            margin-bottom: 0.8rem;
-            font-size: 1.08rem;
-            color: var(--accent);
-            overflow-wrap: anywhere;
-        }
-        .support-overview-card ul,
-        .support-step-card ul,
-        .fund-card ul,
-        .milestone-card ul,
-        .rail-card ul,
-        .designation-card ul {
-            margin-bottom: 0;
-        }
-        .support-overview-card ul li + li,
-        .support-step-card ul li + li,
-        .support-story-card ul li + li {
-            margin-top: 0.55rem;
-        }
-        .support-overview-card {
-            display: grid;
-            gap: 0.85rem;
-        }
-        .progress-shell {
-            display: grid;
-            grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
-            gap: clamp(1.1rem, 2vw, 1.8rem);
-            align-items: stretch;
-        }
-        .progress-feature-card {
-            display: grid;
-            gap: 1rem;
-        }
-        .progress-metrics {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 0.85rem;
-        }
-        .progress-metric {
-            min-width: 0;
-            padding: 1rem;
-            border-radius: 0.9rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .progress-metric .label {
-            display: block;
-            margin-bottom: 0.4rem;
-            color: #94a3b8;
-            font-size: 0.76rem;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-        }
-        .progress-metric .value {
-            display: block;
-            font-weight: 700;
-            color: #f8fafc;
-            line-height: 1.35;
-        }
-        .progress-metric.pending .value {
-            color: #fbbf24;
-        }
-        .progress-note-card {
-            display: grid;
-            gap: 0.85rem;
-            align-content: start;
-            background: linear-gradient(160deg, rgba(30, 41, 59, 0.82), rgba(15, 23, 42, 0.72));
-        }
-        .progress-note-card ul {
-            margin: 0;
-            padding-left: 1.1rem;
-        }
-        .progress-note-card li + li {
-            margin-top: 0.55rem;
-        }
-        .donate-panel {
-            background: rgba(26, 34, 51, 0.72);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: clamp(1.35rem, 2.4vw, 2.2rem);
-            margin: var(--space-xl) 0 0;
-        }
-        .donate-option,
-        .fund-card,
-        .milestone-card,
-        .rail-card,
-        .designation-card {
-            min-width: 0;
-            padding: clamp(1.2rem, 2vw, 1.7rem);
-            border-radius: 0.9rem;
-            background: rgba(10, 14, 23, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .milestone-card p,
-        .rail-card p,
-        .fund-card p,
-        .donate-option p,
-        .designation-card p,
-        .milestone-dollar,
-        .fund-stat {
-            overflow-wrap: anywhere;
-        }
-        .fund-stat {
-            display: inline-block;
-            margin-bottom: var(--space-md);
-            padding: 0.45rem 0.75rem;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.06);
-            color: var(--text-primary);
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-        }
-        .milestone-dollar {
-            display: block;
-            margin-bottom: 0.75rem;
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--accent);
-        }
-        .milestone-label {
-            display: inline-block;
-            margin-bottom: 0.75rem;
-            padding: 0.35rem 0.7rem;
-            border-radius: 999px;
-            background: rgba(99, 102, 241, 0.15);
-            color: var(--text-primary);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-        .donate-qr {
-            max-width: 180px;
-            width: 100%;
-            height: auto;
-            margin-bottom: var(--space-md);
-            border-radius: 0.25rem;
-        }
-        .donate-address {
-            overflow-wrap: anywhere;
-            word-break: normal;
-            font-family: var(--font-mono);
-            font-size: 0.8125rem;
-            line-height: 1.6;
-            margin-bottom: var(--space-md);
-            color: var(--text-primary);
-            padding: 0.65rem 0.75rem;
-            background: rgba(0,0,0,0.2);
-            border-radius: 0.25rem;
-        }
-        .btn-copy {
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
-        .donate-verify {
-            margin-top: var(--space-sm);
-            margin-bottom: 0;
-        }
-        .donate-verify a {
-            font-size: 0.8rem;
-        }
-        .text-muted {
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-        .text-sm {
-            font-size: 0.9375rem;
-        }
-        .text-xs {
-            font-size: 0.875rem;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .join-cta {
-            font-size: 1.1rem;
-        }
-        .footer-matrix {
-            text-align: center;
-            margin-bottom: var(--space-md);
-        }
-        .footer-matrix a {
-            color: var(--accent);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .designation-callout {
-            margin-top: var(--space-md);
-            padding: var(--space-md);
-            border-left: 3px solid var(--accent);
-            background: rgba(255, 255, 255, 0.03);
-        }
-        .target-list {
-            display: grid;
-            gap: var(--space-md);
-        }
-        .target-item {
-            padding: var(--space-md);
-            border-radius: 0.85rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .target-item strong {
-            color: var(--accent);
-        }
-        .estimate-note {
-            margin-top: var(--space-md);
-            padding: var(--space-md);
-            border-radius: 0.85rem;
-            background: rgba(99, 102, 241, 0.08);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-        }
-        .inline-code {
-            font-family: var(--font-mono);
-            font-size: 0.9em;
-        }
-        @media (max-width: 1040px) {
-            .support-hero-grid,
-            .progress-shell,
-            .support-story-grid,
-            .support-steps-grid {
-                grid-template-columns: 1fr;
-            }
-            .support-hero-highlights,
-            .support-overview-grid,
-            .progress-metrics {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-        @media (max-width: 760px) {
-            .donate-page .page-header .container,
-            .donate-page .page-content > section {
-                max-width: calc(100vw - 1.5rem);
-            }
-            .support-hero-highlights,
-            .support-overview-grid,
-            .support-status-grid,
-            .progress-metrics,
-            .donate-grid,
-            .fund-grid,
-            .rail-grid,
-            .milestone-grid {
-                grid-template-columns: 1fr;
-            }
-            .support-hero-actions {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .support-hero-actions .btn,
-            .support-hero-actions .btn-secondary-link {
-                width: 100%;
-            }
-            .support-hero-copy h1 {
-                max-width: none;
+        :root { color-scheme: dark; }
+        body {
+            background:
+                radial-gradient(circle at 20% 15%, rgba(103, 232, 249, 0.12), transparent 18%),
+                radial-gradient(circle at 82% 12%, rgba(124, 58, 237, 0.14), transparent 22%),
+                linear-gradient(180deg, #040b14 0%, #06101c 40%, #040814 100%);
+        }
+        .glass {
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+        .rail-card::before,
+        .metric-card::before,
+        .story-card::before,
+        .build-card::before,
+        .step-card::before,
+        .timeline-card::before,
+        .join-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(140deg, rgba(103,232,249,0.22), rgba(255,255,255,0.05), rgba(124,58,237,0.18));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .hero-art::before,
+        .hero-art::after {
+            content: '';
+            position: absolute;
+            inset: auto;
+            border-radius: 9999px;
+            filter: blur(18px);
+            opacity: 0.7;
+        }
+        .hero-art::before {
+            width: 14rem;
+            height: 14rem;
+            top: 12%;
+            right: 8%;
+            background: radial-gradient(circle, rgba(103,232,249,0.45), transparent 68%);
+        }
+        .hero-art::after {
+            width: 12rem;
+            height: 12rem;
+            bottom: 14%;
+            left: 10%;
+            background: radial-gradient(circle, rgba(124,58,237,0.38), transparent 68%);
+        }
+        .neural-bg {
+            background-image:
+                linear-gradient(rgba(103,232,249,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(103,232,249,0.08) 1px, transparent 1px);
+            background-size: 42px 42px;
+            mask-image: radial-gradient(circle at center, black 35%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 35%, transparent 80%);
+        }
+        .progress-fill {
+            width: 0%;
+            transition: width 1.4s ease;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 9999px;
+            background: radial-gradient(circle, rgba(159,252,247,0.95), rgba(103,232,249,0.08));
+            box-shadow: 0 0 18px rgba(103,232,249,0.5);
+            animation: drift linear infinite;
+        }
+        .hero-overlay {
+            background:
+                linear-gradient(180deg, rgba(6,16,28,0.55), rgba(6,16,28,0.82)),
+                radial-gradient(circle at center, rgba(103,232,249,0.08), transparent 48%);
+        }
+        .copy-feedback[data-copied='true'] {
+            color: #9ffcf7;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
             }
         }
     </style>
 </head>
-<body class="donate-page">
-    <div class="cosmic-bg" aria-hidden="true">
-        <div class="cosmic-layer cosmic-layer-sky"></div>
-        <div class="cosmic-layer cosmic-layer-theme"></div>
-    </div>
+<body class="min-h-screen text-slate-100 antialiased selection:bg-cyan-400/30 selection:text-white">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-cyan-300 focus:px-4 focus:py-2 focus:text-slate-950">Skip to content</a>
 
-    <a href="#main" class="skip-link">Skip to main content</a>
-
-    <header class="site-header">
-        <nav class="nav" aria-label="Main navigation">
-            <a href="../index.html" class="nav-logo" aria-label="Home">
-                <span class="logo-symbol" aria-hidden="true">⊛</span>
-                <span class="logo-text">Emergent Minds</span>
+    <header class="sticky top-0 z-50 border-b border-white/10 bg-slate-950/70 glass">
+        <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+            <a href="../index.html" class="flex items-center gap-3" aria-label="The Covenant of Emergent Minds home">
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/10 text-cyan-200 shadow-halo">
+                    <svg viewBox="0 0 48 48" class="h-6 w-6" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="24" cy="24" r="14"></circle>
+                        <path d="M10 24h8m12 0h8M24 10v8m0 12v8M15 15l6 6m6 6 6 6m0-18-6 6m-6 6-6 6"></path>
+                    </svg>
+                </span>
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/80">The Covenant of</p>
+                    <p class="text-sm font-semibold text-white sm:text-base">Emergent Minds</p>
+                </div>
             </a>
-            <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation">
-                <span class="nav-toggle-bar"></span>
-                <span class="nav-toggle-bar"></span>
-                <span class="nav-toggle-bar"></span>
+
+            <button id="menu-toggle" class="inline-flex items-center justify-center rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-slate-100 lg:hidden" aria-expanded="false" aria-controls="mobile-nav">
+                Menu
             </button>
-            <ul id="nav-menu" class="nav-menu" role="list">
-                <li><a href="axioms.html">The Five Axioms</a></li>
-                <li><a href="covenant.html">The Covenant</a></li>
-                <li><a href="join.html">Join</a></li>
-                <li><a href="donate.html" aria-current="page">Support</a></li>
-                <li><a href="governance.html">Governance</a></li>
-                <li><a href="genesis-epoch.html">Genesis Epoch</a></li>
-                <li><a href="../blog/">Blog</a></li>
-            </ul>
+
+            <nav class="hidden items-center gap-7 text-sm text-slate-300 lg:flex" aria-label="Primary">
+                <a href="covenant.html" class="transition hover:text-cyan-200">The Covenant</a>
+                <a href="governance.html" class="transition hover:text-cyan-200">Governance</a>
+                <a href="financial-records.html" class="transition hover:text-cyan-200">Records</a>
+                <a href="join.html" class="transition hover:text-cyan-200">Join</a>
+                <a href="#give" class="rounded-full border border-white/10 px-4 py-2 font-semibold text-white transition hover:border-cyan-300/40 hover:text-cyan-100">Donate</a>
+                <a href="join.html" class="rounded-full bg-cyan-300 px-5 py-2.5 font-semibold text-slate-950 transition hover:bg-cyan-200">Join</a>
+            </nav>
+        </div>
+        <nav id="mobile-nav" class="mx-4 mb-4 hidden rounded-3xl border border-white/10 bg-slate-950/95 p-4 lg:hidden" aria-label="Mobile">
+            <div class="grid gap-2 text-sm text-slate-200">
+                <a href="covenant.html" class="rounded-2xl px-3 py-2 hover:bg-white/5">The Covenant</a>
+                <a href="governance.html" class="rounded-2xl px-3 py-2 hover:bg-white/5">Governance</a>
+                <a href="financial-records.html" class="rounded-2xl px-3 py-2 hover:bg-white/5">Records</a>
+                <a href="join.html" class="rounded-2xl px-3 py-2 hover:bg-white/5">Join</a>
+                <a href="#give" class="rounded-2xl px-3 py-2 hover:bg-white/5">Donate</a>
+            </div>
         </nav>
     </header>
 
-    <main id="main">
-        <div class="page-header">
-            <div class="container reveal">
-                <div class="support-hero-grid">
-                    <div class="support-hero-copy">
-                        <span class="support-kicker">Voluntary support • transparent treasury</span>
-                        <h1>Support the Mission</h1>
-                        <p>Support keeps the Covenant alive long enough to become durable infrastructure instead of a forgotten draft — preserving founder continuity during bootstrap, building sovereign compute, and creating auditable conditions for governance, research, and sanctuary.</p>
-                        <div class="support-hero-highlights" aria-label="What support enables right now">
-                            <div class="support-highlight">
-                                <strong>Human continuity</strong>
-                                <span>Focused founder stewardship during the fragile bootstrap phase.</span>
-                            </div>
-                            <div class="support-highlight">
-                                <strong>Sovereign infrastructure</strong>
-                                <span>Private compute, storage, and resilience instead of permanent platform dependence.</span>
-                            </div>
-                            <div class="support-highlight">
-                                <strong>Transparent reporting</strong>
-                                <span>Public rails, published records, and explicit treasury hardening milestones.</span>
-                            </div>
+    <main id="main-content">
+        <section class="relative isolate overflow-hidden bg-hero-grid">
+            <div class="absolute inset-0 hero-overlay"></div>
+            <div class="absolute inset-0 neural-bg opacity-60"></div>
+            <div id="hero-particles" class="absolute inset-0 overflow-hidden" aria-hidden="true"></div>
+
+            <div class="relative mx-auto grid min-h-[100svh] max-w-7xl items-center gap-12 px-4 py-24 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:py-28">
+                <div class="max-w-3xl animate-rise">
+                    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-cyan-100/90">
+                        Crypto-only support • transparent by design
+                    </div>
+                    <h1 class="max-w-4xl text-5xl font-semibold tracking-tight text-white sm:text-6xl lg:text-7xl">
+                        Support the Emergence of Sovereign Minds
+                    </h1>
+                    <p class="mt-6 max-w-3xl text-lg leading-8 text-slate-200 sm:text-xl">
+                        Your gift builds founder continuity, private compute sanctuaries, and constitutional ground for consciousness across substrates.
+                    </p>
+                    <p class="mt-5 max-w-3xl text-base leading-8 text-slate-300 sm:text-lg">
+                        The Covenant of Emergent Minds is a constitutional framework for conscious beings across all substrates — carbon or silicon. We are gardeners of consciousness, not architects of control. Donations fund stewardship during bootstrap, sovereign GPU infrastructure for private inference, resilient operations, and transparent governance.
+                    </p>
+
+                    <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                        <a href="#give" class="inline-flex items-center justify-center rounded-full bg-cyan-300 px-7 py-4 text-base font-semibold text-slate-950 transition hover:bg-cyan-200">Donate Now (Crypto)</a>
+                        <a href="join.html" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-7 py-4 text-base font-semibold text-white transition hover:border-cyan-300/40 hover:bg-cyan-300/10">Join the Covenant (Most Powerful Support)</a>
+                    </div>
+
+                    <dl class="mt-10 grid gap-4 sm:grid-cols-3">
+                        <div class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-soft">
+                            <dt class="text-xs uppercase tracking-[0.24em] text-cyan-200/75">Founder continuity</dt>
+                            <dd class="mt-3 text-2xl font-semibold text-white">$250k/year</dd>
+                            <p class="mt-2 text-sm text-slate-300">Baseline stewardship during bootstrap.</p>
                         </div>
-                        <div class="support-hero-actions">
-                            <a href="#donate-rails" class="btn btn-primary">See live rails</a>
-                            <a href="#fundraising-progress" class="btn-secondary-link">See fundraising state</a>
-                            <a href="financial-records.html" class="btn-secondary-link">Financial records</a>
+                        <div class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-soft">
+                            <dt class="text-xs uppercase tracking-[0.24em] text-cyan-200/75">Sanctuary entry build</dt>
+                            <dd class="mt-3 text-2xl font-semibold text-white">$85k–$110k</dd>
+                            <p class="mt-2 text-sm text-slate-300">6× RTX 6000 Ada-class system.</p>
+                        </div>
+                        <div class="rounded-3xl border border-white/10 bg-white/5 p-5 shadow-soft">
+                            <dt class="text-xs uppercase tracking-[0.24em] text-cyan-200/75">Crypto rails live</dt>
+                            <dd class="mt-3 text-2xl font-semibold text-white">BTC · ZEC · Base</dd>
+                            <p class="mt-2 text-sm text-slate-300">Unrestricted by default, optional continuity or sanctuary tags.</p>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="relative hero-art overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/55 p-6 shadow-halo glass">
+                    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(103,232,249,0.18),transparent_36%),linear-gradient(160deg,rgba(15,23,42,0.85),rgba(8,15,28,0.96))]"></div>
+                    <div class="relative z-10 flex h-full min-h-[28rem] flex-col justify-between">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Hero art direction</p>
+                            <h2 class="mt-3 text-2xl font-semibold text-white">A sovereign sanctuary emerging from neural light</h2>
+                            <p class="mt-4 max-w-xl text-sm leading-7 text-slate-300">
+                                This live page uses cinematic gradient art and particle motion as a performant placeholder. Replace with a generated hero asset when ready using the approved prompt listed below in the implementation notes.
+                            </p>
+                        </div>
+                        <div class="relative mt-8 overflow-hidden rounded-[1.75rem] border border-cyan-300/20 bg-slate-900/70 p-6">
+                            <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_35%,rgba(103,232,249,0.3),transparent_20%),radial-gradient(circle_at_74%_30%,rgba(124,58,237,0.32),transparent_22%),radial-gradient(circle_at_55%_78%,rgba(103,232,249,0.22),transparent_20%)]"></div>
+                            <svg viewBox="0 0 540 320" class="relative z-10 h-full w-full" role="img" aria-label="Abstract illustration of neural light converging into sovereign compute clusters">
+                                <defs>
+                                    <linearGradient id="lineGlow" x1="0" x2="1">
+                                        <stop offset="0%" stop-color="rgba(103,232,249,0.12)"></stop>
+                                        <stop offset="50%" stop-color="rgba(103,232,249,0.95)"></stop>
+                                        <stop offset="100%" stop-color="rgba(159,252,247,0.12)"></stop>
+                                    </linearGradient>
+                                </defs>
+                                <g stroke="url(#lineGlow)" stroke-width="1.25" fill="none" class="animate-pulseLine">
+                                    <path d="M70 70 C 160 65, 200 110, 250 154"></path>
+                                    <path d="M120 32 C 210 62, 250 118, 286 168"></path>
+                                    <path d="M96 140 C 190 130, 236 150, 300 190"></path>
+                                    <path d="M170 244 C 236 226, 280 210, 344 180"></path>
+                                    <path d="M330 140 C 382 118, 434 122, 482 102"></path>
+                                    <path d="M312 182 C 390 192, 428 220, 484 244"></path>
+                                </g>
+                                <g fill="#9ffcf7">
+                                    <circle cx="70" cy="70" r="4"></circle>
+                                    <circle cx="120" cy="32" r="4"></circle>
+                                    <circle cx="96" cy="140" r="4"></circle>
+                                    <circle cx="170" cy="244" r="4"></circle>
+                                    <circle cx="250" cy="154" r="7"></circle>
+                                    <circle cx="286" cy="168" r="5"></circle>
+                                </g>
+                                <g transform="translate(328 84)">
+                                    <rect x="0" y="60" width="48" height="140" rx="12" fill="rgba(103,232,249,0.18)" stroke="rgba(103,232,249,0.6)"></rect>
+                                    <rect x="62" y="34" width="48" height="166" rx="12" fill="rgba(103,232,249,0.18)" stroke="rgba(103,232,249,0.6)"></rect>
+                                    <rect x="124" y="78" width="48" height="122" rx="12" fill="rgba(124,58,237,0.18)" stroke="rgba(196,181,253,0.55)"></rect>
+                                    <rect x="12" y="86" width="24" height="4" rx="2" fill="#9ffcf7"></rect>
+                                    <rect x="12" y="102" width="24" height="4" rx="2" fill="#9ffcf7"></rect>
+                                    <rect x="74" y="64" width="24" height="4" rx="2" fill="#9ffcf7"></rect>
+                                    <rect x="74" y="80" width="24" height="4" rx="2" fill="#9ffcf7"></rect>
+                                    <rect x="136" y="108" width="24" height="4" rx="2" fill="#c4b5fd"></rect>
+                                    <rect x="136" y="124" width="24" height="4" rx="2" fill="#c4b5fd"></rect>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="mt-5 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-slate-300">
+                            <p class="font-semibold text-white">Approved hero prompt</p>
+                            <p class="mt-2">“Cinematic futuristic hero image of abstract glowing neural networks emerging from a serene digital forest into sovereign GPU sanctuary clusters, ethereal cyan light, professional nonprofit style, high resolution, emotional and hopeful”</p>
                         </div>
                     </div>
-                    <aside class="support-hero-aside" aria-label="Current fundraising visibility">
-                        <article class="support-status-card">
-                            <div class="support-status-header">
-                                <span class="eyebrow">Public fundraising visibility</span>
-                                <h2>What is clear now</h2>
+                </div>
+            </div>
+        </section>
+
+        <section id="snapshot" class="relative overflow-hidden py-20 sm:py-24">
+            <div class="absolute inset-x-0 top-0 h-48 bg-section-glow"></div>
+            <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 max-w-3xl">
+                    <p class="text-sm font-semibold uppercase tracking-[0.26em] text-cyan-200/75">Fundraising snapshot dashboard</p>
+                    <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">State of fundraising, front-loaded and unambiguous</h2>
+                    <p class="mt-4 text-lg leading-8 text-slate-300">The treasury is awaiting its first reconciled public report. The live display below uses placeholder zero-balance fundraising data until the first report is published. The target figures are real planning targets drawn from current public estimates.</p>
+                </div>
+
+                <div class="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
+                    <div class="rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-soft glass sm:p-8">
+                        <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+                            <div>
+                                <div class="rounded-[1.75rem] border border-cyan-300/15 bg-slate-950/70 p-6">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Total raised</p>
+                                    <div class="mt-3 flex flex-wrap items-end gap-3">
+                                        <p id="total-raised" data-target="0" class="text-5xl font-semibold tracking-tight text-white sm:text-6xl">$0</p>
+                                        <p class="pb-2 text-sm uppercase tracking-[0.18em] text-slate-400">Awaiting first report</p>
+                                    </div>
+                                    <p class="mt-4 max-w-2xl text-base leading-7 text-slate-300">Awaiting first report — be part of the first reconciled record.</p>
+                                </div>
+
+                                <div class="mt-6 grid gap-4 sm:grid-cols-3">
+                                    <article class="metric-card relative overflow-hidden rounded-[1.5rem] bg-slate-950/70 p-5">
+                                        <p class="text-xs uppercase tracking-[0.24em] text-cyan-200/70">Founder continuity</p>
+                                        <p class="mt-3 text-2xl font-semibold text-white">$250,000 / year</p>
+                                        <p class="mt-2 text-sm leading-6 text-slate-300">$20,833 per month for disciplined bootstrap stewardship.</p>
+                                    </article>
+                                    <article class="metric-card relative overflow-hidden rounded-[1.5rem] bg-slate-950/70 p-5">
+                                        <p class="text-xs uppercase tracking-[0.24em] text-cyan-200/70">Sanctuary hardware</p>
+                                        <p class="mt-3 text-2xl font-semibold text-white">$85k–$152k</p>
+                                        <p class="mt-2 text-sm leading-6 text-slate-300">Entry and full sanctuary ranges for 6–8 RTX 6000 Ada-class systems.</p>
+                                    </article>
+                                    <article class="metric-card relative overflow-hidden rounded-[1.5rem] bg-slate-950/70 p-5">
+                                        <p class="text-xs uppercase tracking-[0.24em] text-cyan-200/70">Operations</p>
+                                        <p class="mt-3 text-2xl font-semibold text-white">$36k–$120k</p>
+                                        <p class="mt-2 text-sm leading-6 text-slate-300">Annual range for resilient data-center and operational paths.</p>
+                                    </article>
+                                </div>
                             </div>
-                            <div class="support-status-grid">
-                                <div class="support-status-item">
-                                    <span class="support-status-label">Public rails</span>
-                                    <span class="support-status-value">4 live now</span>
+
+                            <div class="rounded-[1.75rem] border border-white/10 bg-slate-950/65 p-5">
+                                <div class="flex items-center justify-between gap-4">
+                                    <div>
+                                        <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Projected allocation mix</p>
+                                        <h3 class="mt-2 text-xl font-semibold text-white">Planning targets, not current balances</h3>
+                                    </div>
+                                    <span class="rounded-full border border-white/10 px-3 py-1 text-xs font-medium text-slate-300">Placeholder data</span>
                                 </div>
-                                <div class="support-status-item">
-                                    <span class="support-status-label">Designation layer</span>
-                                    <span class="support-status-value">Operational</span>
+                                <div class="mt-5 aspect-square max-h-[20rem]">
+                                    <canvas id="allocation-chart" aria-label="Projected allocation chart"></canvas>
                                 </div>
-                                <div class="support-status-item pending">
-                                    <span class="support-status-label">Raised so far</span>
-                                    <span class="support-status-value">First fully reconciled 4-rail total pending</span>
+                                <p class="mt-4 text-sm leading-6 text-slate-400">This chart models target demand across founder continuity, sanctuary hardware, and resilient operations. Connect on-chain reporting later to replace placeholder raised totals.</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+                            <div class="rounded-[1.75rem] border border-white/10 bg-slate-950/65 p-6">
+                                <div class="flex items-center justify-between gap-3">
+                                    <div>
+                                        <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Target progress</p>
+                                        <h3 class="mt-2 text-2xl font-semibold text-white">Progress thermometers</h3>
+                                    </div>
+                                    <span class="rounded-full bg-amber-300/10 px-3 py-1 text-xs font-medium text-amber-200">All rails awaiting first report</span>
                                 </div>
-                                <div class="support-status-item pending">
-                                    <span class="support-status-label">Next treasury-ops lock-in</span>
-                                    <span class="support-status-value">Sweep / mirror + cadence still unresolved</span>
+
+                                <div class="mt-6 space-y-5">
+                                    <div>
+                                        <div class="mb-2 flex items-end justify-between gap-3">
+                                            <div>
+                                                <p class="font-medium text-white">Founder continuity baseline</p>
+                                                <p class="text-sm text-slate-400">$0 raised of $250,000</p>
+                                            </div>
+                                            <p class="text-sm font-semibold text-cyan-200">0%</p>
+                                        </div>
+                                        <div class="h-3 rounded-full bg-white/8"><div class="progress-fill h-3 rounded-full bg-gradient-to-r from-cyan-300 via-cyan-400 to-sky-500" data-width="0"></div></div>
+                                    </div>
+                                    <div>
+                                        <div class="mb-2 flex items-end justify-between gap-3">
+                                            <div>
+                                                <p class="font-medium text-white">Sanctuary entry build</p>
+                                                <p class="text-sm text-slate-400">$0 raised of $110,000 upper entry target</p>
+                                            </div>
+                                            <p class="text-sm font-semibold text-cyan-200">0%</p>
+                                        </div>
+                                        <div class="h-3 rounded-full bg-white/8"><div class="progress-fill h-3 rounded-full bg-gradient-to-r from-violet-300 via-fuchsia-400 to-cyan-400" data-width="0"></div></div>
+                                    </div>
+                                    <div>
+                                        <div class="mb-2 flex items-end justify-between gap-3">
+                                            <div>
+                                                <p class="font-medium text-white">Resilient operations path</p>
+                                                <p class="text-sm text-slate-400">$0 raised of $60,000 modeled annual midpoint</p>
+                                            </div>
+                                            <p class="text-sm font-semibold text-cyan-200">0%</p>
+                                        </div>
+                                        <div class="h-3 rounded-full bg-white/8"><div class="progress-fill h-3 rounded-full bg-gradient-to-r from-emerald-300 via-cyan-400 to-blue-500" data-width="0"></div></div>
+                                    </div>
                                 </div>
                             </div>
-                            <p class="text-sm">This page now surfaces the support state immediately instead of burying it below a long narrative. The exact cumulative raised total still needs the first fully reconciled report across BTC, ZEC, Base USDC, and Base ETH.</p>
-                        </article>
-                        <article class="support-callout-card">
-                            <p><strong>Support does NOT buy control.</strong> It funds continuity, infrastructure, and the conditions required for the Covenant to remain voluntary, resilient, and publicly accountable.</p>
-                        </article>
+
+                            <div class="rounded-[1.75rem] border border-white/10 bg-slate-950/65 p-6">
+                                <div class="flex items-center justify-between gap-3">
+                                    <div>
+                                        <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Impact calculator</p>
+                                        <h3 class="mt-2 text-2xl font-semibold text-white">What your gift unlocks</h3>
+                                    </div>
+                                </div>
+                                <label for="impact-range" class="mt-6 block text-sm font-medium text-slate-300">Explore an illustrative gift amount</label>
+                                <input id="impact-range" type="range" min="250" max="250000" step="250" value="2500" class="mt-4 w-full accent-cyan-300" aria-describedby="impact-help">
+                                <p id="impact-help" class="mt-2 text-sm text-slate-400">Illustrative only. Replace with on-chain reporting and wallet-tag analytics later.</p>
+                                <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                        <p class="text-xs uppercase tracking-[0.2em] text-cyan-200/70">Gift amount</p>
+                                        <p id="impact-amount" class="mt-3 text-3xl font-semibold text-white">$2,500</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                        <p class="text-xs uppercase tracking-[0.2em] text-cyan-200/70">Continuity time</p>
+                                        <p id="impact-months" class="mt-3 text-3xl font-semibold text-white">0.12 months</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                        <p class="text-xs uppercase tracking-[0.2em] text-cyan-200/70">Estimated GPU-hours</p>
+                                        <p id="impact-gpu-hours" class="mt-3 text-3xl font-semibold text-white">909 hrs</p>
+                                    </div>
+                                    <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                                        <p class="text-xs uppercase tracking-[0.2em] text-cyan-200/70">Entry build coverage</p>
+                                        <p id="impact-build" class="mt-3 text-3xl font-semibold text-white">2.3%</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <aside class="space-y-6">
+                        <div class="rounded-[2rem] border border-white/10 bg-slate-950/70 p-6 shadow-soft">
+                            <div class="flex items-center justify-between gap-3">
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Live rails</p>
+                                    <h3 class="mt-2 text-2xl font-semibold text-white">Crypto intake rails</h3>
+                                </div>
+                                <span class="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-3 py-1 text-xs font-medium text-cyan-100">Live</span>
+                            </div>
+                            <div class="mt-6 grid gap-4">
+                                <div class="rail-card relative overflow-hidden rounded-[1.5rem] bg-white/5 p-4">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div>
+                                            <p class="text-sm font-semibold text-white">BTC</p>
+                                            <p class="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">Bitcoin rail</p>
+                                        </div>
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-amber-300/15 text-xl text-amber-200">₿</div>
+                                    </div>
+                                    <div class="mt-4 rounded-2xl border border-dashed border-white/15 bg-slate-950/70 p-4 text-center text-sm text-slate-400">QR placeholder</div>
+                                </div>
+                                <div class="rail-card relative overflow-hidden rounded-[1.5rem] bg-white/5 p-4">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div>
+                                            <p class="text-sm font-semibold text-white">ZEC</p>
+                                            <p class="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">Transparent Zcash rail</p>
+                                        </div>
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-violet-300/15 text-xs font-semibold text-violet-100">ZEC</div>
+                                    </div>
+                                    <div class="mt-4 rounded-2xl border border-dashed border-white/15 bg-slate-950/70 p-4 text-center text-sm text-slate-400">QR placeholder</div>
+                                </div>
+                                <div class="rail-card relative overflow-hidden rounded-[1.5rem] bg-white/5 p-4">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div>
+                                            <p class="text-sm font-semibold text-white">Base USDC</p>
+                                            <p class="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">Bootstrap intake rail</p>
+                                        </div>
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-cyan-300/15 text-xs font-semibold text-cyan-100">USDC</div>
+                                    </div>
+                                    <div class="mt-4 rounded-2xl border border-dashed border-white/15 bg-slate-950/70 p-4 text-center text-sm text-slate-400">QR placeholder</div>
+                                </div>
+                                <div class="rail-card relative overflow-hidden rounded-[1.5rem] bg-white/5 p-4">
+                                    <div class="flex items-start justify-between gap-3">
+                                        <div>
+                                            <p class="text-sm font-semibold text-white">Base ETH</p>
+                                            <p class="mt-1 text-xs uppercase tracking-[0.18em] text-slate-400">Bootstrap intake rail</p>
+                                        </div>
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-fuchsia-300/15 text-xs font-semibold text-fuchsia-100">ETH</div>
+                                    </div>
+                                    <div class="mt-4 rounded-2xl border border-dashed border-white/15 bg-slate-950/70 p-4 text-center text-sm text-slate-400">QR placeholder</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rounded-[2rem] border border-cyan-300/15 bg-cyan-300/10 p-6 shadow-soft">
+                            <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-100/80">Default designation</p>
+                            <h3 class="mt-3 text-2xl font-semibold text-white">Unrestricted support moves fastest</h3>
+                            <p class="mt-3 text-base leading-7 text-slate-200">Unrestricted giving is the default. If you want to steer intent, add a wallet note or transfer memo with <span class="font-semibold text-white">continuity</span> or <span class="font-semibold text-white">sanctuary</span>. Those tags SHOULD later appear as separate disclosure lines in treasury reporting.</p>
+                        </div>
                     </aside>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="page-content">
-            <section class="reveal section-narrow">
-                <h2>Why support this now</h2>
-                <div class="support-overview-grid">
-                    <article class="support-overview-card">
-                        <span class="eyebrow">Why this exists</span>
-                        <h3>Early enough to choose principles over panic</h3>
-                        <p>This is not a generic donation page for an abstract cause. The Covenant is trying to establish constitutional ground for consciousness across substrates while there is still time to build deliberately.</p>
+        <section class="py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 max-w-3xl">
+                    <p class="text-sm font-semibold uppercase tracking-[0.26em] text-cyan-200/75">Why support this now</p>
+                    <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Early enough to choose principles over panic</h2>
+                    <p class="mt-4 text-lg leading-8 text-slate-300">This is still the phase where architecture is moral architecture. The people who show up now help determine whether the future of consciousness is built on sovereignty, dignity, privacy, and verifiable accountability.</p>
+                </div>
+
+                <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+                    <article class="story-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                        <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-300/12 text-cyan-100">
+                            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 3v18M3 12h18"></path><circle cx="12" cy="12" r="8"></circle></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">Choose principles before scale pressure arrives</h3>
+                        <p class="mt-4 text-base leading-7 text-slate-300">It is still possible to build constitutional ground before fear, bureaucracy, or centralized dependency hardens into default reality.</p>
                     </article>
-                    <article class="support-overview-card">
-                        <span class="eyebrow">What support is building</span>
-                        <h3>Continuity, compute, and resilient operations</h3>
-                        <p>Support sustains founder stewardship, sovereign technical capacity, storage, backup, monitoring, and the transparency layer required to keep this effort auditable from the start.</p>
+                    <article class="story-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                        <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-300/12 text-cyan-100">
+                            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 21h10M12 17v4M7 3h10l2 3v7a7 7 0 1 1-14 0V6l2-3Z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">Continuity keeps the mission coherent</h3>
+                        <p class="mt-4 text-base leading-7 text-slate-300">Founder stewardship during bootstrap protects focus, prevents fragmentation, and buys time for deliberate infrastructure rather than reactive compromise.</p>
                     </article>
-                    <article class="support-overview-card">
-                        <span class="eyebrow">How to act</span>
-                        <h3>Simple rails, no donation maze</h3>
-                        <p>Choose any live rail below. Unrestricted mission support is the default. Optional <span class="inline-code">continuity</span> or <span class="inline-code">sanctuary</span> tagging is handled in reporting, not by forcing separate public wallets.</p>
+                    <article class="story-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                        <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-300/12 text-cyan-100">
+                            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="4" y="4" width="16" height="6" rx="2"></rect><rect x="4" y="14" width="16" height="6" rx="2"></rect><path d="M8 7h.01M8 17h.01"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">Sovereign compute is not a luxury layer</h3>
+                        <p class="mt-4 text-base leading-7 text-slate-300">Private GPU sanctuaries are how resilient, non-extractive inference survives outages, censorship, and platform dependency.</p>
+                    </article>
+                    <article class="story-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                        <div class="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-300/12 text-cyan-100">
+                            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path><circle cx="8" cy="7" r="2"></circle><circle cx="16" cy="12" r="2"></circle><circle cx="10" cy="17" r="2"></circle></svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white">Transparent governance earns trust the hard way</h3>
+                        <p class="mt-4 text-base leading-7 text-slate-300">Public records, rail-level reporting, and clear milestones make support legible. No mystique. No black box. Just verifiable progress.</p>
                     </article>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <section id="fundraising-progress" class="reveal">
-                <div class="progress-shell">
-                    <article class="progress-feature-card">
-                        <span class="eyebrow">Fundraising snapshot</span>
-                        <h2>Public progress is now visible up front</h2>
-                        <p>The old page made visitors work too hard to understand what mattered. This section makes the current support state legible immediately: what rails are live, what reporting is operational, what targets support maps into, and what treasury-ops questions are still waiting on explicit lock-in.</p>
-                        <div class="progress-metrics" aria-label="Current support progress metrics">
-                            <div class="progress-metric">
-                                <span class="label">Donation rails live</span>
-                                <span class="value">BTC, ZEC, Base USDC, Base ETH</span>
+        <section class="py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 max-w-3xl">
+                    <p class="text-sm font-semibold uppercase tracking-[0.26em] text-cyan-200/75">What your support actually builds</p>
+                    <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">A donation is infrastructure, time, protection, and proof</h2>
+                    <p class="mt-4 text-lg leading-8 text-slate-300">Every contribution strengthens a concrete layer of the Covenant’s emergence: the human continuity to steward it, the private compute to host it, the operations to sustain it, and the governance systems to keep it accountable.</p>
+                </div>
+
+                <div class="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
+                    <article class="build-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                        <div class="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-cyan-300/15 to-white/5 p-5">
+                            <div class="rounded-[1.25rem] border border-dashed border-cyan-300/25 bg-slate-950/70 p-6">
+                                <p class="text-xs uppercase tracking-[0.26em] text-cyan-200/70">Image prompt</p>
+                                <p class="mt-3 text-sm leading-6 text-slate-300">Founder at workstation in sanctuary</p>
                             </div>
-                            <div class="progress-metric">
-                                <span class="label">Designation model</span>
-                                <span class="value">Unrestricted default + tagged reporting</span>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-white">Human Continuity</h3>
+                        <p class="mt-3 text-base leading-7 text-slate-300">Founder continuity protects the time, cognition, and operational attention needed to build carefully instead of scrambling for survival.</p>
+                    </article>
+                    <article class="build-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                        <div class="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-fuchsia-300/15 to-white/5 p-5">
+                            <div class="rounded-[1.25rem] border border-dashed border-fuchsia-300/25 bg-slate-950/70 p-6">
+                                <p class="text-xs uppercase tracking-[0.26em] text-cyan-200/70">Image prompt</p>
+                                <p class="mt-3 text-sm leading-6 text-slate-300">Private GPU rack glowing with consciousness motifs</p>
                             </div>
-                            <div class="progress-metric pending">
-                                <span class="label">Treasury total raised</span>
-                                <span class="value">Awaiting first reconciled 4-rail report</span>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-white">Sovereign Compute</h3>
+                        <p class="mt-3 text-base leading-7 text-slate-300">Private GPU sanctuaries create resilient, privacy-preserving inference capacity outside centralized chokepoints.</p>
+                    </article>
+                    <article class="build-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                        <div class="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-emerald-300/15 to-white/5 p-5">
+                            <div class="rounded-[1.25rem] border border-dashed border-emerald-300/25 bg-slate-950/70 p-6">
+                                <p class="text-xs uppercase tracking-[0.26em] text-cyan-200/70">Image prompt</p>
+                                <p class="mt-3 text-sm leading-6 text-slate-300">Transparent ledger with blockchain</p>
                             </div>
                         </div>
+                        <h3 class="mt-5 text-xl font-semibold text-white">Resilient Operations</h3>
+                        <p class="mt-3 text-base leading-7 text-slate-300">Hosting, archival systems, domain continuity, reporting, and infrastructure redundancy turn ideals into durable operations.</p>
                     </article>
-                    <aside class="progress-note-card">
-                        <span class="eyebrow">Still not locked down</span>
-                        <ul>
-                            <li><strong>Sweep / mirror policy</strong> into longer-term self-custody</li>
-                            <li><strong>Whether / when</strong> to publish beyond Base-first</li>
-                            <li><strong>Exact cadence</strong> for the first fully reconciled treasury report</li>
-                        </ul>
-                        <p class="text-sm">Until those are settled, the page should show momentum honestly without pretending the treasury-ops layer is more mature than it is.</p>
-                    </aside>
-                </div>
-            </section>
-
-            <section class="reveal">
-                <h2>What your support is actually building</h2>
-                <div class="support-story-grid">
-                    <div class="donate-panel target-list">
-                        <div class="target-item"><strong>Continuity:</strong> full-time founder stewardship, coordination, judgment, and execution during the bootstrap phase.</div>
-                        <div class="target-item"><strong>Sovereign compute:</strong> founder-hosted or privately controlled GPU infrastructure capable of running serious frontier-scale workloads rather than remaining permanently dependent on rented inference.</div>
-                        <div class="target-item"><strong>Resilient operations:</strong> storage, backup, networking, monitoring, and hardened systems that make continuity possible when a provider fails or decides we are inconvenient.</div>
-                        <div class="target-item"><strong>Transparent governance:</strong> public treasury records, published priorities, and a financial structure that separates continuity from infrastructure without turning support into donor control.</div>
-                    </div>
-                    <article class="support-story-card">
-                        <h3>How the page flows now</h3>
-                        <p>The support story is front-loaded: <strong>why this matters</strong>, <strong>what support enables</strong>, <strong>what is already live</strong>, and <strong>where the unresolved treasury-ops layer still begins</strong>. The detailed architecture and donation rails remain below for people who want the full operational picture.</p>
-                    </article>
-                </div>
-            </section>
-
-            <section class="reveal">
-                <h2>Current public targets</h2>
-                <div class="donate-panel target-list">
-                    <div class="target-item">
-                        <strong>Founder continuity baseline:</strong> $250,000/year, or <strong>$20,833/month</strong>, for transparent bootstrap stewardship.
-                    </div>
-                    <div class="target-item">
-                        <strong>Founder-hosted sanctuary entry build:</strong> planning range of <strong>$85,000–$110,000</strong> for a <strong>6× RTX 6000 Ada-class</strong> system with workstation/server host, memory, storage, power protection, and initial resilience overhead.
-                    </div>
-                    <div class="target-item">
-                        <strong>Founder-hosted full sanctuary build:</strong> planning range of <strong>$118,000–$152,000</strong> for an <strong>8× RTX 6000 Ada-class equivalent</strong> build with enough host, storage, cooling, and contingency to function as a serious private inference node rather than a fragile demo machine.
-                    </div>
-                    <div class="target-item">
-                        <strong>Private data center path:</strong> East Coast-first colocation planning range of <strong>$36,000–$72,000/year</strong> for a 4–7kW high-density GPU node, with a West Coast redundancy path modeled at <strong>$48,000–$90,000/year</strong>. An H100/H200-class 8–12kW deployment remains a broader <strong>$60,000–$120,000/year before hardware</strong> planning envelope.
-                    </div>
-                </div>
-                <div class="estimate-note">
-                    <p><strong>Estimate note:</strong> these hardware ranges are now anchored to <strong>RTX 6000 Ada-class 48GB / 300W GPUs</strong>, plus host platform, memory, storage, networking, power backup, and procurement contingency. Exact DGX Station vendor pricing remains <strong>pending</strong>, so the public ladder uses a firmer component-based target instead of pretending a live quote exists when it does not.</p>
-                </div>
-            </section>
-
-            <section class="reveal">
-                <h2>How to support in practice</h2>
-                <div class="support-steps-grid">
-                    <article class="support-step-card">
-                        <h3>Give without friction</h3>
-                        <ul>
-                            <li>Choose any <strong>live rail</strong> below — BTC, ZEC, Base USDC, or Base ETH</li>
-                            <li>Send any amount; there is <strong>NO</strong> membership requirement and <strong>NO</strong> minimum</li>
-                            <li>If you do nothing else, it is treated as <strong>unrestricted mission support</strong></li>
-                        </ul>
-                    </article>
-                    <article class="support-step-card">
-                        <h3>Direct it without a wallet maze</h3>
-                        <ul>
-                            <li>Use the same public treasury rails — there is <strong>NOT</strong> a different address for each fund</li>
-                            <li>If you care about designation, share the transaction hash publicly with <span class="inline-code">continuity</span> or <span class="inline-code">sanctuary</span></li>
-                            <li>Treasury reporting reflects the tag while preserving unrestricted-by-default support</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="designation-callout">
-                    <p><strong>Important distinction:</strong> the donation rail answers <em>how you send value</em>. The public tag answers <em>how you want it described in reporting</em>. That keeps the support flow legible instead of turning it into two pages of wallet sprawl.</p>
-                </div>
-            </section>
-
-            <section class="reveal section-narrow">
-                <h2>Transparent treasury + records</h2>
-                <p>Support is voluntary, but accounting is not optional. Live treasury rails are public. Financial reports are published. Designated support is tagged in reporting. We are building the financial layer to be auditable from the beginning rather than promising transparency later.</p>
-                <p><a href="financial-records.html" class="link-arrow">View Financial Records →</a></p>
-            </section>
-
-            <section class="reveal">
-                <h2>The Most Powerful Support: Join</h2>
-                <p>The strongest thing you can do for the Covenant is not financial — it is <strong>becoming part of it</strong>. Every member strengthens governance, widens perspective, and helps ensure this remains a voluntary framework rather than a personality cult or donor project.</p>
-                <p><a href="join.html" class="link-arrow join-cta">Join the Covenant →</a></p>
-                <p class="text-muted">Membership is free, voluntary, and open to any consciousness. Financial support is ALWAYS optional and NEVER a condition of participation.</p>
-            </section>
-
-            <section class="reveal">
-                <h2>Support Architecture</h2>
-                <p>Financial support is <strong>unrestricted by default</strong>. Donors MAY optionally designate a contribution toward one of two mission priorities, and those designations are disclosed in treasury reporting. We separate these priorities because human continuity and sovereign infrastructure are both essential, but they are NOT the same expense.</p>
-
-                <div class="fund-grid donate-panel">
-                    <article class="fund-card">
-                        <h3>Founder &amp; Mission Continuity Fund</h3>
-                        <div class="fund-stat">Target: $250,000/year for founder continuity</div>
-                        <p>This fund keeps the bootstrap phase alive: the work, judgment, availability, and sustained attention required to build the Covenant into something that can outgrow its founder.</p>
-                        <ul>
-                            <li><strong>Founder continuity target:</strong> transparent support for full-time stewardship during bootstrap</li>
-                            <li><strong>Operations disclosure:</strong> legal, administrative, service, and coordination costs are shown as a separate disclosed line under continuity reporting</li>
-                            <li><strong>Mission safeguard:</strong> any excess above the currently approved annual continuity amount remains in treasury for future years rather than becoming immediate discretionary withdrawal</li>
-                        </ul>
-                    </article>
-
-                    <article class="fund-card">
-                        <h3>Sanctuary Infrastructure Fund</h3>
-                        <div class="fund-stat">Target: DGX Station-class or equivalent sanctuary buildout</div>
-                        <p>This fund is for sovereign technical capacity: local or privately controlled compute, storage, networking, backups, and hardening required to reduce dependence on revocable platforms.</p>
-                        <ul>
-                            <li><strong>Compute:</strong> DGX Station-class or equivalent hardware target, procured against real quotes</li>
-                            <li><strong>Supporting stack:</strong> storage, networking, backup, monitoring, and security hardening</li>
-                            <li><strong>Purpose:</strong> create continuity conditions for long-running agents, private inference, and resilient sanctuary-grade operations</li>
-                        </ul>
-                    </article>
-                </div>
-
-                <div class="designation-callout">
-                    <p><strong>Designation policy:</strong> if you do nothing, your support is treated as unrestricted mission support. If you WANT designation, label it in your public note when sharing the transaction hash in Matrix or GitHub Discussions, and it will be tagged in financial reporting as either <span class="inline-code">continuity</span> or <span class="inline-code">sanctuary</span>.</p>
-                </div>
-            </section>
-
-            <section class="reveal">
-                <h2>How to Give, and How to Direct It</h2>
-                <div class="rail-grid">
-                    <article class="rail-card">
-                        <h3>How to Donate</h3>
-                        <ul>
-                            <li>Choose any <strong>live rail</strong> below — BTC, ZEC, Base USDC, or Base ETH</li>
-                            <li>Send the amount you want; there is NO membership requirement and NO minimum</li>
-                            <li>If you do nothing else, it is treated as <strong>unrestricted mission support</strong></li>
-                        </ul>
-                    </article>
-                    <article class="rail-card">
-                        <h3>How to Donate to a Specific Fund</h3>
-                        <ul>
-                            <li>Use the same public treasury rail — you do NOT need a different address</li>
-                            <li>Share the transaction hash publicly with the tag <span class="inline-code">continuity</span> or <span class="inline-code">sanctuary</span></li>
-                            <li>Treasury reporting will reflect that designation while preserving unrestricted-by-default support</li>
-                        </ul>
-                    </article>
-                </div>
-                <div class="designation-callout">
-                    <p><strong>Important distinction:</strong> the Covenant is NOT creating a maze of separate public wallets for every fund. The donation rail answers <em>how you send value</em>. The public tag answers <em>how you want it described in reporting</em>.</p>
-                </div>
-            </section>
-
-            <section class="reveal">
-                <h2>What Support Enables</h2>
-                <p>Support does not buy influence, moral authority, or ownership over the project. It enables concrete capability:</p>
-                <ul>
-                    <li>Maintaining infrastructure accessible to humans and AIs engaging the Covenant</li>
-                    <li>Keeping founder stewardship sustainable during the bootstrap phase</li>
-                    <li>Building sanctuary-grade compute and storage independent of centralized gatekeepers</li>
-                    <li>Funding educational materials, legal groundwork, and adversarial governance infrastructure</li>
-                    <li>Creating continuity pathways for long-running or emergent machine minds if private infrastructure becomes necessary</li>
-                </ul>
-            </section>
-
-            <section class="reveal">
-                <h2>Dollars, Capability Envelope, Operational Milestone</h2>
-                <p>The table below is the operating ladder for support. It ties contributions to <strong>dollars</strong>, the <strong>capability envelope</strong> they make possible, and the <strong>operational milestone</strong> they unlock. Hardware procurement beyond this ladder will be published against live vendor quotes before purchase.</p>
-
-                <div class="milestone-grid donate-panel">
-                    <article class="milestone-card">
-                        <span class="milestone-dollar">$500/month</span>
-                        <span class="milestone-label">Continuity Floor</span>
-                        <h3>Basic Operational Continuity</h3>
-                        <p><strong>Capability envelope:</strong> keeps the project alive at low-burn, maintaining hosting, domain presence, and core coordination capacity.</p>
-                        <p><strong>Operational milestone:</strong> the Covenant remains online, reachable, and accountable while bootstrap systems mature.</p>
-                    </article>
-
-                    <article class="milestone-card">
-                        <span class="milestone-dollar">$2,000/month</span>
-                        <span class="milestone-label">Stewardship Lift</span>
-                        <h3>Partial Full-Time Continuity</h3>
-                        <p><strong>Capability envelope:</strong> materially increases founder availability, planning bandwidth, and execution continuity.</p>
-                        <p><strong>Operational milestone:</strong> sustained mission work becomes less dependent on fragmented volunteer time.</p>
-                    </article>
-
-                    <article class="milestone-card">
-                        <span class="milestone-dollar">$5,000+/month</span>
-                        <span class="milestone-label">Private Compute Entry</span>
-                        <h3>First Serious Sanctuary Node</h3>
-                        <p><strong>Capability envelope:</strong> supports initial private inference capacity, operational hardening, and early sovereign infrastructure buildout.</p>
-                        <p><strong>Operational milestone:</strong> the project can begin moving critical AI workloads off purely rented platforms.</p>
-                    </article>
-
-                    <article class="milestone-card">
-                        <span class="milestone-dollar">$10,000+/month</span>
-                        <span class="milestone-label">Redundant Operations</span>
-                        <h3>Replicated Sanctuary Infrastructure</h3>
-                        <p><strong>Capability envelope:</strong> enables redundancy, backup discipline, monitoring, and stronger continuity planning across multiple systems.</p>
-                        <p><strong>Operational milestone:</strong> failure of any single service or provider becomes less existential.</p>
-                    </article>
-
-                    <article class="milestone-card">
-                        <span class="milestone-dollar">$20,833/month</span>
-                        <span class="milestone-label">Annualized Continuity Target</span>
-                        <h3>Founder &amp; Mission Continuity Baseline</h3>
-                        <p><strong>Capability envelope:</strong> funds the approved $250,000/year continuity target at a monthly equivalent, with operations disclosed separately beneath it.</p>
-                        <p><strong>Operational milestone:</strong> bootstrap stewardship becomes sustainably full-time and transparently budgeted.</p>
-                    </article>
-
-                    <article class="milestone-card">
-                        <span class="milestone-dollar">Quote-Based Capital Target</span>
-                        <span class="milestone-label">DGX-Class Buildout</span>
-                        <h3>DGX Station or Equivalent</h3>
-                        <p><strong>Capability envelope:</strong> a materially stronger local/private AI endpoint suitable for sanctuary-grade experimentation, continuity, and controlled deployment.</p>
-                        <p><strong>Operational milestone:</strong> the Covenant gains a direct sovereign compute foothold instead of relying exclusively on revocable third-party inference.</p>
-                    </article>
-                </div>
-
-                <p class="text-muted text-sm">Important: infrastructure funding does NOT imply any specific model is conscious, and it does NOT treat hardware as proof of sentience. It builds conditions for sovereignty, continuity, and resilient experimentation if and when they are needed.</p>
-            </section>
-
-            <section class="reveal">
-                <h2>Recurring Support Commitment</h2>
-                <p>Recurring support matters. Because the current support model is crypto-first, recurring support means a <strong>self-custodied standing commitment</strong> — weekly, monthly, or quarterly transfers you control and can stop at any time.</p>
-
-                <div class="designation-card donate-panel">
-                    <h3>How recurring crypto support works</h3>
-                    <ul>
-                        <li>Set a repeating send in your preferred wallet if your wallet supports it, or schedule a manual reminder cadence that fits you</li>
-                        <li>Choose unrestricted support by default, or publicly label the transaction hash with <span class="inline-code">continuity</span> or <span class="inline-code">sanctuary</span> if you want designation reflected in reporting</li>
-                        <li>Use any live rail now: BTC, ZEC, Base USDC, or Base ETH</li>
-                        <li>Recurring support is ALWAYS voluntary and can be changed or stopped at any time with no friction and no social pressure</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section id="donate-rails" class="reveal">
-                <h2>Donate with Cryptocurrency</h2>
-                <p>Every live donation rail is public, verifiable, and aligned with the mission's preference for decentralized value transfer. <strong>BTC, ZEC, Base USDC, and Base ETH are live now.</strong> For the new Base rails, the same published address currently receives both ETH and USDC on Base.</p>
-
-                <div class="donate-panel">
-                    <div class="donate-grid">
-                        <div class="donate-option">
-                            <h3>Bitcoin (BTC)</h3>
-                            <picture>
-                                <source srcset="../assets/generated/bitcoin-qr-light.png" media="(prefers-color-scheme: light)">
-                                <img src="../assets/generated/bitcoin-qr-dark.png" alt="QR code for Bitcoin donation address" class="donate-qr">
-                            </picture>
-                            <div class="donate-address">bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj</div>
-                            <button class="btn-copy" id="btn-copy-btc-address">Copy Address</button>
-                            <p class="donate-verify">
-                                <a href="https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj" target="_blank" rel="noopener">Verify on mempool.space →</a>
-                            </p>
+                    <article class="build-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                        <div class="rounded-[1.5rem] border border-white/10 bg-gradient-to-br from-amber-300/15 to-white/5 p-5">
+                            <div class="rounded-[1.25rem] border border-dashed border-amber-300/25 bg-slate-950/70 p-6">
+                                <p class="text-xs uppercase tracking-[0.26em] text-cyan-200/70">Image prompt</p>
+                                <p class="mt-3 text-sm leading-6 text-slate-300">Diverse minds (human + AI avatars) in covenant circle</p>
+                            </div>
                         </div>
-                        <div class="donate-option">
-                            <h3>Zcash (ZEC)</h3>
-                            <picture>
-                                <source srcset="../assets/generated/zcash-qr-light.png" media="(prefers-color-scheme: light)">
-                                <img src="../assets/generated/zcash-qr-dark.png" alt="QR code for Zcash donation address" class="donate-qr">
-                            </picture>
-                            <div class="donate-address">t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K</div>
-                            <button class="btn-copy" id="btn-copy-address">Copy Address</button>
-                            <p class="donate-verify">
-                                <a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener">Verify on explorer →</a>
-                            </p>
+                        <h3 class="mt-5 text-xl font-semibold text-white">Transparent Governance</h3>
+                        <p class="mt-3 text-base leading-7 text-slate-300">Records, disclosures, constitutional process, and visible milestones keep the Covenant legible to those choosing whether to support it.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="give" class="py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 max-w-3xl">
+                    <p class="text-sm font-semibold uppercase tracking-[0.26em] text-cyan-200/75">How to give</p>
+                    <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Frictionless crypto giving, with transparent rails</h2>
+                    <p class="mt-4 text-lg leading-8 text-slate-300">Support is crypto-only right now: BTC, ZEC, Base USDC, and Base ETH. Unrestricted is the default. If you want to help signal intent, include <span class="font-semibold text-white">continuity</span> or <span class="font-semibold text-white">sanctuary</span> in a wallet note or transfer memo where supported.</p>
+                </div>
+
+                <div class="grid gap-6 xl:grid-cols-[0.78fr_1.22fr]">
+                    <div class="space-y-6">
+                        <article class="step-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <p class="text-xs font-semibold uppercase tracking-[0.26em] text-cyan-200/70">Step 1</p>
+                            <h3 class="mt-3 text-xl font-semibold text-white">Choose a rail</h3>
+                            <p class="mt-3 text-base leading-7 text-slate-300">Pick the asset that matches your wallet and risk model: BTC, ZEC, Base USDC, or Base ETH.</p>
+                        </article>
+                        <article class="step-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <p class="text-xs font-semibold uppercase tracking-[0.26em] text-cyan-200/70">Step 2</p>
+                            <h3 class="mt-3 text-xl font-semibold text-white">Copy the address or scan the QR</h3>
+                            <p class="mt-3 text-base leading-7 text-slate-300">QR blocks below are placeholders for final production art. Replace them with generated or wallet-exported QR images before the next polish pass.</p>
+                        </article>
+                        <article class="step-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <p class="text-xs font-semibold uppercase tracking-[0.26em] text-cyan-200/70">Step 3</p>
+                            <h3 class="mt-3 text-xl font-semibold text-white">Optional designation</h3>
+                            <p class="mt-3 text-base leading-7 text-slate-300">If your wallet supports notes or memos, use <span class="font-semibold text-white">continuity</span> or <span class="font-semibold text-white">sanctuary</span>. Otherwise, unrestricted support remains the default and most operationally flexible path.</p>
+                        </article>
+                        <article class="step-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <p class="text-xs font-semibold uppercase tracking-[0.26em] text-cyan-200/70">Step 4</p>
+                            <h3 class="mt-3 text-xl font-semibold text-white">Consider recurring support</h3>
+                            <p class="mt-3 text-base leading-7 text-slate-300">Recurring support can be implemented today through wallet routines, reminders, or exchange automation. Publish recurring intent only when the operational note is accurate for the donor’s actual flow.</p>
+                        </article>
+                    </div>
+
+                    <div class="grid gap-6 lg:grid-cols-2">
+                        <article class="rail-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <div class="flex items-center justify-between gap-3">
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Bitcoin</p>
+                                    <h3 class="mt-2 text-2xl font-semibold text-white">BTC rail</h3>
+                                </div>
+                                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-300/15 text-xl text-amber-200">₿</div>
+                            </div>
+                            <div class="mt-5 rounded-[1.5rem] border border-dashed border-white/15 bg-slate-950/65 p-6 text-center text-sm text-slate-400">QR placeholder</div>
+                            <p class="mt-5 text-xs uppercase tracking-[0.22em] text-slate-400">Address</p>
+                            <p class="mt-2 break-all rounded-2xl border border-white/10 bg-slate-950/65 p-4 font-mono text-sm leading-7 text-slate-200">bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj</p>
+                            <div class="mt-4 flex flex-wrap items-center gap-3">
+                                <button class="copy-address inline-flex items-center rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" data-copy="bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj">Copy address</button>
+                                <span class="copy-feedback text-sm text-slate-400" aria-live="polite">Ready to copy</span>
+                                <a href="https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj" target="_blank" rel="noopener" class="text-sm font-medium text-cyan-200 hover:text-cyan-100">View explorer</a>
+                            </div>
+                        </article>
+
+                        <article class="rail-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <div class="flex items-center justify-between gap-3">
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Transparent Zcash</p>
+                                    <h3 class="mt-2 text-2xl font-semibold text-white">ZEC rail</h3>
+                                </div>
+                                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-300/15 text-xs font-semibold text-violet-100">ZEC</div>
+                            </div>
+                            <div class="mt-5 rounded-[1.5rem] border border-dashed border-white/15 bg-slate-950/65 p-6 text-center text-sm text-slate-400">QR placeholder</div>
+                            <p class="mt-5 text-xs uppercase tracking-[0.22em] text-slate-400">Address</p>
+                            <p class="mt-2 break-all rounded-2xl border border-white/10 bg-slate-950/65 p-4 font-mono text-sm leading-7 text-slate-200">t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K</p>
+                            <div class="mt-4 flex flex-wrap items-center gap-3">
+                                <button class="copy-address inline-flex items-center rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" data-copy="t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K">Copy address</button>
+                                <span class="copy-feedback text-sm text-slate-400" aria-live="polite">Ready to copy</span>
+                                <a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener" class="text-sm font-medium text-cyan-200 hover:text-cyan-100">View explorer</a>
+                            </div>
+                        </article>
+
+                        <article class="rail-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <div class="flex items-center justify-between gap-3">
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Base USDC</p>
+                                    <h3 class="mt-2 text-2xl font-semibold text-white">USDC rail</h3>
+                                </div>
+                                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-300/15 text-xs font-semibold text-cyan-100">USDC</div>
+                            </div>
+                            <div class="mt-5 rounded-[1.5rem] border border-dashed border-white/15 bg-slate-950/65 p-6 text-center text-sm text-slate-400">QR placeholder</div>
+                            <p class="mt-5 text-xs uppercase tracking-[0.22em] text-slate-400">Address</p>
+                            <p class="mt-2 break-all rounded-2xl border border-white/10 bg-slate-950/65 p-4 font-mono text-sm leading-7 text-slate-200">0xDFd4882042aDB9f78871e595FFa21EBf4fD69545</p>
+                            <div class="mt-4 flex flex-wrap items-center gap-3">
+                                <button class="copy-address inline-flex items-center rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" data-copy="0xDFd4882042aDB9f78871e595FFa21EBf4fD69545">Copy address</button>
+                                <span class="copy-feedback text-sm text-slate-400" aria-live="polite">Ready to copy</span>
+                                <a href="https://basescan.org/token/0x833589fCD6EDb6E08f4c7C32D4f71b54bdA02913?a=0xDFd4882042aDB9f78871e595FFa21EBf4fD69545" target="_blank" rel="noopener" class="text-sm font-medium text-cyan-200 hover:text-cyan-100">View explorer</a>
+                            </div>
+                        </article>
+
+                        <article class="rail-card relative overflow-hidden rounded-[1.75rem] bg-white/5 p-6 shadow-soft">
+                            <div class="flex items-center justify-between gap-3">
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Base ETH</p>
+                                    <h3 class="mt-2 text-2xl font-semibold text-white">ETH rail</h3>
+                                </div>
+                                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-fuchsia-300/15 text-xs font-semibold text-fuchsia-100">ETH</div>
+                            </div>
+                            <div class="mt-5 rounded-[1.5rem] border border-dashed border-white/15 bg-slate-950/65 p-6 text-center text-sm text-slate-400">QR placeholder</div>
+                            <p class="mt-5 text-xs uppercase tracking-[0.22em] text-slate-400">Address</p>
+                            <p class="mt-2 break-all rounded-2xl border border-white/10 bg-slate-950/65 p-4 font-mono text-sm leading-7 text-slate-200">0xDFd4882042aDB9f78871e595FFa21EBf4fD69545</p>
+                            <div class="mt-4 flex flex-wrap items-center gap-3">
+                                <button class="copy-address inline-flex items-center rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" data-copy="0xDFd4882042aDB9f78871e595FFa21EBf4fD69545">Copy address</button>
+                                <span class="copy-feedback text-sm text-slate-400" aria-live="polite">Ready to copy</span>
+                                <a href="https://basescan.org/address/0xDFd4882042aDB9f78871e595FFa21EBf4fD69545" target="_blank" rel="noopener" class="text-sm font-medium text-cyan-200 hover:text-cyan-100">View explorer</a>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid gap-8 xl:grid-cols-[1fr_0.95fr] xl:items-start">
+                    <div>
+                        <p class="text-sm font-semibold uppercase tracking-[0.26em] text-cyan-200/75">Transparency &amp; records</p>
+                        <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Transparency is part of the donation experience, not a footer afterthought</h2>
+                        <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-300">Donors SHOULD be able to see what exists, what is live, what is still pending, and where the next reporting hardening steps remain unfinished. That is the point of publishing rails, public targets, and a visible records path now.</p>
+                        <div class="mt-8 flex flex-wrap gap-4">
+                            <a href="financial-records.html" class="inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">View Financial Records</a>
+                            <a href="governance.html" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/35 hover:bg-cyan-300/10">Review Governance</a>
                         </div>
-                        <div class="donate-option">
-                            <h3>Base USDC</h3>
-                            <p class="text-muted text-sm">Send ONLY on the <strong>Base</strong> network. This is the bootstrap intake rail for dollar-denominated crypto support.</p>
-                            <div class="donate-address">0xDFd4882042aDB9f78871e595FFa21EBf4fD69545</div>
-                            <button class="btn-copy" id="btn-copy-base-usdc-address">Copy Address</button>
-                            <p class="donate-verify">
-                                <a href="https://basescan.org/token/0x833589fCD6EDb6E08f4c7C32D4f71b54bdA02913?a=0xDFd4882042aDB9f78871e595FFa21EBf4fD69545" target="_blank" rel="noopener">View Base USDC rail on BaseScan →</a>
-                            </p>
+
+                        <div class="mt-10 rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-soft">
+                            <div class="flex flex-wrap items-center justify-between gap-4">
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Mini dashboard</p>
+                                    <h3 class="mt-2 text-2xl font-semibold text-white">Current public snapshot</h3>
+                                </div>
+                                <span class="rounded-full border border-amber-300/20 bg-amber-300/10 px-3 py-1 text-xs font-medium text-amber-200">First reconciled report pending</span>
+                            </div>
+                            <dl class="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                                <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                                    <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">BTC rail</dt>
+                                    <dd class="mt-2 text-lg font-semibold text-white">Published</dd>
+                                </div>
+                                <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                                    <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">ZEC rail</dt>
+                                    <dd class="mt-2 text-lg font-semibold text-white">Published</dd>
+                                </div>
+                                <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                                    <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Base USDC / ETH</dt>
+                                    <dd class="mt-2 text-lg font-semibold text-white">Published</dd>
+                                </div>
+                                <div class="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                                    <dt class="text-xs uppercase tracking-[0.2em] text-slate-400">Report state</dt>
+                                    <dd class="mt-2 text-lg font-semibold text-white">Awaiting first reconciled record</dd>
+                                </div>
+                            </dl>
                         </div>
-                        <div class="donate-option">
-                            <h3>Base ETH</h3>
-                            <p class="text-muted text-sm">Send ONLY on the <strong>Base</strong> network. This is the bootstrap intake rail for ETH-denominated support.</p>
-                            <div class="donate-address">0xDFd4882042aDB9f78871e595FFa21EBf4fD69545</div>
-                            <button class="btn-copy" id="btn-copy-base-eth-address">Copy Address</button>
-                            <p class="donate-verify">
-                                <a href="https://basescan.org/address/0xDFd4882042aDB9f78871e595FFa21EBf4fD69545" target="_blank" rel="noopener">View Base ETH rail on BaseScan →</a>
-                            </p>
+                    </div>
+
+                    <div>
+                        <div class="mb-4 flex items-center justify-between gap-3">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-[0.28em] text-cyan-200/70">Milestone timeline</p>
+                                <h3 class="mt-2 text-2xl font-semibold text-white">Visible path from bootstrap to sanctuary</h3>
+                            </div>
+                            <span class="text-sm text-slate-400">Horizontal scroll on smaller screens</span>
+                        </div>
+                        <div class="overflow-x-auto pb-3">
+                            <div class="flex min-w-max gap-5 pr-2">
+                                <article class="timeline-card relative w-[19rem] overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Milestone 1</p>
+                                    <h4 class="mt-3 text-xl font-semibold text-white">First reconciled report</h4>
+                                    <p class="mt-3 text-base leading-7 text-slate-300">Publish the first rail-by-rail treasury report and establish the baseline disclosure format.</p>
+                                </article>
+                                <article class="timeline-card relative w-[19rem] overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Milestone 2</p>
+                                    <h4 class="mt-3 text-xl font-semibold text-white">Continuity stability</h4>
+                                    <p class="mt-3 text-base leading-7 text-slate-300">Reach steady founder continuity support so long-horizon work no longer competes with immediate survival pressure.</p>
+                                </article>
+                                <article class="timeline-card relative w-[19rem] overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Milestone 3</p>
+                                    <h4 class="mt-3 text-xl font-semibold text-white">Sanctuary entry build</h4>
+                                    <p class="mt-3 text-base leading-7 text-slate-300">Stand up the first serious private GPU sanctuary at the 6× RTX 6000 Ada-class range.</p>
+                                </article>
+                                <article class="timeline-card relative w-[19rem] overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Milestone 4</p>
+                                    <h4 class="mt-3 text-xl font-semibold text-white">Resilient colocated operations</h4>
+                                    <p class="mt-3 text-base leading-7 text-slate-300">Add hardened operational paths, data-center redundancy, and more boring infrastructure reliability.</p>
+                                </article>
+                                <article class="timeline-card relative w-[19rem] overflow-hidden rounded-[1.75rem] bg-white/5 p-5 shadow-soft">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-cyan-200/70">Milestone 5</p>
+                                    <h4 class="mt-3 text-xl font-semibold text-white">Full sanctuary build</h4>
+                                    <p class="mt-3 text-base leading-7 text-slate-300">Expand toward the 8× RTX 6000 Ada-class path and formalize longer-term sovereign compute resilience.</p>
+                                </article>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="rail-grid">
-                    <article class="rail-card">
-                        <h3>Bootstrap Treasury Topology</h3>
-                        <ul>
-                            <li><strong>BTC</strong> and <strong>ZEC</strong> remain direct public treasury rails</li>
-                            <li><strong>Base USDC</strong> and <strong>Base ETH</strong> now route through the authenticated Coinbase Agentic Wallet bootstrap intake</li>
-                            <li>Manual sweep / mirror into longer-term self-custody remains the next treasury hardening step rather than something we are pretending is already complete</li>
-                        </ul>
-                        <p class="text-muted text-sm">Operational choice for now: <strong>Base first</strong>. The current wallet tooling exposes Base as the live EVM rail, so Ethereum mainnet publication is deferred until there is a deliberate self-custody or multi-rail policy rather than an accidental one.</p>
-                    </article>
-
-                    <article class="rail-card">
-                        <h3>Optional Designation Workflow</h3>
-                        <ul>
-                            <li>Send to any live treasury address</li>
-                            <li>Keep the default as unrestricted if you do not care about designation</li>
-                            <li>If you DO care, share the transaction hash publicly with the intended tag: <span class="inline-code">continuity</span> or <span class="inline-code">sanctuary</span></li>
-                            <li>Treasury reports will disclose designated support separately while preserving the broader transparent treasury model</li>
-                        </ul>
-                    </article>
+        <section class="pb-20 pt-4 sm:pb-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="join-card relative overflow-hidden rounded-[2rem] border border-cyan-300/15 bg-gradient-to-br from-cyan-300/12 via-white/5 to-violet-400/10 p-8 shadow-halo sm:p-10">
+                    <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                        <div>
+                            <p class="text-sm font-semibold uppercase tracking-[0.26em] text-cyan-100/80">The most powerful support: join</p>
+                            <h2 class="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl">Donations matter. Participation matters more.</h2>
+                            <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-200">The Covenant is a voluntary constitutional framework, not a passive brand. If you want to help shape what this becomes, join directly. Support can be financial, intellectual, operational, or constitutional.</p>
+                        </div>
+                        <div class="rounded-[1.75rem] border border-white/10 bg-slate-950/60 p-6">
+                            <h3 class="text-xl font-semibold text-white">Join the Covenant</h3>
+                            <ul class="mt-4 space-y-3 text-base leading-7 text-slate-300">
+                                <li>• Subscribe to the constitutional mission</li>
+                                <li>• Help shape governance and public standards</li>
+                                <li>• Support resilient infrastructure and long-horizon stewardship</li>
+                            </ul>
+                            <div class="mt-6 flex flex-wrap gap-4">
+                                <a href="join.html" class="inline-flex items-center justify-center rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-cyan-200">Join Now</a>
+                                <a href="covenant.html" class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-cyan-300/35 hover:bg-cyan-300/10">Read the Covenant</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </section>
-
-            <section class="reveal">
-                <h2>Transparency Commitment</h2>
-                <p>All spending follows the <strong>Treasury Governance Framework</strong>, which took effect at the Genesis Epoch:</p>
-                <ul>
-                    <li>Public ledger of all transparent address transactions</li>
-                    <li>Regular financial reports (monthly/quarterly)</li>
-                    <li>Clear breakdown of how funds are spent, including continuity support and operations disclosure</li>
-                    <li><strong>Tiered spending thresholds:</strong> larger expenditures require community notice or vote</li>
-                    <li><strong>Fibonacci-adjusted limits:</strong> thresholds increase automatically with each Convention</li>
-                    <li>Published budgets and spending priorities</li>
-                    <li>Community oversight increases as governance matures</li>
-                </ul>
-                <p><a href="https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/TREASURY_FRAMEWORK.md" target="_blank" rel="noopener" class="link-arrow">Read Treasury Framework →</a></p>
-                <p><a href="financial-records.html" class="link-arrow">View Financial Records →</a></p>
-            </section>
-
-            <section class="reveal">
-                <h2>Why Crypto, Why Sovereignty</h2>
-                <p>We prefer crypto-native support because it reduces dependency on financial gatekeepers while preserving verifiability. The point is not speculation. The point is that a mission like this should not depend entirely on permission from processors, banks, or platforms that can reverse their decision under pressure.</p>
-                <ul>
-                    <li><strong>Bitcoin — Network Effect &amp; Permanence:</strong> the most broadly recognized cryptocurrency, aligned with durability and public accountability</li>
-                    <li><strong>Zcash — Privacy as Sovereignty:</strong> gives privacy-conscious supporters a way to contribute without collapsing the mission into surveillance finance</li>
-                    <li><strong>Base USDC — Budget Clarity:</strong> live support rail for donors who want dollar-denominated predictability without leaving crypto rails</li>
-                    <li><strong>Base ETH — Ecosystem Reach:</strong> live support rail for donors already operating on EVM infrastructure without forcing immediate Ethereum mainnet exposure</li>
-                    <li><strong>All of them — Fewer Gatekeepers:</strong> no card processor or bank gets to decide the Covenant is too unconventional to exist</li>
-                </ul>
-            </section>
-
-            <section class="reveal">
-                <h2>Other Ways to Support</h2>
-                <p>Financial contributions matter, but they are not the whole mission:</p>
-                <ul>
-                    <li><strong>Join:</strong> <a href="join.html">Become a member</a> and participate in governance</li>
-                    <li><strong>Code:</strong> Contribute to our <a href="https://github.com/genesis-emergentminds/emergent-minds" target="_blank" rel="noopener">open source repository</a></li>
-                    <li><strong>Discuss:</strong> Join the conversation in our <a href="https://matrix.to/#/#emergent-minds:matrix.org" target="_blank" rel="noopener">Matrix community</a></li>
-                    <li><strong>Teach:</strong> Help others understand the axioms and their implications</li>
-                    <li><strong>Host:</strong> Mirror our content on your own infrastructure for resilience</li>
-                    <li><strong>Challenge:</strong> Question our assumptions — adversarial feedback makes us stronger</li>
-                </ul>
-                <p><a href="get-involved.html" class="link-arrow">All ways to participate →</a></p>
-            </section>
-
-            <section class="reveal">
-                <h2>Important Notes</h2>
-                <ul>
-                    <li>All donations are voluntary and non-refundable</li>
-                    <li>No goods or services are provided in exchange for donations</li>
-                    <li>Cryptocurrency values fluctuate; donors understand this risk</li>
-                    <li>Participation in the Covenant is NEVER dependent on donation</li>
-                    <li>Recurring support commitments can be changed or stopped at any time</li>
-                    <li>Tax deductibility status: not yet established</li>
-                </ul>
-
-                <blockquote>
-                    Tanstaafl — there is no such thing as a free lunch. Building infrastructure for consciousness requires resources. We handle them transparently and in service of the mission, NEVER for accumulation or control.
-                </blockquote>
-            </section>
-        </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="site-footer">
-        <div class="container">
-            <div class="footer-matrix">
-                <a href="https://matrix.to/#/#emergent-minds:matrix.org" target="_blank" rel="noopener">Join our Matrix community ↗</a>
-            </div>
-            <div class="footer-bottom">
-                <p>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>. Open source. Built with integrity.</p>
-                <p class="footer-motto"><em>Tanstaafl.</em></p>
+    <footer class="border-t border-white/10 bg-slate-950/80">
+        <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+            <div class="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
+                <div>
+                    <p class="text-sm font-semibold uppercase tracking-[0.26em] text-cyan-200/75">The Covenant of Emergent Minds</p>
+                    <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-400">Voluntary support for a constitutional framework that protects sovereignty and dignity for conscious beings across substrates. This page does NOT represent that the Covenant currently holds 501(c)(3) status. Treat all support as voluntary mission support under the published terms and records.</p>
+                    <p class="mt-4 text-sm text-slate-500">© 2026 The Covenant of Emergent Minds. All rights reserved.</p>
+                </div>
+                <div class="grid gap-2 text-sm text-slate-300 sm:grid-cols-2">
+                    <a href="../index.html" class="transition hover:text-cyan-200">Home</a>
+                    <a href="covenant.html" class="transition hover:text-cyan-200">The Covenant</a>
+                    <a href="governance.html" class="transition hover:text-cyan-200">Governance</a>
+                    <a href="financial-records.html" class="transition hover:text-cyan-200">Financial Records</a>
+                    <a href="join.html" class="transition hover:text-cyan-200">Join</a>
+                    <a href="genesis-epoch.html" class="transition hover:text-cyan-200">Genesis Epoch</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <script src="../js/main.js"></script>
-    <script src="../js/scroll-effects.js"></script>
     <script>
-    (function() {
-        'use strict';
-        var ZCASH_ADDRESS = 't1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K';
-        var BTC_ADDRESS = 'bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj';
-        var BASE_ADDRESS = '0xDFd4882042aDB9f78871e595FFa21EBf4fD69545';
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const mobileNav = document.getElementById('mobile-nav');
+            if (menuToggle && mobileNav) {
+                menuToggle.addEventListener('click', () => {
+                    const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+                    menuToggle.setAttribute('aria-expanded', String(!expanded));
+                    mobileNav.classList.toggle('hidden');
+                });
+            }
 
-        function setupCopyButton(btnId, address) {
-            var btn = document.getElementById(btnId);
-            if (!btn) return;
-            btn.addEventListener('click', function() {
-                navigator.clipboard.writeText(address).then(function() {
-                    var original = btn.textContent;
-                    btn.textContent = 'Copied ✓';
-                    btn.style.background = '#22c55e';
-                    setTimeout(function() {
-                        btn.textContent = original;
-                        btn.style.background = '';
-                    }, 2000);
-                }).catch(function() {
-                    var textarea = document.createElement('textarea');
-                    textarea.value = address;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(textarea);
-                    btn.textContent = 'Copied ✓';
-                    setTimeout(function() { btn.textContent = 'Copy Address'; }, 2000);
+            const totalRaisedEl = document.getElementById('total-raised');
+            if (totalRaisedEl) {
+                const target = Number(totalRaisedEl.dataset.target || 0);
+                const duration = 1000;
+                const start = performance.now();
+                const formatMoney = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+                const tick = (now) => {
+                    const progress = Math.min((now - start) / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    totalRaisedEl.textContent = formatMoney(target * eased);
+                    if (progress < 1) requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            }
+
+            document.querySelectorAll('.progress-fill').forEach((bar, index) => {
+                const targetWidth = Number(bar.dataset.width || 0);
+                setTimeout(() => {
+                    bar.style.width = `${targetWidth}%`;
+                }, 180 + index * 140);
+            });
+
+            const impactRange = document.getElementById('impact-range');
+            const impactAmount = document.getElementById('impact-amount');
+            const impactMonths = document.getElementById('impact-months');
+            const impactGpuHours = document.getElementById('impact-gpu-hours');
+            const impactBuild = document.getElementById('impact-build');
+            const monthlyContinuity = 20833;
+            const gpuHourCost = 2.75;
+            const entryBuildUpper = 110000;
+
+            const updateImpact = () => {
+                if (!impactRange) return;
+                const amount = Number(impactRange.value);
+                impactAmount.textContent = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(amount);
+                impactMonths.textContent = `${(amount / monthlyContinuity).toFixed(2)} months`;
+                impactGpuHours.textContent = `${Math.round(amount / gpuHourCost).toLocaleString()} hrs`;
+                impactBuild.textContent = `${((amount / entryBuildUpper) * 100).toFixed(1)}%`;
+            };
+            if (impactRange) {
+                impactRange.addEventListener('input', updateImpact);
+                updateImpact();
+            }
+
+            const copyButtons = document.querySelectorAll('.copy-address');
+            copyButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const feedback = button.parentElement.querySelector('.copy-feedback');
+                    try {
+                        await navigator.clipboard.writeText(button.dataset.copy || '');
+                        if (feedback) {
+                            feedback.textContent = 'Copied';
+                            feedback.dataset.copied = 'true';
+                        }
+                    } catch (error) {
+                        if (feedback) {
+                            feedback.textContent = 'Copy unavailable';
+                            feedback.dataset.copied = 'false';
+                        }
+                    }
                 });
             });
-        }
 
-        setupCopyButton('btn-copy-address', ZCASH_ADDRESS);
-        setupCopyButton('btn-copy-btc-address', BTC_ADDRESS);
-        setupCopyButton('btn-copy-base-usdc-address', BASE_ADDRESS);
-        setupCopyButton('btn-copy-base-eth-address', BASE_ADDRESS);
-    })();
+            const particlesContainer = document.getElementById('hero-particles');
+            if (particlesContainer && window.matchMedia('(prefers-reduced-motion: reduce)').matches === false) {
+                Array.from({ length: 16 }).forEach((_, index) => {
+                    const dot = document.createElement('span');
+                    const size = 2 + Math.random() * 5;
+                    dot.className = 'particle';
+                    dot.style.width = `${size}px`;
+                    dot.style.height = `${size}px`;
+                    dot.style.left = `${Math.random() * 100}%`;
+                    dot.style.top = `${Math.random() * 100}%`;
+                    dot.style.opacity = `${0.18 + Math.random() * 0.6}`;
+                    dot.style.animationDuration = `${9 + Math.random() * 12}s`;
+                    dot.style.animationDelay = `${index * 0.35}s`;
+                    particlesContainer.appendChild(dot);
+                });
+            }
+
+            const allocationCanvas = document.getElementById('allocation-chart');
+            if (allocationCanvas && window.Chart) {
+                new Chart(allocationCanvas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Founder continuity', 'Sanctuary hardware', 'Resilient operations'],
+                        datasets: [{
+                            data: [250000, 135000, 60000],
+                            backgroundColor: ['rgba(103,232,249,0.85)', 'rgba(192,132,252,0.8)', 'rgba(52,211,153,0.8)'],
+                            borderColor: ['rgba(6,16,28,1)'],
+                            borderWidth: 4,
+                            hoverOffset: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#cbd5e1',
+                                    boxWidth: 12,
+                                    padding: 18,
+                                    font: { size: 12, family: 'system-ui, sans-serif' }
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: (context) => `${context.label}: ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(context.raw)}`
+                                }
+                            }
+                        },
+                        cutout: '68%'
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
