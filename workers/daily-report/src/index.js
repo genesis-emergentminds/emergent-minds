@@ -1882,16 +1882,18 @@ export default {
             });
         }
         
-        // Manual trigger (protected by secret header)
+        // Manual trigger (protected by secret header or query param for browser/manual ops)
         if (url.pathname === '/trigger') {
             const authHeader = request.headers.get('X-Report-Secret');
-            if (authHeader !== env.REPORT_SECRET) {
+            const querySecret = url.searchParams.get('secret');
+            const providedSecret = authHeader || querySecret;
+            if (!env.REPORT_SECRET || providedSecret !== env.REPORT_SECRET) {
                 return new Response('Unauthorized', { status: 401 });
             }
             
             // Trigger the scheduled handler
             await this.scheduled({ scheduledTime: new Date().toISOString() }, env, ctx);
-            
+
             return new Response(JSON.stringify({
                 status: 'triggered',
                 timestamp: new Date().toISOString(),

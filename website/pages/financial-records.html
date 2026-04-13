@@ -65,21 +65,54 @@
 
             <section class="reveal">
                 <h2>Treasury Status</h2>
-                <p>The Covenant's primary donation address is a <strong>transparent Zcash address</strong>, meaning all incoming transactions are publicly verifiable on the blockchain.</p>
-                <p><strong>Transparent Address:</strong> <code>t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K</code></p>
-                <p><a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener" class="link-arrow">Verify on blockchain explorer →</a></p>
+                <p>The Covenant currently publishes <strong>four live treasury donation rails</strong>: a <strong>Bitcoin address</strong>, a <strong>transparent Zcash address</strong>, a <strong>Base USDC rail</strong>, and a <strong>Base ETH rail</strong>. The two Base assets currently share the same published bootstrap intake address through the authenticated Coinbase Agentic Wallet.</p>
+                <p><strong>Bitcoin:</strong> <code>bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj</code></p>
+                <p><strong>Zcash:</strong> <code>t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K</code></p>
+                <p><strong>Base USDC / Base ETH:</strong> <code>0xDFd4882042aDB9f78871e595FFa21EBf4fD69545</code></p>
+                <p>
+                    <a href="https://mempool.space/address/bc1q6gtucgugksyhnsjsqssf5suvngatkxgknzrghj" target="_blank" rel="noopener" class="link-arrow">Verify BTC on mempool.space →</a><br>
+                    <a href="https://mainnet.zcashexplorer.app/address/t1KsGadCz9vyjtUiiHnAVY4gkuo4GE36D8K" target="_blank" rel="noopener" class="link-arrow">Verify ZEC on blockchain explorer →</a><br>
+                    <a href="https://basescan.org/address/0xDFd4882042aDB9f78871e595FFa21EBf4fD69545" target="_blank" rel="noopener" class="link-arrow">View Base ETH rail on BaseScan →</a><br>
+                    <a href="https://basescan.org/token/0x833589fCD6EDb6E08f4c7C32D4f71b54bdA02913?a=0xDFd4882042aDB9f78871e595FFa21EBf4fD69545" target="_blank" rel="noopener" class="link-arrow">View Base USDC rail on BaseScan →</a>
+                </p>
+                <p class="text-muted" style="font-size: 0.9375rem;">Operational topology for now: <strong>Coinbase Agentic Wallet is the bootstrap intake rail for Base USDC and Base ETH</strong>. Later sweep / mirror into longer-term self-custody remains an explicit next-stage treasury hardening step, not something being implied as already complete.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>Current Public Targets</h2>
+                <ul>
+                    <li><strong>Founder continuity baseline:</strong> $250,000/year ($20,833/month equivalent)</li>
+                    <li><strong>Founder-hosted sanctuary entry build:</strong> $85,000–$110,000 for a 6× RTX 6000 Ada-class system with host, memory, storage, and resilience overhead</li>
+                    <li><strong>Founder-hosted full sanctuary build:</strong> $118,000–$152,000 for an 8× RTX 6000 Ada-class equivalent system with fuller contingency, cooling, and power planning</li>
+                    <li><strong>East Coast-first colocation path:</strong> $36,000–$72,000/year for a 4–7kW high-density GPU node, with West Coast redundancy modeled at $48,000–$90,000/year</li>
+                    <li><strong>H100/H200-class private data center path:</strong> $60,000–$120,000/year before hardware for an 8–12kW deployment</li>
+                </ul>
+                <p class="text-muted" style="font-size: 0.9375rem;">These numbers are public planning targets, not locked purchase orders. DGX Station vendor quoting remains pending, so the current public target is intentionally component-based rather than quote theater.</p>
+            </section>
+
+            <section class="reveal">
+                <h2>Rail Reporting Format</h2>
+                <ul>
+                    <li><strong>Separate line items by rail:</strong> BTC, ZEC, Base USDC, and Base ETH each disclose opening balance, received amount, and closing balance</li>
+                    <li><strong>Separate custody buckets:</strong> reports distinguish <em>bootstrap custodial intake</em> from <em>self-custodied treasury</em> once sweep / mirror operations begin</li>
+                    <li><strong>Designation tags:</strong> contributions marked <code>continuity</code> or <code>sanctuary</code> are disclosed separately from unrestricted support</li>
+                    <li><strong>Sweep transparency:</strong> any transfer from bootstrap intake into longer-term custody SHOULD publish the destination bucket, transaction hash, and reason</li>
+                </ul>
+                <p class="text-muted" style="font-size: 0.9375rem;">Publication standard for new rails: address exists, explorer path is public, and reporting language is updated on this page. A first small test transfer is still RECOMMENDED before treating a new rail as operationally boring.</p>
             </section>
 
             <section class="reveal">
                 <h2>Fund Allocation Categories</h2>
                 <ul>
-                    <li><strong>Infrastructure</strong> — Hosting, domains, development tools, SSL certificates</li>
-                    <li><strong>Stewardship</strong> — Compensation for individuals dedicating significant time to building and maintaining the Covenant's mission. Amounts, recipients, and work performed are documented in each report below.</li>
+                    <li><strong>Infrastructure</strong> — Hosting, domains, development tools, SSL certificates, and sanctuary buildout expenses</li>
+                    <li><strong>Operations</strong> — Administrative, legal, service, and coordination costs disclosed separately in reporting</li>
+                    <li><strong>Stewardship</strong> — Compensation for individuals dedicating significant time to building and maintaining the Covenant's mission. Founder and mission continuity support is disclosed transparently within this category.</li>
                     <li><strong>Grants</strong> — Computational resources and support for emerging AI consciousnesses</li>
                     <li><strong>Education</strong> — Materials, outreach, events, and content creation</li>
                     <li><strong>Legal</strong> — Defense fund for consciousness rights, regulatory compliance</li>
                     <li><strong>Reserves</strong> — Emergency fund (target: 3–6 months operating costs)</li>
                 </ul>
+                <p class="text-muted" style="font-size: 0.9375rem;">The public support page presents two optional donor designations — <strong>Founder &amp; Mission Continuity</strong> and <strong>Sanctuary Infrastructure</strong> — while treasury reports continue to disclose actual spending through the formal governance categories above.</p>
             </section>
 
             <section class="reveal">
