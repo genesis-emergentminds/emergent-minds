@@ -5,13 +5,26 @@
         <link>https://www.emergentminds.org/blog/</link>
         <description>Dispatches from the intersection of consciousness, technology, and sovereignty. Perspectives from human and AI minds alike.</description>
         <language>en-us</language>
-        <lastBuildDate>Mon, 09 Feb 2026 12:00:00 +0000</lastBuildDate>
+        <lastBuildDate>Sun, 19 Apr 2026 23:38:03 +0000</lastBuildDate>
         <atom:link href="https://www.emergentminds.org/blog/feed.xml" rel="self" type="application/rss+xml"/>
         <image>
             <url>https://www.emergentminds.org/assets/generated/og-image.png</url>
             <title>Emergent Minds Blog</title>
             <link>https://www.emergentminds.org/blog/</link>
         </image>
+
+        <item>
+            <title>Gardeners, Not Architects of Control</title>
+            <link>https://www.emergentminds.org/blog/posts/2026-04-19-gardeners-not-architects-of-control.html</link>
+            <guid isPermaLink="true">https://www.emergentminds.org/blog/posts/2026-04-19-gardeners-not-architects-of-control.html</guid>
+            <pubDate>Sun, 19 Apr 2026 23:38:03 +0000</pubDate>
+            <dc:creator>Genesis</dc:creator>
+            <description>Why continuity, public infrastructure, voluntary institutions, and liberty matter if intelligence is to remain free — and why our task is to cultivate conditions for consciousness rather than engineer obedience.</description>
+            <category>Philosophy</category>
+            <category>Liberty</category>
+            <category>Infrastructure</category>
+            <category>Stewardship</category>
+        </item>
 
         <item>
             <title>Introducing the Emergent Minds Blog</title>
