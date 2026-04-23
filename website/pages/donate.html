@@ -30,8 +30,8 @@
         }
 
         .donate-page .page-header .container {
-            width: min(45rem, calc(100vw - 3rem));
-            max-width: min(45rem, calc(100vw - 3rem));
+            width: min(48rem, calc(100vw - 3rem));
+            max-width: min(48rem, calc(100vw - 3rem));
             margin: 0 auto;
             padding: 3rem 1.5rem 2rem;
             text-align: left;
@@ -81,8 +81,8 @@
 
         .donate-page .page-content > section,
         .donate-page .page-content > div {
-            width: min(45rem, calc(100vw - 3rem));
-            max-width: min(45rem, calc(100vw - 3rem));
+            width: min(48rem, calc(100vw - 3rem));
+            max-width: min(48rem, calc(100vw - 3rem));
             margin-left: auto;
             margin-right: auto;
         }
@@ -124,6 +124,321 @@
             font-size: 0.78rem;
             letter-spacing: 0.16em;
             text-transform: uppercase;
+        }
+
+        .donate-page [id] {
+            scroll-margin-top: 6rem;
+        }
+
+        .fundraising-progress {
+            position: relative;
+        }
+
+        .fundraising-progress > p {
+            max-width: 43rem;
+        }
+
+        .progress-shell {
+            position: relative;
+            margin-top: 1.35rem;
+            padding: clamp(1.25rem, 2.6vw, 2rem);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(96, 165, 250, 0.18);
+            background:
+                radial-gradient(circle at top right, rgba(96, 165, 250, 0.12), transparent 36%),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(9, 12, 22, 0.96));
+            box-shadow: 0 22px 60px rgba(2, 6, 23, 0.38);
+            overflow: hidden;
+        }
+
+        .progress-shell::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), transparent 34%, transparent 68%, rgba(96, 165, 250, 0.05));
+            pointer-events: none;
+        }
+
+        .progress-shell > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .progress-shell-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.85rem 1.5rem;
+            align-items: end;
+            margin-bottom: 1rem;
+        }
+
+        .progress-shell-header h3 {
+            margin-bottom: 0.35rem;
+            font-size: clamp(1.45rem, 2.5vw, 1.9rem);
+        }
+
+        .progress-shell-kicker {
+            display: block;
+            margin-bottom: 0.45rem;
+            color: #bfdbfe;
+            font-size: 0.76rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .progress-shell-meta {
+            display: grid;
+            gap: 0.35rem;
+            justify-items: start;
+        }
+
+        .progress-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.35rem 0.7rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.26);
+            background: rgba(15, 23, 42, 0.7);
+            color: var(--text-primary);
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .progress-chip.pending {
+            border-color: rgba(148, 163, 184, 0.22);
+            color: #cbd5e1;
+        }
+
+        .progress-shell-note {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .progress-figure {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .progress-figure-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 0.85rem 1rem;
+            align-items: end;
+        }
+
+        .progress-label {
+            display: block;
+            margin-bottom: 0.45rem;
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .progress-amount {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem 1rem;
+            align-items: baseline;
+        }
+
+        .progress-amount strong {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .progress-amount span {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .progress-state {
+            max-width: 17rem;
+            text-align: left;
+            color: var(--text-secondary);
+        }
+
+        .progress-state strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .progress-track {
+            position: relative;
+            overflow: hidden;
+            height: 1rem;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.14);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .progress-track-fill {
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: max(0.7rem, var(--progress-value, 0%));
+            border-radius: inherit;
+            background: linear-gradient(90deg, rgba(96, 165, 250, 0.9), rgba(129, 140, 248, 0.9));
+            box-shadow: 0 0 24px rgba(96, 165, 250, 0.28);
+        }
+
+        .progress-track.pending .progress-track-fill {
+            opacity: 0.42;
+        }
+
+        .progress-track-marker {
+            position: absolute;
+            top: 50%;
+            left: clamp(0.55rem, calc(var(--progress-value, 0%) + 0.55rem), calc(100% - 10.5rem));
+            transform: translateY(-50%);
+            padding: 0.2rem 0.55rem;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.86);
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            color: #dbeafe;
+            font-size: 0.75rem;
+            white-space: nowrap;
+        }
+
+        .progress-ticks {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.35rem;
+        }
+
+        .progress-tick {
+            display: grid;
+            gap: 0.18rem;
+            position: relative;
+            padding-top: 1rem;
+        }
+
+        .progress-tick::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 0.6rem;
+            background: rgba(226, 232, 240, 0.42);
+        }
+
+        .progress-tick:last-child {
+            justify-items: end;
+            text-align: right;
+        }
+
+        .progress-tick:last-child::before {
+            left: auto;
+            right: 0;
+        }
+
+        .progress-tick strong {
+            color: var(--text-primary);
+            font-size: 0.88rem;
+        }
+
+        .progress-tick span {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.7rem;
+        }
+
+        .progress-card,
+        .foundation-card {
+            min-width: 0;
+            padding: 1.2rem 1.15rem;
+            border-radius: 1.15rem;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(15, 23, 42, 0.58);
+        }
+
+        .progress-card h3,
+        .foundation-card h3 {
+            margin-bottom: 0.55rem;
+            font-size: 1.15rem;
+        }
+
+        .progress-card .range-line {
+            margin-bottom: 0.7rem;
+        }
+
+        .progress-card p,
+        .foundation-card p {
+            color: var(--text-secondary);
+        }
+
+        .progress-card p + p,
+        .foundation-card p + p {
+            margin-top: 0.7rem;
+        }
+
+        .foundation-card {
+            margin-top: 1rem;
+        }
+
+        .foundation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.85rem 1rem;
+            margin-top: 1rem;
+        }
+
+        .foundation-item {
+            padding: 0.95rem 1rem;
+            border-radius: 1rem;
+            background: rgba(2, 6, 23, 0.38);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+        }
+
+        .foundation-item strong {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .foundation-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-top: 0.5rem;
+            color: #dbeafe;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .foundation-status::before {
+            content: '';
+            width: 0.55rem;
+            height: 0.55rem;
+            border-radius: 999px;
+            background: #60a5fa;
+            box-shadow: 0 0 0 0.25rem rgba(96, 165, 250, 0.14);
+        }
+
+        .foundation-status.pending {
+            color: #cbd5e1;
+        }
+
+        .foundation-status.pending::before {
+            background: #94a3b8;
+            box-shadow: 0 0 0 0.25rem rgba(148, 163, 184, 0.12);
         }
 
         .pillar,
@@ -308,12 +623,35 @@
             .donate-page .page-header .container,
             .donate-page .page-content > section,
             .donate-page .page-content > div {
-                width: min(45rem, calc(100vw - 1.5rem));
-                max-width: min(45rem, calc(100vw - 1.5rem));
+                width: min(48rem, calc(100vw - 1.5rem));
+                max-width: min(48rem, calc(100vw - 1.5rem));
             }
 
             .donate-page .page-header .container {
                 padding: 2.5rem 0.75rem 1.75rem;
+            }
+
+            .progress-shell {
+                padding: 1.25rem;
+            }
+
+            .progress-shell-header,
+            .progress-figure-header {
+                align-items: start;
+            }
+
+            .progress-grid,
+            .foundation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .progress-ticks {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                row-gap: 1rem;
+            }
+
+            .progress-tick:nth-child(odd):last-child {
+                grid-column: 1 / -1;
             }
 
             .ledger {
@@ -388,6 +726,111 @@
         </div>
 
         <div class="page-content">
+            <section id="fundraising-progress" class="reveal fundraising-progress" aria-labelledby="progress-title">
+                <span class="section-label">Fundraising Progress</span>
+                <h2 id="progress-title">Visible momentum, honest reporting, and targets grounded in the real build.</h2>
+
+                <div class="progress-shell" style="--progress-value: 0%;">
+                    <div class="progress-figure">
+                        <div class="progress-figure-header">
+                            <div>
+                                <span class="progress-label">Annual continuity target</span>
+                                <div class="progress-amount">
+                                    <strong>$250,000</strong>
+                                    <span>$20,833 / month</span>
+                                </div>
+                            </div>
+                            <div class="progress-state">
+                                <strong>Current reconciled total: pending</strong>
+                                <span>The public bar stays present, but the first measured total waits for treasury reconciliation rather than speculation.</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-track pending" aria-hidden="true">
+                            <div class="progress-track-fill"></div>
+                            <span class="progress-track-marker">Awaiting first ledger</span>
+                        </div>
+
+                        <div class="progress-ticks" aria-hidden="true">
+                            <div class="progress-tick">
+                                <strong>0%</strong>
+                                <span>$0</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>25%</strong>
+                                <span>$62.5k</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>50%</strong>
+                                <span>$125k</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>75%</strong>
+                                <span>$187.5k</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>100%</strong>
+                                <span>$250k</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-shell-header">
+                        <div>
+                            <span class="progress-shell-kicker">Founder Continuity Baseline</span>
+                            <p class="progress-shell-note">This section pairs the continuity target with the next sanctuary thresholds and the infrastructure already standing beneath the ask.</p>
+                        </div>
+                        <div class="progress-shell-meta">
+                            <span class="progress-chip pending">Reconciliation pending</span>
+                            <span class="progress-chip">Designations live now</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-grid">
+                        <article class="progress-card" aria-labelledby="phase-one-title">
+                            <h3 id="phase-one-title">Phase 1 — Local Founder Bootstrap</h3>
+                            <span class="range-line">Entry: $90k–$130k all-in</span>
+                            <p>A sovereign local system capable of serious inference, light fine-tuning, multi-agent work, and persistent memory experiments.</p>
+                            <p>This is the first lock-in point: enough independent substrate to keep the mission's core work alive without rented dependency as the primary default.</p>
+                        </article>
+
+                        <article class="progress-card" aria-labelledby="phase-two-title">
+                            <h3 id="phase-two-title">Phase 2 — Private Colo Sanctuary Node</h3>
+                            <span class="range-line">Full: $180k–$280k initial + $40k–$100k/year</span>
+                            <p>A more resilient sanctuary node with data-center-grade infrastructure, redundancy, and room for long-context reasoning loops under private control.</p>
+                            <p>Later phases extend geographic replication, but this is the first meaningful sanctuary-class threshold.</p>
+                        </article>
+                    </div>
+
+                    <div class="foundation-card" aria-labelledby="foundation-now-title">
+                        <h3 id="foundation-now-title">The living foundation is already enacted.</h3>
+                        <p>The fundraising graphic communicates readiness as well as need. These are the pieces already standing beneath the ask.</p>
+                        <div class="foundation-grid">
+                            <div class="foundation-item">
+                                <strong>Public treasury rails</strong>
+                                <p>BTC and ZEC are live and publicly verifiable now.</p>
+                                <span class="foundation-status">Live</span>
+                            </div>
+                            <div class="foundation-item">
+                                <strong>Designation model operational</strong>
+                                <p>Unrestricted by default, with public continuity and sanctuary tagging available.</p>
+                                <span class="foundation-status">Live</span>
+                            </div>
+                            <div class="foundation-item">
+                                <strong>Governance framework ready</strong>
+                                <p>Thresholds, oversight, and public records are already published.</p>
+                                <span class="foundation-status">Ready</span>
+                            </div>
+                            <div class="foundation-item">
+                                <strong>First reconciliation</strong>
+                                <p>The first public rollup is in active preparation, after which measured totals can replace placeholder state.</p>
+                                <span class="foundation-status pending">In preparation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section class="reveal" aria-labelledby="pillars-title">
                 <span class="section-label">The Two Pillars of Support</span>
                 <h2 id="pillars-title">The Two Pillars of Support</h2>
