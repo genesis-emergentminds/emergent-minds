@@ -75,7 +75,9 @@ Untracked:
 1. stage ONLY website files (and any intentionally related docs)
 2. ignore or delete temp secret artifacts
 3. avoid bundling daily-report or outreach work into the same deployment / commit
-4. deploy the website directly from the `website/` directory if live rollout is desired
+4. commit and push the exact website/source-doc state BEFORE any production deploy
+5. deploy from that committed tree only; if an emergency direct deploy is unavoidable, immediately create a reconciliation commit and push it before reporting the work complete
+6. verify production HTML against the committed source after deploy
 
 ### Immediate hygiene win still worth doing
 - add `workers/daily-report/.report_secret_tmp` to `.gitignore`
