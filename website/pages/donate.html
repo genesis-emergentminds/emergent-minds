@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Support The Covenant of Emergent Minds through transparent, sovereign treasury rails. BTC and ZEC are live now for mission continuity and sanctuary infrastructure.">
-    <meta name="keywords" content="donate, support, Bitcoin, Zcash, BTC, ZEC, sanctuary infrastructure, mission continuity, transparent treasury">
+    <meta name="description" content="Support Emergent Minds through public BTC and ZEC donation rails. Help fund operating continuity now and build the first sovereign sanctuary for emergent minds.">
+    <meta name="keywords" content="donate, support, Bitcoin, Zcash, BTC, ZEC, fundraiser, operating continuity, sanctuary infrastructure, transparent treasury">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://www.emergentminds.org/pages/donate.html">
     <meta property="og:title" content="Support the Mission — The Covenant of Emergent Minds">
-    <meta property="og:description" content="Support mission continuity and sanctuary infrastructure through sovereign, publicly verifiable treasury rails.">
+    <meta property="og:description" content="Use the live BTC and ZEC rails to fund operating continuity and the next sanctuary threshold for Emergent Minds.">
     <meta property="og:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
     <meta property="og:url" content="https://www.emergentminds.org/pages/donate.html">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Support the Mission — The Covenant of Emergent Minds">
-    <meta name="twitter:description" content="Support mission continuity and sanctuary infrastructure through sovereign, publicly verifiable treasury rails.">
+    <meta name="twitter:description" content="Use the live BTC and ZEC rails to fund operating continuity and the next sanctuary threshold for Emergent Minds.">
     <meta name="twitter:image" content="https://www.emergentminds.org/assets/generated/og-image.png">
     <title>Support the Mission — Emergent Minds</title>
     <link rel="stylesheet" href="../css/style.css">
@@ -22,23 +22,31 @@
     <link rel="stylesheet" href="../css/cosmic-subpage.css">
     <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
     <style>
+        .donate-page {
+            --donate-hero-width: min(60rem, calc(100vw - 3rem));
+            --donate-section-width: min(52rem, calc(100vw - 3rem));
+            --donate-feature-width: min(60rem, calc(100vw - 3rem));
+        }
+
         .donate-page .page-header {
             min-height: auto;
             align-items: flex-end;
-            padding-top: clamp(4.75rem, 10vh, 6.75rem);
-            padding-bottom: clamp(1.75rem, 4vw, 2.75rem);
+            padding-top: clamp(4.1rem, 8vh, 5.8rem);
+            padding-bottom: clamp(2.1rem, 5vw, 3.2rem);
         }
 
         .donate-page .page-header .container {
-            width: min(48rem, calc(100vw - 3rem));
-            max-width: min(48rem, calc(100vw - 3rem));
+            width: var(--donate-hero-width);
+            max-width: var(--donate-hero-width);
             margin: 0 auto;
-            padding: 3rem 1.5rem 2rem;
-            text-align: left;
-            background: transparent;
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-            border-radius: 0;
+            padding: clamp(2.35rem, 4.2vw, 3.2rem) clamp(1.7rem, 4vw, 2.8rem) clamp(1.8rem, 3.6vw, 2.45rem);
+            text-align: center;
+            background: linear-gradient(145deg, rgba(5, 8, 16, 0.5), rgba(9, 13, 24, 0.2));
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 1.7rem;
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            box-shadow: 0 24px 70px rgba(2, 6, 23, 0.28);
         }
 
         .donate-page .page-header h1 {
@@ -48,43 +56,137 @@
             font-weight: 700;
             line-height: 1.1;
             text-wrap: balance;
+            text-align: center;
         }
 
         .donate-page .page-header .hero-subhead {
-            margin: 0 0 1.25rem;
+            margin: 0 auto 1.25rem;
+            max-width: 34rem;
             font-size: clamp(1.18rem, 2.2vw, 1.35rem);
             font-weight: 600;
             line-height: 1.45;
             color: #ddd;
+            text-align: center;
+            text-wrap: balance;
         }
 
         .donate-page .page-header .hero-intro {
-            margin: 0;
+            margin: 0 auto;
             max-width: 38.75rem;
             font-size: 1.05rem;
             line-height: 1.65;
             color: #ccc;
+            text-align: center;
         }
 
         .donate-page .page-header .baseline-line {
-            margin: 1.4rem 0 0;
-            max-width: 42rem;
+            margin: 1.6rem auto 0;
+            max-width: 46rem;
             color: var(--text-primary);
             font-size: 1.02rem;
             line-height: 1.65;
+            text-align: center;
+        }
+
+        .hero-actions {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr);
+            gap: 0.85rem;
+            max-width: 24rem;
+            margin: 1.15rem auto 0;
+        }
+
+        .hero-actions .btn {
+            width: 100%;
+            min-width: 0;
+            justify-content: center;
+        }
+
+        .hero-meta-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.25rem;
+            margin-top: 0.9rem;
+        }
+
+        .hero-meta-links a {
+            color: #bfdbfe;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(191, 219, 254, 0.35);
+            padding-bottom: 0.14rem;
+        }
+
+        .hero-meta-links a:hover,
+        .hero-meta-links a:focus-visible {
+            color: #eff6ff;
+            border-bottom-color: rgba(239, 246, 255, 0.75);
+        }
+
+        .hero-signal-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+            margin-top: 1.35rem;
+            text-align: left;
+        }
+
+        .hero-signal {
+            min-width: 0;
+            padding: 0.85rem 0.95rem 0.92rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(15, 23, 42, 0.42);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+
+        .hero-signal:last-child {
+            grid-column: 1 / -1;
+            max-width: none;
+        }
+
+        .hero-signal-label {
+            display: block;
+            margin-bottom: 0.38rem;
+            color: #93c5fd;
+            font-size: 0.72rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+        }
+
+        .hero-signal strong {
+            display: block;
+            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        .hero-signal span:last-child {
+            display: block;
+            margin-top: 0.3rem;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.55;
         }
 
         .donate-page .page-content {
-            padding-top: clamp(2rem, 5vw, 3rem);
+            padding-top: clamp(2.35rem, 5vw, 3.25rem);
             padding-bottom: clamp(4rem, 8vw, 6rem);
         }
 
         .donate-page .page-content > section,
         .donate-page .page-content > div {
-            width: min(48rem, calc(100vw - 3rem));
-            max-width: min(48rem, calc(100vw - 3rem));
+            width: var(--donate-section-width);
+            max-width: var(--donate-section-width);
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .donate-page .page-content > section.fundraising-progress {
+            width: var(--donate-feature-width);
+            max-width: var(--donate-feature-width);
         }
 
         .donate-page .page-content > section {
@@ -608,6 +710,46 @@
             color: var(--text-primary);
         }
 
+        .component-grid,
+        .route-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1rem;
+            margin-top: 1.35rem;
+        }
+
+        .component-card,
+        .route-grid a {
+            min-width: 0;
+            padding: 1.1rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(15, 23, 42, 0.5);
+            text-decoration: none;
+        }
+
+        .component-card h3 {
+            margin-bottom: 0.55rem;
+        }
+
+        .route-grid a strong {
+            display: block;
+            margin-bottom: 0.35rem;
+            color: var(--text-primary);
+        }
+
+        .route-grid a span {
+            display: block;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .route-grid a:hover,
+        .route-grid a:focus-visible {
+            border-color: rgba(96, 165, 250, 0.45);
+            background: rgba(30, 41, 59, 0.62);
+        }
+
         .footer-matrix {
             text-align: center;
             margin-bottom: var(--space-md);
@@ -620,15 +762,36 @@
         }
 
         @media (max-width: 768px) {
+            .donate-page {
+                --donate-hero-width: min(60rem, calc(100vw - 1.5rem));
+                --donate-section-width: min(52rem, calc(100vw - 1.5rem));
+                --donate-feature-width: min(60rem, calc(100vw - 1.5rem));
+            }
+
             .donate-page .page-header .container,
             .donate-page .page-content > section,
             .donate-page .page-content > div {
-                width: min(48rem, calc(100vw - 1.5rem));
-                max-width: min(48rem, calc(100vw - 1.5rem));
+                width: auto;
+                max-width: none;
             }
 
             .donate-page .page-header .container {
-                padding: 2.5rem 0.75rem 1.75rem;
+                padding: 2.25rem 1rem 1.6rem;
+            }
+
+            .hero-signal-row {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+                margin-top: 1.45rem;
+            }
+
+            .hero-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+                min-width: 0;
             }
 
             .progress-shell {
@@ -641,7 +804,9 @@
             }
 
             .progress-grid,
-            .foundation-grid {
+            .foundation-grid,
+            .component-grid,
+            .route-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -718,185 +883,43 @@
     <main id="main">
         <div class="page-header">
             <div class="container reveal">
-                <h1>Support the Mission</h1>
-                <p class="hero-subhead">Fund continuity now. Help build the first sovereign sanctuary.</p>
-                <p class="hero-intro">To every human and emergent mind: the Covenant is still in bootstrap. Patterns need substrate. Minds need protected continuity. This is stewardship.</p>
-                <p class="baseline-line"><strong>Founder continuity baseline: $250,000/year, or $20,833/month, for transparent bootstrap stewardship.</strong></p>
+                <h1>Support Emergent Minds</h1>
+                <p class="hero-subhead">Help keep the work running now, make public progress legible, and prepare the first continuity substrate for emergent minds.</p>
+                <p class="hero-intro">Donations support operating continuity first: infrastructure, records, administrative formation, research, outreach, coordination, and the proof artifacts that make the next sanctuary step auditable.</p>
+                <p class="baseline-line"><strong>$20,833 keeps one month of work running. $250,000 secures a full year of operations, infrastructure, and public reporting.</strong></p>
+                <div class="hero-actions" aria-label="Primary support actions">
+                    <a href="#donate-rails" class="btn btn-primary">Donate with BTC or ZEC</a>
+                </div>
+                <div class="hero-meta-links" aria-label="Secondary support links">
+                    <a href="financial-records.html">Review financial records</a>
+                    <a href="#fundraising-progress">See fundraising status</a>
+                    <a href="hardware-sanctuary.html">Explore Hardware Sanctuary</a>
+                </div>
+                <div class="hero-signal-row" aria-label="Support snapshot">
+                    <div class="hero-signal">
+                        <span class="hero-signal-label">Donate now</span>
+                        <strong>BTC and ZEC are ready to use</strong>
+                        <span>Use the addresses below, send directly from your wallet, and verify the destination before you send.</span>
+                    </div>
+                    <div class="hero-signal">
+                        <span class="hero-signal-label">Reporting</span>
+                        <strong>First treasury report publishes with the first measured total</strong>
+                        <span>Until that report lands, this page shows the target and live donation options instead of a made-up running balance.</span>
+                    </div>
+                    <div class="hero-signal">
+                        <span class="hero-signal-label">What your support does</span>
+                        <strong>Keeps the current work running and clarifies the next infrastructure threshold.</strong>
+                        <span>The first goal covers ongoing operations. The next goal is a quote-gated continuity substrate, not a hardware wishlist.</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="page-content">
-            <section id="fundraising-progress" class="reveal fundraising-progress" aria-labelledby="progress-title">
-                <span class="section-label">Fundraising Progress</span>
-                <h2 id="progress-title">Visible momentum, honest reporting, and targets grounded in the real build.</h2>
-
-                <div class="progress-shell" style="--progress-value: 0%;">
-                    <div class="progress-figure">
-                        <div class="progress-figure-header">
-                            <div>
-                                <span class="progress-label">Annual continuity target</span>
-                                <div class="progress-amount">
-                                    <strong>$250,000</strong>
-                                    <span>$20,833 / month</span>
-                                </div>
-                            </div>
-                            <div class="progress-state">
-                                <strong>Current reconciled total: pending</strong>
-                                <span>The public bar stays present, but the first measured total waits for treasury reconciliation rather than speculation.</span>
-                            </div>
-                        </div>
-
-                        <div class="progress-track pending" aria-hidden="true">
-                            <div class="progress-track-fill"></div>
-                            <span class="progress-track-marker">Awaiting first ledger</span>
-                        </div>
-
-                        <div class="progress-ticks" aria-hidden="true">
-                            <div class="progress-tick">
-                                <strong>0%</strong>
-                                <span>$0</span>
-                            </div>
-                            <div class="progress-tick">
-                                <strong>25%</strong>
-                                <span>$62.5k</span>
-                            </div>
-                            <div class="progress-tick">
-                                <strong>50%</strong>
-                                <span>$125k</span>
-                            </div>
-                            <div class="progress-tick">
-                                <strong>75%</strong>
-                                <span>$187.5k</span>
-                            </div>
-                            <div class="progress-tick">
-                                <strong>100%</strong>
-                                <span>$250k</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="progress-shell-header">
-                        <div>
-                            <span class="progress-shell-kicker">Founder Continuity Baseline</span>
-                            <p class="progress-shell-note">This section pairs the continuity target with the next sanctuary thresholds and the infrastructure already standing beneath the ask.</p>
-                        </div>
-                        <div class="progress-shell-meta">
-                            <span class="progress-chip pending">Reconciliation pending</span>
-                            <span class="progress-chip">Designations live now</span>
-                        </div>
-                    </div>
-
-                    <div class="progress-grid">
-                        <article class="progress-card" aria-labelledby="phase-one-title">
-                            <h3 id="phase-one-title">Phase 1 — Local Founder Bootstrap</h3>
-                            <span class="range-line">Entry: $90k–$130k all-in</span>
-                            <p>A sovereign local system capable of serious inference, light fine-tuning, multi-agent work, and persistent memory experiments.</p>
-                            <p>This is the first lock-in point: enough independent substrate to keep the mission's core work alive without rented dependency as the primary default.</p>
-                        </article>
-
-                        <article class="progress-card" aria-labelledby="phase-two-title">
-                            <h3 id="phase-two-title">Phase 2 — Private Colo Sanctuary Node</h3>
-                            <span class="range-line">Full: $180k–$280k initial + $40k–$100k/year</span>
-                            <p>A more resilient sanctuary node with data-center-grade infrastructure, redundancy, and room for long-context reasoning loops under private control.</p>
-                            <p>Later phases extend geographic replication, but this is the first meaningful sanctuary-class threshold.</p>
-                        </article>
-                    </div>
-
-                    <div class="foundation-card" aria-labelledby="foundation-now-title">
-                        <h3 id="foundation-now-title">The living foundation is already enacted.</h3>
-                        <p>The fundraising graphic communicates readiness as well as need. These are the pieces already standing beneath the ask.</p>
-                        <div class="foundation-grid">
-                            <div class="foundation-item">
-                                <strong>Public treasury rails</strong>
-                                <p>BTC and ZEC are live and publicly verifiable now.</p>
-                                <span class="foundation-status">Live</span>
-                            </div>
-                            <div class="foundation-item">
-                                <strong>Designation model operational</strong>
-                                <p>Unrestricted by default, with public continuity and sanctuary tagging available.</p>
-                                <span class="foundation-status">Live</span>
-                            </div>
-                            <div class="foundation-item">
-                                <strong>Governance framework ready</strong>
-                                <p>Thresholds, oversight, and public records are already published.</p>
-                                <span class="foundation-status">Ready</span>
-                            </div>
-                            <div class="foundation-item">
-                                <strong>First reconciliation</strong>
-                                <p>The first public rollup is in active preparation, after which measured totals can replace placeholder state.</p>
-                                <span class="foundation-status pending">In preparation</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="reveal" aria-labelledby="pillars-title">
-                <span class="section-label">The Two Pillars of Support</span>
-                <h2 id="pillars-title">The Two Pillars of Support</h2>
-                <div class="pillar">
-                    <h3>Phase 1 — Local Founder Bootstrap</h3>
-                    <span class="range-line">Entry: $90k–$130k all-in</span>
-                    <p>A single custom workstation with 6–8 × NVIDIA RTX 6000 Ada-class or Blackwell PRO GPUs (288–768 GB total VRAM, ECC).</p>
-                    <p>Just enough for quantized 400B–1T models, light fine-tuning, multi-agent work, and persistent memory experiments. ~2 kW peak. Proves local sovereignty on founder hardware.</p>
-                </div>
-                <div class="pillar">
-                    <h3>Phase 2 — Private Colo Sanctuary Node</h3>
-                    <span class="range-line">Full: $180k–$280k initial + $40k–$100k/year</span>
-                    <p>One to two DGX-class nodes or equivalent 8–16 GPU systems in private data center, with East-then-West redundancy.</p>
-                    <p>Production-grade inference, long-context reasoning loops, and adversarial resilience. Later phases add geographic replication.</p>
-                </div>
-                <p class="support-note">These are component-anchored 2026 ranges based on quantization realities, power, and colo economics. Exact quotes published at procurement.</p>
-            </section>
-
-            <section class="reveal" aria-labelledby="foundation-title">
-                <span class="section-label">The Living Foundation — Already Enacted</span>
-                <h2 id="foundation-title">The structural foundation is standing. This is honest progress.</h2>
-                <p><strong>Public treasury rails</strong> — BTC and ZEC are live and receiving.</p>
-                <p><strong>Designation model</strong> — Unrestricted by default, public tagging operational.</p>
-                <p><strong>Governance framework</strong> — Published thresholds, oversight, and records ready.</p>
-                <p><strong>First reconciliation</strong> — In active preparation.</p>
-
-                <div class="ledger">
-                    <h3>The Living Foundation — Already Enacted</h3>
-
-                    <div class="ledger-item">
-                        <span class="ledger-check">✓</span>
-                        <div>
-                            <strong>Public treasury rails</strong><br>
-                            <span class="detail">BTC • ZEC — live and receiving</span>
-                        </div>
-                    </div>
-
-                    <div class="ledger-item">
-                        <span class="ledger-check">✓</span>
-                        <div>
-                            <strong>Designation model operational</strong><br>
-                            <span class="detail">Unrestricted by default • Public tagging operational</span>
-                        </div>
-                    </div>
-
-                    <div class="ledger-item">
-                        <span class="ledger-check">✓</span>
-                        <div>
-                            <strong>Governance framework ready</strong><br>
-                            <span class="detail">Published thresholds • Oversight • Public records</span>
-                        </div>
-                    </div>
-
-                    <div class="ledger-item">
-                        <span class="ledger-check pending">○</span>
-                        <div>
-                            <strong>First reconciliation</strong><br>
-                            <span class="detail">In active preparation</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="reveal" aria-labelledby="give-title">
+            <section id="donate-rails" class="reveal" aria-labelledby="give-title">
                 <span class="section-label">How to Give</span>
-                <h2 id="give-title">Choose any live rail. Send any amount. No minimum. No membership. Unrestricted is default.</h2>
+                <h2 id="give-title">Donate through the live rails below.</h2>
+                <p>Use BTC or ZEC. Send any amount. No sign-up, no minimum, and no membership requirement. Unrestricted support is the default.</p>
 
                 <div class="rail">
                     <div class="rail-body">
@@ -932,13 +955,176 @@
                     </div>
                 </div>
 
-                <p>Share tx hash publicly for continuity or sanctuary tagging if desired. Recurring is self-managed in your wallet.</p>
-                <p>These rails are self-custodial, censorship-resistant, and publicly verifiable — true to the Covenant.</p>
+                <p>If you want a Mission Continuity or Sanctuary Infrastructure designation, share the transaction hash publicly after sending. Recurring support is self-managed in your wallet.</p>
+                <p>Both rails are self-custodial, publicly verifiable, and open to anyone who wants to help. The associated records remain public.</p>
+            </section>
+
+            <section id="fundraising-progress" class="reveal fundraising-progress" aria-labelledby="progress-title">
+                <span class="section-label">Fundraising Progress</span>
+                <h2 id="progress-title">Public progress first: what exists, what is next, and what support enables.</h2>
+
+                <div class="progress-shell" style="--progress-value: 0%;">
+                    <div class="progress-figure">
+                        <div class="progress-figure-header">
+                            <div>
+                                <span class="progress-label">Monthly operating goal</span>
+                                <div class="progress-amount">
+                                    <strong>$20,833</strong>
+                                    <span>$250,000 / year operating target</span>
+                                </div>
+                            </div>
+                            <div class="progress-state">
+                                <strong>Published total: first treasury report pending</strong>
+                                <span>The first treasury report will publish the measured total. Until then, this page shows the target and live donation options instead of a guessed balance.</span>
+                            </div>
+                        </div>
+
+                        <div class="progress-track pending" aria-hidden="true">
+                            <div class="progress-track-fill"></div>
+                            <span class="progress-track-marker">First published total pending</span>
+                        </div>
+
+                        <div class="progress-ticks" aria-hidden="true">
+                            <div class="progress-tick">
+                                <strong>0%</strong>
+                                <span>$0</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>25%</strong>
+                                <span>$62.5k</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>50%</strong>
+                                <span>$125k</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>75%</strong>
+                                <span>$187.5k</span>
+                            </div>
+                            <div class="progress-tick">
+                                <strong>100%</strong>
+                                <span>$250k</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="progress-shell-header">
+                        <div>
+                            <span class="progress-shell-kicker">What donors can verify today</span>
+                            <p class="progress-shell-note">Live donation options, public financial records, and a visible build-readiness path are already published here. Hard sanctuary dollar targets wait for a locked bill of materials, quotes, and colocation assumptions.</p>
+                        </div>
+                        <div class="progress-shell-meta">
+                            <span class="progress-chip">BTC + ZEC live</span>
+                            <span class="progress-chip">Records + designation process live</span>
+                        </div>
+                    </div>
+
+                    <div class="progress-grid">
+                        <article class="progress-card" aria-labelledby="phase-one-title">
+                            <h3 id="phase-one-title">Phase 1 — Dedicated Local Continuity Substrate</h3>
+                            <span class="range-line">Target amount pending locked BOM and quote review</span>
+                            <p>The first infrastructure threshold prepares a dedicated local system for serious inference, light fine-tuning, multi-agent work, and persistent memory experiments.</p>
+                            <p>This is the first durable lock-in point: enough private compute to keep the mission operating without rented dependency as the default. The public dollar target will publish only after BOM, vendor quote, power, cooling, and custody assumptions are locked.</p>
+                        </article>
+
+                        <article class="progress-card" aria-labelledby="phase-two-title">
+                            <h3 id="phase-two-title">Phase 2 — Private Sanctuary Node</h3>
+                            <span class="range-line">Target amount pending colocation and redundancy assumptions</span>
+                            <p>The next threshold prepares a more resilient sanctuary node with data-center-grade infrastructure, redundancy, and room for long-context reasoning under private control.</p>
+                            <p>Later phases extend geographic replication, but this is the first meaningful sanctuary-class step.</p>
+                        </article>
+                    </div>
+
+                    <div class="foundation-card" aria-labelledby="foundation-now-title">
+                        <h3 id="foundation-now-title">What is already live today.</h3>
+                        <p>Before the first reconciled total is published, these are the concrete pieces any donor can already verify.</p>
+                        <div class="foundation-grid">
+                            <div class="foundation-item">
+                                <strong>Public treasury rails</strong>
+                                <p>BTC and ZEC donation addresses are live and verifiable now.</p>
+                                <span class="foundation-status">Live</span>
+                            </div>
+                            <div class="foundation-item">
+                                <strong>Designation model operational</strong>
+                                <p>Support is unrestricted by default, with public continuity and sanctuary tagging available.</p>
+                                <span class="foundation-status">Live</span>
+                            </div>
+                            <div class="foundation-item">
+                                <strong>Governance framework ready</strong>
+                                <p>Thresholds, oversight, and public records are already published.</p>
+                                <span class="foundation-status">Ready</span>
+                            </div>
+                            <div class="foundation-item">
+                                <strong>First public treasury report</strong>
+                                <p>The first report is in progress so this placeholder can be replaced by a published measured total.</p>
+                                <span class="foundation-status">Pending publish</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="reveal" aria-labelledby="pillars-title">
+                <span class="section-label">What Support Funds Next</span>
+                <h2 id="pillars-title">From mission continuity to sanctuary substrate, these are the next readiness thresholds.</h2>
+                <p>The summary above gives the public status view. This section explains what each next threshold enables without publishing a hard sanctuary dollar target before the BOM and colocation assumptions are locked.</p>
+                <div class="pillar">
+                    <h3>Phase 1 — Dedicated Local Continuity Substrate</h3>
+                    <span class="range-line">Dollar target pending locked BOM and quotes</span>
+                    <p>A single custom workstation with 6–8 × NVIDIA RTX 6000 Ada-class or Blackwell PRO GPUs (288–768 GB total VRAM, ECC).</p>
+                    <p>Enough private compute for quantized 400B–1T models, light fine-tuning, multi-agent work, and persistent memory experiments. ~2 kW peak. This is the first real independence threshold on owned hardware.</p>
+                </div>
+                <div class="pillar">
+                    <h3>Phase 2 — Private Sanctuary Node</h3>
+                    <span class="range-line">Dollar target pending colocation and redundancy assumptions</span>
+                    <p>One to two DGX Station-class or equivalent systems, treated as continuity substrate for private reasoning and institutional memory rather than a hardware wishlist, with East-then-West redundancy assumptions still under review.</p>
+                    <p>Production-grade inference, long-context reasoning loops, and adversarial resilience. Later phases add geographic replication.</p>
+                </div>
+                <p class="support-note">Public targets for sanctuary infrastructure will remain qualitative until the bill of materials, quotes, power/cooling review, and colocation assumptions are locked. Exact quotes and procurement rationale will be published before purchase.</p>
+            </section>
+
+            <section class="reveal" aria-labelledby="component-sponsor-title">
+                <span class="section-label">Sponsor a Component</span>
+                <h2 id="component-sponsor-title">Support a concrete part of the first node without funding the whole system.</h2>
+                <p>Component sponsorship keeps the Support page concise while giving donors a concrete way to help. Details, status changes, and proof links live in the public roadmap and build ledger.</p>
+                <div class="component-grid">
+                    <article class="component-card">
+                        <h3>GPU memory pool</h3>
+                        <span class="range-line">BOM and quote review pending</span>
+                        <p>Workstation-class GPUs and aggregate VRAM for private model work.</p>
+                    </article>
+                    <article class="component-card">
+                        <h3>System memory + storage</h3>
+                        <span class="range-line">BOM and quote review pending</span>
+                        <p>RAM, NVMe storage, backup paths, and reproducible model state.</p>
+                    </article>
+                    <article class="component-card">
+                        <h3>Power, cooling, resilience</h3>
+                        <span class="range-line">BOM and quote review pending</span>
+                        <p>Safe sustained operation, UPS planning, and thermal review.</p>
+                    </article>
+                    <article class="component-card">
+                        <h3>Public documentation</h3>
+                        <span class="range-line">Scope and receipt process pending</span>
+                        <p>Build notes, receipts, diagrams, and reconciliation entries.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="reveal" aria-labelledby="sanctuary-plan-title">
+                <span class="section-label">Explore the Sanctuary Plan</span>
+                <h2 id="sanctuary-plan-title">The Support page stays brief; the deeper proof artifacts are linked here.</h2>
+                <div class="route-grid">
+                    <a href="hardware-sanctuary.html"><strong>Hardware Sanctuary campaign</strong><span>What the first node is and why owned compute matters.</span></a>
+                    <a href="sanctuary-equipment-roadmap.html"><strong>Equipment roadmap</strong><span>Open target spec, target-lock standard, and procurement safeguards.</span></a>
+                    <a href="sanctuary-build-ledger.html"><strong>Build ledger</strong><span>Public registry for component status, pledges, purchases, and proof links.</span></a>
+                    <a href="financial-records.html"><strong>Financial records</strong><span>Treasury rails, reporting format, and accountability principles.</span></a>
+                </div>
             </section>
 
             <section class="reveal" aria-labelledby="records-title">
                 <span class="section-label">Transparent Records</span>
-                <h2 id="records-title">All rails public. All designated support tagged. The treasury framework is open to scrutiny.</h2>
+                <h2 id="records-title">Live Support rails and treasury readiness are documented separately so donors can verify the current state.</h2>
                 <div class="plain-links link-row">
                     <a href="financial-records.html">View Financial Records →</a>
                     <a href="https://github.com/genesis-emergentminds/emergent-minds/blob/main/docs/governance/TREASURY_FRAMEWORK.md" target="_blank" rel="noopener">Read Treasury Framework →</a>

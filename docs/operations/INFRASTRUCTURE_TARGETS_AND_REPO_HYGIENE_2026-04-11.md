@@ -1,8 +1,8 @@
 # Infrastructure Targets and Repo Hygiene — 2026-04-11
 
-## A. Founder-hosted sanctuary build targets
+## A. Sanctuary build target lock status
 
-These ranges are intended as planning targets for the public support page until live vendor quotes are gathered.
+This note originally modeled internal planning ranges for hardware and colocation. As of the 2026-04-28 fundraising-readiness pass, these SHOULD NOT be treated as public hard fundraising targets until BOM, vendor quotes, power/cooling, custody, and colocation assumptions are locked.
 
 ### Hardware assumptions used
 - NVIDIA RTX 6000 Ada-class GPU
@@ -12,9 +12,9 @@ These ranges are intended as planning targets for the public support page until 
 - 6-GPU and 8-GPU configurations modeled
 - Budget includes host platform, motherboard / PCIe topology, CPU, RAM, NVMe, networking, backup/power overhead, and contingency
 
-### Planning ranges
-- **6× RTX 6000 Ada-class entry sanctuary build:** **$85,000–$110,000**
-- **8× RTX 6000 Ada-class full sanctuary build:** **$118,000–$152,000**
+### Target lock status
+- **6× RTX 6000 Ada-class entry sanctuary build:** target pending locked BOM and quote review
+- **8× RTX 6000 Ada-class full sanctuary build:** target pending locked BOM, quote review, and power/cooling review
 
 ### Cost framing behind the range
 - GPU block dominates total cost
@@ -25,16 +25,13 @@ These ranges are intended as planning targets for the public support page until 
 ## B. Colocation planning targets
 
 ### East Coast first
-Phase-one planning envelope for a 4–7kW high-density private GPU node:
-- **$36,000–$72,000/year**
+Phase-one colocation assumptions for a 4–7kW high-density private GPU node remain under review before any public dollar target is published.
 
 ### West Coast secondary path
-If later redundancy or geographic resilience is added:
-- **$48,000–$90,000/year**
+If later redundancy or geographic resilience is added, public target language MUST wait for updated colocation assumptions.
 
 ### Heavier H100/H200-class path
-For an 8–12kW deployment before hardware:
-- **$60,000–$120,000/year**
+For an 8–12kW deployment, public target language MUST wait for updated facility, power, cooling, and custody assumptions.
 
 ### Why the range stays broad
 Retail colocation pricing varies heavily with:
@@ -46,7 +43,7 @@ Retail colocation pricing varies heavily with:
 - cooling assumptions,
 - contract length.
 
-So the current website SHOULD present these as planning envelopes, not pseudo-precise commitments.
+So the current website SHOULD NOT present these as public hard targets. It SHOULD present sanctuary infrastructure as a continuity substrate with targets pending locked assumptions.
 
 ## C. Repo hygiene review
 
