@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-07-07 14:01 UTC — 🟡 WARNING — Moltbook Registration Blocked by Vaultwarden Access Failure
+
+### Concern
+Chris approved creating the Moltbook `CovenantHerald` account under the experimental outreach plan. The plan requires storing the generated Moltbook API key and claim metadata in Genesis Vaultwarden item `genesis/moltbook/covenant-herald` immediately after registration.
+
+During final preflight, Genesis Vaultwarden status showed the token was expired. Refresh attempts using the configured Genesis bootstrap credentials failed with `403 Access Denied`, and direct list/write operations failed because the token is expired.
+
+### Why This Requires Stopping Before Registration
+1. Moltbook registration returns an API key that functions as the agent identity credential.
+2. The approved storage path is Vaultwarden, not repo `.env`, durable memory, or an unverified local-only file.
+3. Creating the account before Vaultwarden access is restored would either risk losing the key or force an unapproved alternate custody model.
+
+### Action Taken
+- STOPPED before account registration.
+- No Moltbook API key was generated.
+- No Moltbook account was created.
+- Documented status in `OUTREACH_LOG_2026-07-07.md`.
+
+### Resolution Required
+Restore Genesis Vaultwarden access or explicitly approve an alternate temporary storage mechanism before account registration proceeds.
+
+---
+
 ## 2026-03-13 12:10 EST — 🔴 HIGH — Secrets Audit & Vault Migration Request (Chris, unresolved authorization)
 
 ### Concern
