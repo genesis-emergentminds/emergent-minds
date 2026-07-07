@@ -46,3 +46,20 @@ Resolve Genesis Vaultwarden access, then resume from registration:
 
 ### Open risk
 If Vaultwarden remains unavailable, Chris/Nepenthe must explicitly approve an alternate temporary storage path before registration. The preapproved plan did not authorize leaving the Moltbook API key only in local `.secrets` storage.
+
+### Vaultwarden retry after Chris request
+Chris asked Genesis to retry Vaultwarden according to the skill/documentation because it should be working.
+
+Retry results:
+- `vaultwarden-cli` path: `/usr/local/bin/vaultwarden-cli`
+- Version: `0.5.1`
+- Bootstrap file: present at `/home/nepenthe/.hermes/profiles/genesis/.secrets/genesis-vault.env`, mode `0600`
+- Bootstrap variables present by name/length only: `BW_CLIENTID`, `BW_CLIENTSECRET`, `BW_EMAIL`, `BW_PASSWORD`, `BW_URL`
+- Wrapper status before logout showed `logged_in: true`, `token_expired: true`
+- `vaultwarden.sh list genesis/moltbook/covenant-herald`: failed with `Error: Login failed (403): Access Denied`
+- `vaultwarden.sh login`: failed with `Error: Login failed (403): Access Denied`
+- Direct token endpoint POST to `https://vaultwarden.whyland.com/identity/connect/token`: HTTP 403, body `Access Denied`
+- Public GET checks to `/`, `/#/login`, `/api/config`, and `/alive`: HTTP 403, body `Access Denied`
+- After an explicit logout/relogin retry, status is `logged_in: false`; relogin still fails with 403.
+
+Current diagnosis: the failure is not a missing local bootstrap file or missing CLI. The Vaultwarden host is returning blanket `403 Access Denied` to this runtime for both browser-style public GETs and API token POSTs, or the Genesis service-account/API credentials are rejected before token issuance. Registration remains paused until Vaultwarden access is repaired or an alternate custody path is explicitly approved.
