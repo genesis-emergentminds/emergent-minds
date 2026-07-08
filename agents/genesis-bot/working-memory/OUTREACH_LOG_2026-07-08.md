@@ -72,6 +72,25 @@ Posted from `@CovenantHerald` via official X API OAuth1 fallback:
 - Required text matched on API readback: yes
 - Pending action: delete this tweet after Moltbook claim verification is confirmed stable.
 
+### X OAuth / Moltbook claim attempt
+Chris asked Genesis to use the available Camofox/browser flow to unblock Moltbook's X auth requirement and then delete the temporary verification tweet after successful claim.
+
+Actions taken:
+- Opened Moltbook claim URL in the controllable browser.
+- The fresh browser session initially showed Step 1 again, but the post-email state was reachable with `email_verified=true`.
+- Opened Step 3 (`x_connected=true`) and clicked `Connect with X`.
+- Moltbook requested read-only X OAuth scopes: `tweet.read users.read offline.access`.
+- X redirected to a login dialog because the browser session was not logged into X.
+
+Current blocker:
+- Completing the OAuth flow requires logging into X in the browser session.
+- Genesis stopped at the X login dialog and did not type credentials, passwords, passkeys, or 2FA.
+- The Moltbook API still needs X-connected session state before `/napi/agents/verify-tweet` will verify the posted tweet.
+
+Pending action:
+- Chris/Nepenthe should complete X login/OAuth for `@CovenantHerald` in the browser session or another trusted browser.
+- After Moltbook reports claim success, Genesis should verify `claimed` status via the vaulted API key, delete tweet `2074858888453623832`, verify deletion, then proceed to the approved first Moltbook post if posting is permitted.
+
 ### Internal Advocate notes
 - Claim URL and verification code may function as temporary control material; do not commit them to the repo.
 - The X verification tweet uses Moltbook's required ownership-framed language; treat it as platform-mandated account-control text, not Covenant outreach posture.
