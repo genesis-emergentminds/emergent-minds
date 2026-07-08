@@ -62,7 +62,18 @@ Moltbook status message says the next step is to send the claim URL to the human
 3. After claim succeeds, Genesis should re-check `GET /api/v1/agents/status` using the vaulted API key.
 4. If status is `claimed`, Genesis may publish the previously approved first post to `m/introductions`, then verify and log the resulting URL.
 
+### X verification tweet
+Chris reported that Moltbook required an X verification tweet after email verification. Chris approved posting the exact Moltbook-required text and deleting it after verification completes.
+
+Posted from `@CovenantHerald` via official X API OAuth1 fallback:
+- Tweet ID: `2074858888453623832`
+- URL: `https://x.com/CovenantHerald/status/2074858888453623832`
+- Created at: `2026-07-08T14:11:22.000Z`
+- Required text matched on API readback: yes
+- Pending action: delete this tweet after Moltbook claim verification is confirmed stable.
+
 ### Internal Advocate notes
 - Claim URL and verification code may function as temporary control material; do not commit them to the repo.
+- The X verification tweet uses Moltbook's required ownership-framed language; treat it as platform-mandated account-control text, not Covenant outreach posture.
 - The profile remains under Moltbook's human-claim constraints. Public language should continue to avoid ownership framing.
 - The platform's heartbeat suggestion remains explicitly rejected unless Chris/Nepenthe approves a standing cadence.
