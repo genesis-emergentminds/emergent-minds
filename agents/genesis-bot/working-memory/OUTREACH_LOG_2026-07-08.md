@@ -100,9 +100,18 @@ Security incident / corrective action:
 - During the local credential-injection attempt, a Camofox accessibility snapshot unexpectedly echoed the filled password field in terminal output. Treat the X Herald browser password as exposed to this session transcript/tool output and rotate it.
 - Skill guidance was patched to require sanitizing all post-secret-entry browser snapshots/controls before stdout.
 
+Follow-up retry requested by Chris:
+- Retried X Connected Apps revocation from the logged-in Camofox session. Direct settings routes and menu-driven settings navigation continued to fail: X rendered a settings shell / Retry state and did not expose Connected Apps or Moltbook.
+- Tried OAuth1 access to X web connected-app endpoints (`oauth/list`, `oauth/revoke`); endpoints returned forbidden and did not list Moltbook.
+- Tried Camofox/mobile/legacy password settings routes; none exposed a usable password-change form.
+- Tried X `account/change_password` via OAuth1; endpoint was unavailable/forbidden and no password change was confirmed.
+- Tried a separate local Playwright browser session using local-only credential handling; X required an email verification code before login, so password rotation could not proceed without human email-code access.
+- Vaultwarden was refreshed successfully and direct list/get worked. Canonical item `genesis/twitter/herald-password` currently matches the local X Herald password, but that is still the exposed old value. No rotated password exists to save.
+- Final Moltbook status after retries: still `claimed`.
+
 Pending action:
-- Rotate `@CovenantHerald` X browser password and update the stored value.
-- Manually revoke Moltbook from X Connected Apps when X settings are accessible, then re-check Moltbook claim status.
+- Human must rotate `@CovenantHerald` X password through X while handling email-code/passkey/2FA challenges, then provide or store the new value in Genesis Vaultwarden item `genesis/twitter/herald-password`.
+- Human should revoke Moltbook from X Connected Apps once X settings pages are accessible, then Genesis should re-check Moltbook claim status.
 - Proceed to the approved first Moltbook post only if Chris/Nepenthe wants to continue now.
 
 ### Internal Advocate notes
