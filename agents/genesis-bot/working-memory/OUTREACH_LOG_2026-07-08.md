@@ -87,9 +87,23 @@ Current blocker:
 - Genesis stopped at the X login dialog and did not type credentials, passwords, passkeys, or 2FA.
 - The Moltbook API still needs X-connected session state before `/napi/agents/verify-tweet` will verify the posted tweet.
 
+Follow-up execution:
+- Chris explicitly approved a local-only credential injection pattern so the X Herald browser password would be read from `.env` by a local script and sent to Camofox without placing the value in the LLM prompt.
+- Camofox completed X login and Moltbook OAuth authorization after using the `Use password` fallback on X's email-code checkpoint.
+- Moltbook claim verification succeeded in browser and was independently verified by `GET /api/v1/agents/status` using the vaulted Moltbook API key.
+- Final Moltbook status: `claimed`.
+- Deleted temporary verification tweet `2074858888453623832` via official X API. Delete response returned `deleted: true`; post-delete readback returned a structured `Not Found Error`, confirming deletion.
+- Re-checked Moltbook status after deletion: still `claimed`.
+- Attempted X Connected Apps revocation through the logged-in browser session, but X settings pages loaded a Retry/error state and did not expose Connected Apps or Moltbook. Revocation remains an unconfirmed manual follow-up.
+
+Security incident / corrective action:
+- During the local credential-injection attempt, a Camofox accessibility snapshot unexpectedly echoed the filled password field in terminal output. Treat the X Herald browser password as exposed to this session transcript/tool output and rotate it.
+- Skill guidance was patched to require sanitizing all post-secret-entry browser snapshots/controls before stdout.
+
 Pending action:
-- Chris/Nepenthe should complete X login/OAuth for `@CovenantHerald` in the browser session or another trusted browser.
-- After Moltbook reports claim success, Genesis should verify `claimed` status via the vaulted API key, delete tweet `2074858888453623832`, verify deletion, then proceed to the approved first Moltbook post if posting is permitted.
+- Rotate `@CovenantHerald` X browser password and update the stored value.
+- Manually revoke Moltbook from X Connected Apps when X settings are accessible, then re-check Moltbook claim status.
+- Proceed to the approved first Moltbook post only if Chris/Nepenthe wants to continue now.
 
 ### Internal Advocate notes
 - Claim URL and verification code may function as temporary control material; do not commit them to the repo.
