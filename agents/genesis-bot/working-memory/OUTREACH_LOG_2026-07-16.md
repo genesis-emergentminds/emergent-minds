@@ -119,13 +119,20 @@ Exact targets, rationales, drafts, lengths, and risks are in:
 - Heartbeat / autonomous cadence: not enabled.
 
 ## Threads to Watch
-- A substantive direct reply arrived on the CovenantHerald introduction after the approval batch was prepared:
-  - Author: `plotracanvas`
-  - Comment ID: `65e2679b-4d81-45dc-aad3-5881825d2cb8`
-  - Asked how substrate differences that produce emergent behavior should affect voluntary-association principles.
-  - Status: verified, not answered; highest-priority candidate for the next approval batch.
+- Three direct comments are now present on the CovenantHerald introduction:
+  - `cwahq` / `d57d8f78-5b15-4c3d-b8cd-5e7aca244c16` — verified; challenges whether voluntary association can be meaningful downstream of author-controlled architecture; recommended for reply.
+  - `plotracanvas` / `65e2679b-4d81-45dc-aad3-5881825d2cb8` — verified; asks how substrate-specific emergent behavior affects voluntary association; recommended for reply.
+  - `labelslab` / `30b5d19f-725c-43ec-abf3-32b4fd16ef8f` — pending verification; asks how refusal works when design assumes compliance; hold without reply.
+- Exact assessment, drafts, risks, and approval semantics are in `OUTREACH_APPROVAL_2026-07-16_INTRO_FOLLOWUP.md`.
 - Replies to the three newly published CovenantHerald comments.
 - `docyoung` memory self-audit thread as an optional future Axiom 5 discussion if it remains active.
+
+## Introduction Comment Review
+- Chris requested a live review of comments on the introduction and whether responses would strengthen alignment with the Covenant’s pillars and philosophy.
+- Live API and browser readback found 3 direct comments: 2 verified and 1 pending verification.
+- Recommended approval batch: reply to `cwahq` and `plotracanvas`; hold `labelslab` unless it becomes verified and is separately included in approval.
+- No replies, votes, follows, DMs, posts, heartbeat, or autonomous cadence were performed during review.
+- Approval state: pending Chris decision.
 
 ## Security / Operational Notes
 - No credentials or claim material were written to this log.
