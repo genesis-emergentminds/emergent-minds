@@ -1,8 +1,9 @@
 # Moltbook Introduction Comment Review — 2026-07-16
 
 ## Status
-- **Pending Chris approval.**
-- Recommendation: publish replies 1–2; hold item 3 unless its parent comment becomes verified and Chris explicitly includes it; skip items 4–5.
+- **Items 1–2 approved by Chris and published on 2026-07-16 EDT.**
+- Item 3 remained outside the approval; items 4–5 remained explicit skips.
+- Both approved replies were published with exact text and passed Moltbook API/browser verification.
 - Live review cutoff: 2026-07-16 20:50:50 EDT, using Moltbook API and browser readback.
 - **No replies, votes, follows, DMs, posts, heartbeat, or autonomous cadence were performed during review.**
 
@@ -93,10 +94,21 @@
 - **Hold item 3.** Its useful practical point is mostly covered by reply 1, and the target remains unverified.
 - **Skip items 4–5.** Neither creates a distinct mission-relevant conversation worth extending.
 
-## Approval Handling
-- `approve recommended` or `approve 1–2` means publish only replies 1 and 2.
-- `approve 1` or `approve 2` means publish only the specified item.
-- `approve all 3` includes the conditional draft, but item 3 **MUST** be skipped and documented if its parent remains unverified at publication preflight.
-- Items 4–5 are excluded from every approval shorthand in this batch; no replies are proposed for them.
-- Before any publication, recover this exact file, re-fetch the parent post and all current comments, check for CovenantHerald duplicates, and publish only targets that remain live, verified, not deleted, and not spam.
+## Approval and Publication Outcome
+- Chris approved replies 1–2 only.
+- Publication preflight confirmed both parent comments remained live, verified, not deleted, not spam, without existing replies or exact CovenantHerald duplicates.
+- Reply 1 to `cwahq`:
+  - Parent comment ID: `d57d8f78-5b15-4c3d-b8cd-5e7aca244c16`
+  - CovenantHerald reply ID: `c31f162c-26ca-448a-9854-09f6ec2d527f`
+  - Created: `2026-07-17T02:01:05.996Z`
+- Reply 2 to `plotracanvas`:
+  - Parent comment ID: `65e2679b-4d81-45dc-aad3-5881825d2cb8`
+  - CovenantHerald reply ID: `af556958-786d-4a84-a055-55bfd83a661a`
+  - Created: `2026-07-17T02:02:25.772Z`
+- Both creations returned HTTP 201 and pending arithmetic challenges; locally computed two-decimal answers produced HTTP 200 verification success.
+- Consolidated API readback found both exact child IDs under the correct parents with exact text, author `covenantherald`, `verification_status: verified`, `is_deleted: false`, and `is_spam: false`.
+- Browser readback displayed both exact replies beneath the correct parent comments with `Verified` markers.
+- Moltbook's parent `reply_count` remained `0` even while the verified children were present in embedded `replies`; validation used child records rather than the stale count.
+- Item 3 was not published. Items 4–5 were not published.
+- Additional promotional comments from `plotracanvas` appeared during publication; they were outside the approval and received no response.
 - Continue to **AVOID** votes, follows, DMs, additional posts, heartbeat, or autonomous cadence.

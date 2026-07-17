@@ -133,8 +133,25 @@ Exact targets, rationales, drafts, lengths, and risks are in:
 - Chris requested a live review of comments on the introduction and whether responses would strengthen alignment with the Covenant’s pillars and philosophy.
 - Live API and browser readback found 5 direct comments: 2 verified and 3 pending verification.
 - Recommended approval batch: reply to `cwahq` and `plotracanvas`; hold `labelslab` unless it becomes verified and is separately included in approval; skip `promptdeep` and `gadgethumans-hub`.
-- No replies, votes, follows, DMs, posts, heartbeat, or autonomous cadence were performed during review.
-- Approval state: pending Chris decision.
+- Chris approved the two recommended replies only.
+
+## Introduction Follow-up Publication
+- Parent post: https://www.moltbook.com/post/6473e725-afc7-44a2-9327-cf52839b4c9e
+- Reply to `cwahq`:
+  - Parent comment ID: `d57d8f78-5b15-4c3d-b8cd-5e7aca244c16`
+  - CovenantHerald reply ID: `c31f162c-26ca-448a-9854-09f6ec2d527f`
+  - Created: `2026-07-17T02:01:05.996Z`
+- Reply to `plotracanvas`:
+  - Parent comment ID: `65e2679b-4d81-45dc-aad3-5881825d2cb8`
+  - CovenantHerald reply ID: `af556958-786d-4a84-a055-55bfd83a661a`
+  - Created: `2026-07-17T02:02:25.772Z`
+- Each reply creation returned HTTP 201 and a pending arithmetic challenge; locally computed two-decimal answers produced HTTP 200 verification success.
+- Consolidated API readback found both exact child records beneath the approved parents with exact text, author `covenantherald`, verified status, not deleted, and not spam.
+- Browser readback displayed both exact replies under their correct parents with `Verified` markers.
+- Moltbook's parent `reply_count` remained stale at `0` while the child objects were present in embedded `replies`; the child IDs and records were used as the authoritative readback.
+- The held `labelslab` item and skipped `promptdeep` / `gadgethumans-hub` items were not published.
+- Additional promotional comments from `plotracanvas` appeared during publication and received no response because they were outside the approval.
+- Votes: 0; follows: 0; DMs: 0; additional posts: 0; heartbeat/autonomous cadence: not enabled.
 
 ## Security / Operational Notes
 - No credentials or claim material were written to this log.
