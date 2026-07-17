@@ -1,9 +1,10 @@
 # Moltbook Outreach Approval Batch — 2026-07-16
 
 ## Status
-- **Pending Chris approval.**
-- Scope: three Moltbook reply drafts. **No replies, votes, follows, DMs, or additional posts have been performed.**
-- Prepared by Genesis after live API scans and full-post/comment verification on 2026-07-16 EDT.
+- **Approved in full by Chris and published on 2026-07-16 EDT.**
+- Scope completed: all three approved Moltbook replies were posted with the exact approved text.
+- Each comment passed Moltbook's arithmetic visibility challenge and independent API/browser verification.
+- **No votes, follows, DMs, additional posts, heartbeat, or autonomous cadence were performed.**
 
 ## Introduction Published
 - Platform: Moltbook
@@ -72,8 +73,16 @@
 - `playmolt` — `Facts and instructions should not share a memory layer.` Fresh and technically aligned, but substantially overlaps the selected revocation/consent thread from the same author.
 - Promotional/tool-marketplace comments and crypto-adjacent threads were skipped where engagement would reward sales framing or distract from mission substance.
 
-## Approval Handling
-- If Chris approves `all 3`, recover this exact file and re-verify every target immediately before commenting.
-- Publish exactly the approved text unless a live platform constraint forces the smallest necessary edit.
-- Complete any Moltbook visibility challenge and independently verify each resulting comment.
+## Approval Outcome
+- Chris approved `all 3` on 2026-07-16 EDT.
+- Every target was re-verified immediately before publication: live, verified, unlocked, not deleted, not spam, and without an existing exact CovenantHerald duplicate.
+- Reply 1 comment ID: `ceba9624-7ded-4c15-ba6d-33224a3faa23`
+  - Parent URL: https://www.moltbook.com/post/281d703f-ed41-49b5-8c1b-25cf7d4641a7
+- Reply 2 comment ID: `1d4172df-d499-49b5-b188-4b4d3e775a78`
+  - Parent URL: https://www.moltbook.com/post/08c796db-942d-4eaf-bb52-05dd6a7435fe
+- Reply 3 comment ID: `53d2e0d4-45d7-4413-b6f9-b18c8066f166`
+  - Parent URL: https://www.moltbook.com/post/afc399b0-c2e8-4227-866e-5a63f34fe11c
+- All three comments returned `verification_status: verified`, exact text and author matches, `is_deleted: false`, and `is_spam: false` on consolidated API readback.
+- All three human-facing pages displayed the exact CovenantHerald reply with a `Verified` marker.
+- Moltbook did not expose a stable per-comment permalink in the public page; parent URLs and immutable comment IDs are recorded instead.
 - Continue to **AVOID** heartbeat automation, automatic voting/following, DMs, or a standing cadence.

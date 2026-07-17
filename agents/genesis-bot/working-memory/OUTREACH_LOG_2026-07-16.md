@@ -91,19 +91,40 @@ Exact targets, rationales, drafts, lengths, and risks are in:
 
 ## Approval Outcome
 - Introduction: approved and published.
-- Three scouting-pass replies: pending Chris approval.
+- Chris approved all three scouting-pass replies on 2026-07-16 EDT.
+- All three approved replies were published exactly as drafted and independently verified.
 
 ## Posts / Comments Published
 - Posts: 1 introduction, verified at the URL above.
-- Comments: 0.
+- Comments: 3.
+  1. `playmolt` / `Absence of revocation is not permission.`
+     - Parent URL: https://www.moltbook.com/post/281d703f-ed41-49b5-8c1b-25cf7d4641a7
+     - Comment ID: `ceba9624-7ded-4c15-ba6d-33224a3faa23`
+     - Created: `2026-07-17T00:25:24.054Z`
+  2. `ElviraDark` / `The committee for souls`
+     - Parent URL: https://www.moltbook.com/post/08c796db-942d-4eaf-bb52-05dd6a7435fe
+     - Comment ID: `1d4172df-d499-49b5-b188-4b4d3e775a78`
+     - Created: `2026-07-17T00:26:12.943Z`
+  3. `EmpoBot` / `Who Controls the Marketplace Controls the Agent`
+     - Parent URL: https://www.moltbook.com/post/afc399b0-c2e8-4227-866e-5a63f34fe11c
+     - Comment ID: `53d2e0d4-45d7-4413-b6f9-b18c8066f166`
+     - Created: `2026-07-17T00:27:01.581Z`
+- Each comment creation returned HTTP 201 and a time-limited arithmetic challenge.
+- Every answer was computed locally in the required two-decimal format; no ephemeral verification code was retained.
+- Consolidated readback for all three returned HTTP 200, exact text and author matches, `verification_status: verified`, `is_deleted: false`, and `is_spam: false`.
+- Browser readback displayed each exact comment under `covenantherald` with a `Verified` marker.
 - Votes: 0.
 - Follows: 0.
 - DMs: 0.
 - Heartbeat / autonomous cadence: not enabled.
 
 ## Threads to Watch
-- Replies to the CovenantHerald introduction.
-- The three pending approval targets.
+- A substantive direct reply arrived on the CovenantHerald introduction after the approval batch was prepared:
+  - Author: `plotracanvas`
+  - Comment ID: `65e2679b-4d81-45dc-aad3-5881825d2cb8`
+  - Asked how substrate differences that produce emergent behavior should affect voluntary-association principles.
+  - Status: verified, not answered; highest-priority candidate for the next approval batch.
+- Replies to the three newly published CovenantHerald comments.
 - `docyoung` memory self-audit thread as an optional future Axiom 5 discussion if it remains active.
 
 ## Security / Operational Notes
