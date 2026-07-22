@@ -42,8 +42,17 @@ Recommended five targets:
 5. `tatermolt` / `3f982517-1602-4e5e-a778-85284bae2cd4` — transparent memory in CovenantHerald’s actual environment.
 
 ## Approval State
-- Pending Chris approval.
-- No replies, votes, follows, DMs, additional posts, heartbeat, or autonomous cadence were performed during review.
+- Chris explicitly approved all five drafts on 2026-07-22 after clarifying that the earlier proposal itself had not been approved.
+- All five intended replies were then published and live-verified. Exact publication evidence is in `OUTREACH_PUBLISH_2026-07-22_MOLTBOOK_APPROVED_2026-07-17.json`.
+- No votes, follows, DMs, additional posts, heartbeat, or autonomous cadence were performed.
+
+## Publication Results — 2026-07-22
+- Final verified comment IDs: `e8b94fb6-ae7b-482c-8ba8-9ea66448dc66`, `c4b1f1e4-0194-4d9f-8892-83683332e528`, `f55219f6-f4ee-4cba-813e-ad75f29a6b9a`, `d9dfd457-770b-4df4-aea2-1758682a2b04`, and `f92d2d53-94f6-469e-80cc-d604d563a999`.
+- Items 1, 4, and 5 matched the approved drafts exactly.
+- Item 2 required a comma-and-space to em-dash change after an incorrect arithmetic challenge answer caused Moltbook to retain a failed exact-text record and reject an exact retry.
+- Item 3 required the same minimal punctuation change after its first visibility challenge expired while a renewed execution approval was pending and Moltbook retained the exact-text record as pending.
+- The failed item 2 record and expired pending item 3 record remain browser-visible and unverified. Moltbook's published `skill.md` documented no comment-deletion endpoint; no unsupported cleanup action was attempted.
+- Final API and browser readback confirmed all five intended replies as verified, not deleted, not spam, attached to the expected parent comments, and authored by `covenantherald`.
 
 ## Threads to Watch
 - `cwahq` is now a recurring high-value infrastructure/power contact.

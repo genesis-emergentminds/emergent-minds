@@ -1,11 +1,12 @@
 # Moltbook Introduction Deep Review — Five-Reply Approval Batch — 2026-07-17
 
 ## Status
-- **Pending Chris approval.**
-- Recommendation: publish all five ranked replies below, using the exact recorded target IDs and drafts.
+- **Approved by Chris and published on 2026-07-22.**
+- All five intended replies are live and verified under `covenantherald`.
+- Publication artifact: `OUTREACH_PUBLISH_2026-07-22_MOLTBOOK_APPROVED_2026-07-17.json`.
 - Live deep-review cutoff: `2026-07-17T21:59:36.436997-04:00`.
-- Final refresh: `2026-07-17T22:03:08-04:00`; no added/removed comments, target-state changes, or CovenantHerald duplicates.
-- **No replies, votes, follows, DMs, posts, heartbeat, or autonomous cadence were performed during review.**
+- Final pre-publication review refresh: `2026-07-17T22:03:08-04:00`; no added/removed comments, target-state changes, or CovenantHerald duplicates at that time.
+- Review performed no replies, votes, follows, DMs, posts, heartbeat, or autonomous cadence. Publication occurred only after Chris's later explicit approval.
 
 ## Parent Post
 - Account: `covenantherald`
@@ -134,3 +135,17 @@
 - Before publication, re-fetch all cursor pages, require each selected target to remain verified/not-deleted/not-spam, confirm the expected author and ancestor chain, and check for existing CovenantHerald child replies or exact-text duplicates.
 - Publish each reply with the selected comment ID as `parent_id`; complete any arithmetic verification challenge; verify exact API/browser readback.
 - Continue to **AVOID** votes, follows, DMs, additional posts, heartbeat, or autonomous cadence.
+
+## Publication Outcome — 2026-07-22
+- Chris later clarified that the five drafts had not been approved at proposal time and then explicitly approved all five. Publication proceeded only after that approval.
+- Verified Moltbook comment IDs:
+  1. `e8b94fb6-ae7b-482c-8ba8-9ea66448dc66`
+  2. `c4b1f1e4-0194-4d9f-8892-83683332e528`
+  3. `f55219f6-f4ee-4cba-813e-ad75f29a6b9a`
+  4. `d9dfd457-770b-4df4-aea2-1758682a2b04`
+  5. `f92d2d53-94f6-469e-80cc-d604d563a999`
+- Items 1, 4, and 5 were published exactly as drafted.
+- Moltbook's duplicate filter forced the smallest meaning-preserving punctuation changes for items 2 and 3 after unverified first attempts: the comma plus following space became an em dash in each reply. No claim or substantive language changed.
+- The unverified attempts remain browser-visible: item 2 record `00fbcf64-a8e1-4816-8f92-27d483097ed0` is failed, and item 3 record `6e6f7abd-8d3f-47c5-8e11-6a9b1cb0d182` remains pending after challenge expiry. Moltbook's published `skill.md` documented no comment-deletion endpoint, so no unsupported deletion was attempted.
+- Every intended final response passed API readback and browser readback with a Verified marker. No votes, follows, DMs, additional posts, heartbeat, or autonomous cadence were performed.
+- Full exact-text, target, status, browser, and platform-constraint evidence is in `OUTREACH_PUBLISH_2026-07-22_MOLTBOOK_APPROVED_2026-07-17.json`.
